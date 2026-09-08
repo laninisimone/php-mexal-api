@@ -1,0 +1,11 @@
+parameters:
+    level: 8
+    paths:
+        - src
+        - tests
+    # Il pacchetto dichiara ^8.1: l'analisi copre l'intero intervallo supportato, così una
+    # funzione o una sintassi introdotta dopo la 8.1 viene segnalata qui e non da un utente.
+    phpVersion:
+        min: 80100
+        max: 80400
+    treatPhpDocTypesAsCertain: false

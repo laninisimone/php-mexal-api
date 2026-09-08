@@ -1,0 +1,88 @@
+{
+    "$schema": "https://getcomposer.org/schema.json",
+    "name": "simonelanini/php-mexal-api",
+    "description": "Client PHP framework-agnostic per le WebAPI Passepartout Mexal / Passcom (PSR-18).",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "mexal",
+        "passcom",
+        "passepartout",
+        "webapi",
+        "erp",
+        "gestionale",
+        "psr-18",
+        "api-client"
+    ],
+    "homepage": "https://github.com/simonelanini/php-mexal-api",
+    "readme": "README.md",
+    "support": {
+        "issues": "https://github.com/simonelanini/php-mexal-api/issues",
+        "source": "https://github.com/simonelanini/php-mexal-api",
+        "docs": "https://github.com/simonelanini/php-mexal-api/blob/main/docs/README.md"
+    },
+    "authors": [
+        {
+            "name": "Simone Lanini",
+            "email": "lanini.simo@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "ext-json": "*",
+        "php-http/discovery": "^1.19",
+        "psr/http-client": "^1.0",
+        "psr/http-factory": "^1.0",
+        "psr/http-message": "^1.1 || ^2.0",
+        "psr/log": "^1.1 || ^2.0 || ^3.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.58",
+        "guzzlehttp/guzzle": "^7.8",
+        "nyholm/psr7": "^1.8",
+        "phpstan/phpstan": "^2.2",
+        "phpunit/phpunit": "^10.5 || ^11.0",
+        "symfony/http-client": "^6.4 || ^7.0"
+    },
+    "suggest": {
+        "guzzlehttp/guzzle": "Client HTTP PSR-18 configurabile: necessario per applicare timeout e verifica TLS per connessione senza iniettare un client tuo.",
+        "symfony/http-client": "Alternativa a Guzzle; usa symfony/http-client con nyholm/psr7 per il supporto PSR-18.",
+        "nyholm/psr7": "Implementazione PSR-7/PSR-17 leggera, se il tuo framework non ne fornisce gia una."
+    },
+    "autoload": {
+        "psr-4": {
+            "Simonelanini\\PhpMexalApi\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Simonelanini\\PhpMexalApi\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "test:coverage": "phpunit --coverage-text",
+        "analyse": "phpstan analyse",
+        "format": "php-cs-fixer fix",
+        "format:check": "php-cs-fixer fix --dry-run --diff",
+        "check": [
+            "@format:check",
+            "@analyse",
+            "@test"
+        ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "1.0.x-dev"
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

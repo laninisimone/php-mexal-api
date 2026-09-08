@@ -1,0 +1,13 @@
+* text=auto eol=lf
+
+# Non spedire su Packagist ciò che serve solo allo sviluppo: chi installa il
+# pacchetto scarica soltanto src/, docs/ e i file di licenza/documentazione.
+/.github            export-ignore
+/tests              export-ignore
+/.editorconfig      export-ignore
+/.gitattributes     export-ignore
+/.gitignore         export-ignore
+/.php-cs-fixer.dist.php export-ignore
+/phpstan.neon.dist  export-ignore
+/phpunit.xml.dist   export-ignore
+/CONTRIBUTING.md    export-ignore
