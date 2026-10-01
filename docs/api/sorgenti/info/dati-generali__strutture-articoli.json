@@ -1,0 +1,161 @@
+{
+    "path": "/dati-generali/strutture-articoli",
+    "origine": "info",
+    "forma": "dati",
+    "campi": [
+        {
+            "nome": "codice",
+            "descrizione": "Numero struttura",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "descr_struttura",
+            "descrizione": "Descrizione struttura",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "autocod_da_pos",
+            "descrizione": "Lunghezza autocodifica",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "gest_automatica",
+            "descrizione": "Autocodifica automatica",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "compos_cod_alt",
+            "descrizione": "Modalita' codice alternativo",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "compos_desc",
+            "descrizione": "Modalita' descrizione",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "gest_cod_alt",
+            "descrizione": "Codice alternativo con codice alternativo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "posizione_dbp",
+            "descrizione": "Posizione DBP",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "posizione_cart",
+            "descrizione": "Posizione cartella abbinamenti",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "prog_elemento",
+            "descrizione": "Progressivo a elemento",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "gest_creazione",
+            "descrizione": "Dati per creazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_azz_costi",
+            "descrizione": "Azzeramento costi/listini",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_no_padre",
+            "descrizione": "Escludi padre da precancellazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_qta_obbl",
+            "descrizione": "Elementi quantita obbligatori",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_inter_obbl",
+            "descrizione": "Elementi intermedi obbligatori",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_videate",
+            "descrizione": "Riporto particolarita'/videate",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "descrizione",
+            "descrizione": "Descrizione elemento",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "13"
+        },
+        {
+            "nome": "tp_elemento",
+            "descrizione": "Tipo elemento",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "13"
+        },
+        {
+            "nome": "pos_finale",
+            "descrizione": "Posizione fino a elemento",
+            "tipo": "Numerico",
+            "dimensione_array": "13"
+        },
+        {
+            "nome": "cod_struttura",
+            "descrizione": "Struttura nidificata",
+            "tipo": "Numerico",
+            "dimensione_array": "9"
+        },
+        {
+            "nome": "tp_tabellare",
+            "descrizione": "Tipo input tabellare",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "9"
+        },
+        {
+            "nome": "descr_um",
+            "descrizione": "Descrizione misura",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "3"
+        },
+        {
+            "nome": "coeff_conv",
+            "descrizione": "Rapporto di conversione misura",
+            "tipo": "Numerico con virgola",
+            "dimensione_array": "3"
+        },
+        {
+            "nome": "pos_inizio_um",
+            "descrizione": "Posizione da misura",
+            "tipo": "Numerico",
+            "dimensione_array": "3"
+        },
+        {
+            "nome": "pos_finale_um",
+            "descrizione": "Posizione a misura",
+            "tipo": "Numerico",
+            "dimensione_array": "3"
+        },
+        {
+            "nome": "variabile_x",
+            "descrizione": "Calcolo quantita' con variabile 'X'",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "variabile_y",
+            "descrizione": "Calcolo quantita' con variabile 'Y'",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "variabile_z",
+            "descrizione": "Calcolo quantita' con variabile 'Z'",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tp_arrot",
+            "descrizione": "Tipo arrotondamento calcolo misure",
+            "tipo": "Alfanumerico"
+        }
+    ]
+}

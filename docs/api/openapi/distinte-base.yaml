@@ -1,0 +1,961 @@
+openapi: "3.1.0"
+info:
+  title: Passepartout WebAPI - Distinte base
+  version: "88201"
+  description: |-
+    Generato da `tools/api-docs/genera.php` a partire dall'help in linea (`GET /risorse/help?extended=true`)
+    e da `?info=true` di un'installazione Mexal/Passcom 2.9.17 (versione gestionale 88201), integrato con il manuale WebAPI v3.1.
+    Endpoint e campi dipendono da versione e moduli installati: la fonte di verità resta `?info=true`.
+
+    **Convenzioni**
+
+    - Autenticazione: `Authorization: Passepartout <base64(utente:password)>`; sul cloud si aggiunge ` Dominio=<DOMINIO>`.
+    - Contesto aziendale: header `Coordinate-Gestionale: Azienda=XXX Anno=AAAA` (opzionali `SottoAzienda=`, `Magazzino=`).
+    - Date `AAAAMMGG`, date-ora `AAAAMMGG HHMMSS`, decimali con il punto.
+    - Gli array sono liste di coppie `[[indice, valore], ...]`, non liste semplici.
+    - Chiavi composte unite da `+` nel path (es. `OC+1+15`). Codici con `/` o `\` vanno in esadecimale con `?encoding=hex`.
+    - Paginazione: `max` limita i record, il token `next` della risposta va ripassato così com'è e subito.
+    - Ricerca: `POST .../ricerca` con `filtri`; i filtri sono in AND, i valori di uno stesso filtro in OR.
+    - Revisione (PUT): rimandare `data_ult_mod` letto dalla GET per il controllo di modifica concorrente.
+    - Limiti: 5 richieste simultanee per utente WebAPI (oltre si riceve 503).
+servers:
+  - url: "https://{host}:{porta}/webapi/risorse"
+    description: Installazione locale (certificato spesso self-signed)
+    variables:
+      host:
+        default: localhost
+      porta:
+        default: "9004"
+  - url: "https://services.passepartout.cloud/webapi/risorse"
+    description: "Passepartout Live (cloud): aggiungere Dominio=<DOMINIO> all'header Authorization"
+security:
+  - passepartout: []
+tags:
+  - name: distinte-base/fasi
+    description: "Fasi delle distinte base di produzione, con i dati di testata della distinta. Richiede un'azienda di livello produzione. Campi ricavati dal manuale WebAPI v3.1: l'installazione interrogata non li espone con ?info=true (6001 - errore gestionale [cmd lista_fasi_distinte_base disponibile solo per aziende di livello produzione o superiore])."
+  - name: distinte-base/componenti
+    description: "Componenti (materie prime) delle fasi delle distinte base di produzione. Sola lettura. Richiede un'azienda di livello produzione. Campi ricavati dal manuale WebAPI v3.1: l'installazione interrogata non li espone con ?info=true (6001 - errore gestionale [cmd lista_componenti_distinte_base disponibile solo per aziende di livello produzione o superiore])."
+paths:
+  "/distinte-base/fasi":
+    get:
+      tags:
+        - distinte-base/fasi
+      operationId: distinte_base_fasi_lista
+      summary: Lista fasi distinte base
+      description: |-
+        Paginata: il server pagina oltre 30 secondi o 50 MB anche senza `max`; seguire `next` fino a esaurimento.
+
+        Supporta paginazione tramite max e next (vedi Paginazione)
+
+        Il parametro fields permette di selezionare solo i campi desiderati
+
+        Senza fields, vengono restituiti tutti i campi (testata DBP + fase)
+      parameters:
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - name: fields
+          in: query
+          description: "Campi da restituire, separati da virgola. Riduce il payload: usarlo sempre sulle liste."
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/DistinteBaseFasiCampo"
+        - $ref: "#/components/parameters/Max"
+        - $ref: "#/components/parameters/Next"
+      responses:
+        "200":
+          description: Record trovati
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/DistinteBaseFasiLista"
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "81800"
+    post:
+      tags:
+        - distinte-base/fasi
+      operationId: distinte_base_fasi_crea
+      summary: Inserimento fase distinta base
+      description: |-
+        Risponde 201 senza body: il codice assegnato è nell'header `Location`.
+
+        Richiede header Coordinate-Gestionale
+
+        La chiave della risorsa creata è {codice}+{nr_fase}
+      parameters:
+        - $ref: "#/components/parameters/CoordinateGestionale"
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/DistinteBaseFasiInserimento"
+      responses:
+        "201":
+          description: "Creato. Nessun body: il path della nuova risorsa è nell'header Location."
+          headers:
+            Location:
+              description: "Path della risorsa creata (es. /webapi/risorse/distinte-base/fasi/...). Può contenere ?encoding=hex."
+              schema:
+                type: string
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "81800"
+  "/distinte-base/fasi/ricerca":
+    post:
+      tags:
+        - distinte-base/fasi
+      operationId: distinte_base_fasi_cerca
+      summary: Ricerca fasi distinte base
+      description: |-
+        Filtri in AND fra loro; un `valore` array mette i valori in OR. Condizioni: `=`, `<>`, `>`, `<`, `>=`, `<=`, `contiene`, `inizia_per`.
+
+        Per la sintassi completa dei filtri, vedi Ricerca e Filtri
+
+        Condizioni disponibili: =, <, <=, >, >=, <>, contiene, inizia_per
+      parameters:
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - name: fields
+          in: query
+          description: "Campi da restituire, separati da virgola. Riduce il payload: usarlo sempre sulle liste."
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/DistinteBaseFasiCampo"
+        - $ref: "#/components/parameters/Max"
+        - $ref: "#/components/parameters/Next"
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/DistinteBaseFasiRicerca"
+      responses:
+        "200":
+          description: Record trovati
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/DistinteBaseFasiLista"
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "81800"
+  "/distinte-base/fasi/{codice}+{nr_fase}":
+    get:
+      tags:
+        - distinte-base/fasi
+      operationId: distinte_base_fasi_leggi
+      summary: Lettura fase distinta base
+      description: |-
+        Chiave composta: codice_articolo + numero_fase separati da +
+
+        Se il codice articolo contiene caratteri speciali, usare encoding base32 o hex
+      parameters:
+        - name: codice
+          in: path
+          required: true
+          description: "Parte di chiave `codice`. Caratteri ASCII stampabili: se il valore contiene `/` o `\\` va inviato in esadecimale con `encoding=hex`."
+          schema:
+            type: string
+            minLength: 1
+        - name: nr_fase
+          in: path
+          required: true
+          description: "Parte di chiave `nr_fase`."
+          schema:
+            type: integer
+            minimum: 0
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - name: fields
+          in: query
+          description: "Campi da restituire, separati da virgola. Riduce il payload: usarlo sempre sulle liste."
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/DistinteBaseFasiCampo"
+        - $ref: "#/components/parameters/Encoding"
+      responses:
+        "200":
+          description: Record richiesto
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/DistinteBaseFasi"
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "404":
+          $ref: "#/components/responses/NonTrovato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "81800"
+    put:
+      tags:
+        - distinte-base/fasi
+      operationId: distinte_base_fasi_modifica
+      summary: Modifica fase distinta base
+      description: |-
+        Inviare solo i campi da modificare, più `data_ult_mod` letto dalla GET se il controllo di modifica concorrente è attivo.
+
+        I campi codice e nr_fase sono obbligatori anche nel body (marcati obbligatorio_put)
+      parameters:
+        - name: codice
+          in: path
+          required: true
+          description: "Parte di chiave `codice`. Caratteri ASCII stampabili: se il valore contiene `/` o `\\` va inviato in esadecimale con `encoding=hex`."
+          schema:
+            type: string
+            minLength: 1
+        - name: nr_fase
+          in: path
+          required: true
+          description: "Parte di chiave `nr_fase`."
+          schema:
+            type: integer
+            minimum: 0
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - $ref: "#/components/parameters/Encoding"
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/DistinteBaseFasiModifica"
+      responses:
+        "204":
+          description: Operazione eseguita, nessun body.
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "404":
+          $ref: "#/components/responses/NonTrovato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "81800"
+    delete:
+      tags:
+        - distinte-base/fasi
+      operationId: distinte_base_fasi_elimina
+      summary: Cancellazione fase distinta base
+      description: La cancellazione elimina anche tutti i componenti associati alla fase
+      parameters:
+        - name: codice
+          in: path
+          required: true
+          description: "Parte di chiave `codice`. Caratteri ASCII stampabili: se il valore contiene `/` o `\\` va inviato in esadecimale con `encoding=hex`."
+          schema:
+            type: string
+            minLength: 1
+        - name: nr_fase
+          in: path
+          required: true
+          description: "Parte di chiave `nr_fase`."
+          schema:
+            type: integer
+            minimum: 0
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - $ref: "#/components/parameters/Encoding"
+      responses:
+        "204":
+          description: Operazione eseguita, nessun body.
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "404":
+          $ref: "#/components/responses/NonTrovato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "81800"
+  "/distinte-base/componenti":
+    get:
+      tags:
+        - distinte-base/componenti
+      operationId: distinte_base_componenti_lista
+      summary: Lista componenti distinte base
+      description: |-
+        Paginata: il server pagina oltre 30 secondi o 50 MB anche senza `max`; seguire `next` fino a esaurimento.
+
+        Endpoint di sola lettura: non supporta POST/PUT/DELETE per singolo componente
+
+        Supporta paginazione tramite max e next (vedi Paginazione)
+
+        Il campo qta_utilizzo è alfanumerico (può contenere valori con formule o espressioni)
+      parameters:
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - name: fields
+          in: query
+          description: "Campi da restituire, separati da virgola. Riduce il payload: usarlo sempre sulle liste."
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/DistinteBaseComponentiCampo"
+        - $ref: "#/components/parameters/Max"
+        - $ref: "#/components/parameters/Next"
+      responses:
+        "200":
+          description: Record trovati
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/DistinteBaseComponentiLista"
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "81800"
+  "/distinte-base/componenti/ricerca":
+    post:
+      tags:
+        - distinte-base/componenti
+      operationId: distinte_base_componenti_cerca
+      summary: Ricerca componenti distinte base
+      description: |-
+        Filtri in AND fra loro; un `valore` array mette i valori in OR. Condizioni: `=`, `<>`, `>`, `<`, `>=`, `<=`, `contiene`, `inizia_per`.
+
+        Per la sintassi completa dei filtri, vedi Ricerca e Filtri
+
+        Permette di trovare tutti i componenti di un articolo, di una fase specifica, o di un certo codice materia prima
+      parameters:
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - name: fields
+          in: query
+          description: "Campi da restituire, separati da virgola. Riduce il payload: usarlo sempre sulle liste."
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/DistinteBaseComponentiCampo"
+        - $ref: "#/components/parameters/Max"
+        - $ref: "#/components/parameters/Next"
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/DistinteBaseComponentiRicerca"
+      responses:
+        "200":
+          description: Record trovati
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/DistinteBaseComponentiLista"
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "81800"
+components:
+  securitySchemes:
+    passepartout:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: "Formato `Passepartout <base64(utente:password)>`. Sul cloud: `Passepartout <base64> Dominio=<DOMINIO>`. Con login di sistema operativo attivo (login=1) si aggiunge un secondo blocco `<base64(utente_so:password_so)>`."
+  parameters:
+    CoordinateGestionale:
+      name: Coordinate-Gestionale
+      in: header
+      required: true
+      description: Azienda e anno di lavoro, più sotto-azienda e magazzino di default facoltativi (magazzino 1 se omesso).
+      schema:
+        type: string
+        pattern: "^Azienda=\\S+( SottoAzienda=\\S+)? Anno=\\d{4}( Magazzino=\\d+)?$"
+        examples:
+          - "Azienda=DEM Anno=2026 Magazzino=1"
+    Max:
+      name: max
+      in: query
+      description: Numero massimo di record per pagina. Il server può restituirne meno (limiti di 30 s e 50 MB).
+      schema:
+        type: integer
+        minimum: 1
+    Next:
+      name: next
+      in: query
+      description: "Token di pagina restituito dalla risposta precedente: opaco, da usare subito e così com'è."
+      schema:
+        type: string
+    Encoding:
+      name: encoding
+      in: query
+      description: "Codifica delle parti di chiave nel path. Obbligatoria quando un codice contiene `/` o `\\`: il codice va inviato in esadecimale (es. `ARTI/S` -> `415254492f53`)."
+      schema:
+        type: string
+        enum:
+          - hex
+          - base32
+  responses:
+    ErroreRichiesta:
+      description: "Richiesta non valida: parametri o campi errati, errore gestionale (6001), coordinate mancanti."
+      content:
+        "application/json":
+          schema:
+            $ref: "#/components/schemas/Errore"
+    NonAutorizzato:
+      description: "Credenziali assenti o errate. Attenzione: tentativi ripetuti bloccano l'utente WebAPI."
+      content:
+        "application/json":
+          schema:
+            $ref: "#/components/schemas/Errore"
+    NonTrovato:
+      description: Risorsa inesistente o path non valido (nessun body).
+    PoolEsaurito:
+      description: "Pool di 5 servizi dell'utente WebAPI esaurito: riprovare più tardi, senza retry aggressivi."
+      content:
+        "application/json":
+          schema:
+            $ref: "#/components/schemas/Errore"
+  schemas:
+    DistinteBaseFasi:
+      type: object
+      properties:
+        codice:
+          type: string
+          description: "Codice articolo con distinta base (chiave). Valori da articoli.codice. Codice dell'articolo a cui si riferisce il record (negli abbinati: l'articolo abbinato)."
+          x-mexal-tipo: Alfanumerico
+          x-mexal-riferimento:
+            risorsa: articoli
+            campo: codice
+            nota: "Codice dell'articolo a cui si riferisce il record (negli abbinati: l'articolo abbinato)"
+        cod_art_costo:
+          type: string
+          description: Articolo per calcolo costo. Valori da articoli.codice.
+          x-mexal-tipo: Alfanumerico
+          x-mexal-riferimento:
+            risorsa: articoli
+            campo: codice
+        gest_ctrl_disp:
+          type: string
+          description: Controllo esistenza/disponibilità (S/N).
+          x-mexal-tipo: Alfanumerico
+        codice_pf_padre:
+          type: string
+          description: Prodotto finito padre di default. Valori da articoli.codice.
+          x-mexal-tipo: Alfanumerico
+          x-mexal-riferimento:
+            risorsa: articoli
+            campo: codice
+        cod_tab_abbina:
+          type: string
+          description: Tabella colori di aggancio.
+          x-mexal-tipo: Alfanumerico
+        categoria_sml:
+          type: string
+          description: Categoria semilavorato.
+          x-mexal-tipo: Alfanumerico
+        gest_dbvc_dbvo:
+          type: string
+          description: Usa DBVC/DBVO (S/N).
+          x-mexal-tipo: Alfanumerico
+        gest_colleg_sml:
+          type: string
+          description: "Gestione collegamento PF→SML (S/N)."
+          x-mexal-tipo: Alfanumerico
+        tp_um_usata:
+          type: string
+          description: "Tipo unità di misura utilizzato (P=prima, S=seconda)."
+          x-mexal-tipo: Alfanumerico
+        cod_mag_mp:
+          type: integer
+          description: Magazzino materie prime di default. Valori da dati-generali/magazzini.id. Numero magazzino.
+          x-mexal-tipo: Numerico
+          x-mexal-riferimento:
+            risorsa: dati-generali/magazzini
+            campo: id
+            nota: Numero magazzino
+        nr_decimali_qta:
+          type: integer
+          description: Numero di decimali quantità.
+          x-mexal-tipo: Numerico
+        cod_cliente:
+          type: string
+          description: Codice cliente di default. Valori da clienti.codice.
+          x-mexal-tipo: Alfanumerico
+          x-mexal-riferimento:
+            risorsa: clienti
+            campo: codice
+        nr_ore_appronta:
+          type: number
+          description: Ore di approntamento.
+          x-mexal-tipo: Numerico con virgola
+        nr_ore_lotto:
+          type: number
+          description: Ore per lotto.
+          x-mexal-tipo: Numerico con virgola
+        qta_lotto_prod:
+          type: number
+          description: Lotto di produzione.
+          x-mexal-tipo: Numerico con virgola
+        coeff_conv:
+          type: number
+          description: Coefficiente di conversione.
+          x-mexal-tipo: Numerico con virgola
+        consumo_taglia:
+          type: number
+          description: Consumi per taglia personali (array, 32 elementi).
+          x-mexal-tipo: Numerico con virgola
+        gest_ril_tempi:
+          type: number
+          description: Gestione rilevamento tempi (array, 32 elementi).
+          x-mexal-tipo: Numerico con virgola
+        gest_tipo_costo:
+          type: string
+          description: Tipo costo industriale.
+          x-mexal-tipo: Alfanumerico
+        cos_indutriale:
+          type: number
+          description: Valore costo industriale.
+          x-mexal-tipo: Numerico con virgola
+        nr_fase:
+          type: integer
+          description: Numero fase (chiave).
+          x-mexal-tipo: Numerico
+        descr_fase:
+          type: string
+          description: Descrizione della fase.
+          x-mexal-tipo: Alfanumerico
+        tp_cond_fase:
+          type: string
+          description: Tipo condizione della fase.
+          x-mexal-tipo: Alfanumerico
+        descr_agg_fase:
+          type: string
+          description: "Ulteriore descrizione della fase — Descrizione aggiuntiva fase."
+          x-mexal-tipo: Alfanumerico
+        qta_rif_fase:
+          type: string
+          description: Quantità per riferimento.
+          x-mexal-tipo: Alfanumerico
+        doc_stampa_fase:
+          type: string
+          description: Documenti in stampa.
+          x-mexal-tipo: Alfanumerico
+        note_fase:
+          type: string
+          description: Gruppo di note della fase (array, 25 elementi).
+          x-mexal-tipo: Alfanumerico
+        wip_fase:
+          type: integer
+          description: Minuti di ritardo/anticipo (positivi/negativi).
+          x-mexal-tipo: Numerico
+        lag_fase:
+          type: string
+          description: "Tipo relazione (valori da ‘0’ a ‘3’)."
+          x-mexal-tipo: Alfanumerico
+        gest_clav_fase:
+          type: string
+          description: Conto lavoro (S/N).
+          x-mexal-tipo: Alfanumerico
+        cod_fornit_ctl:
+          type: string
+          description: "Conto lavoro — fornitore — Fornitore conto lavoro. Valori da fornitori.codice."
+          x-mexal-tipo: Alfanumerico
+          x-mexal-riferimento:
+            risorsa: fornitori
+            campo: codice
+        cod_mag_mp_ctl:
+          type: integer
+          description: "Conto lavoro — magazzino. Valori da dati-generali/magazzini.id. Numero magazzino."
+          x-mexal-tipo: Numerico
+          x-mexal-riferimento:
+            risorsa: dati-generali/magazzini
+            campo: id
+            nota: Numero magazzino
+        cod_ciclo:
+          type: integer
+          description: Codice ciclo.
+          x-mexal-tipo: Numerico
+        utente_ult_mod:
+          type: string
+          description: Utente ultima modifica.
+          x-mexal-tipo: Alfanumerico
+        data_ult_mod:
+          type: string
+          pattern: "^(\\d{8} \\d{6})?$"
+          description: Data/ora ultima modifica (formato AAAAMMGG HHMMSS).
+          x-mexal-tipo: Data e ora
+      x-mexal-origine-campi: manuale
+    DistinteBaseFasiCampo:
+      type: string
+      enum:
+        - codice
+        - cod_art_costo
+        - gest_ctrl_disp
+        - codice_pf_padre
+        - cod_tab_abbina
+        - categoria_sml
+        - gest_dbvc_dbvo
+        - gest_colleg_sml
+        - tp_um_usata
+        - cod_mag_mp
+        - nr_decimali_qta
+        - cod_cliente
+        - nr_ore_appronta
+        - nr_ore_lotto
+        - qta_lotto_prod
+        - coeff_conv
+        - consumo_taglia
+        - gest_ril_tempi
+        - gest_tipo_costo
+        - cos_indutriale
+        - nr_fase
+        - descr_fase
+        - tp_cond_fase
+        - descr_agg_fase
+        - qta_rif_fase
+        - doc_stampa_fase
+        - note_fase
+        - wip_fase
+        - lag_fase
+        - gest_clav_fase
+        - cod_fornit_ctl
+        - cod_mag_mp_ctl
+        - cod_ciclo
+        - utente_ult_mod
+        - data_ult_mod
+      description: Campi di distinte-base/fasi.
+    DistinteBaseFasiLista:
+      type: object
+      required:
+        - dati
+      properties:
+        dati:
+          type: array
+          items:
+            $ref: "#/components/schemas/DistinteBaseFasi"
+        data_ric_elab:
+          type: string
+          description: Timestamp di elaborazione, AAAAMMGG HHMMSS.
+        next:
+          type: string
+          description: "Presente solo se ci sono altre pagine: da passare così com'è nel parametro next."
+    DistinteBaseFasiRicerca:
+      type: object
+      required:
+        - filtri
+      properties:
+        filtri:
+          type: array
+          minItems: 1
+          items:
+            allOf:
+              - $ref: "#/components/schemas/Filtro"
+              - properties:
+                  campo:
+                    $ref: "#/components/schemas/DistinteBaseFasiCampo"
+    DistinteBaseFasiInserimento:
+      allOf:
+        - $ref: "#/components/schemas/DistinteBaseFasi"
+      required:
+        - codice
+        - nr_fase
+      description: "Body di inserimento. Obbligatori secondo il manuale: codice, nr_fase."
+    DistinteBaseFasiModifica:
+      allOf:
+        - $ref: "#/components/schemas/DistinteBaseFasi"
+      description: "Body di revisione: solo i campi da modificare."
+      x-mexal-obbligatori-put: []
+    DistinteBaseComponenti:
+      type: object
+      properties:
+        codice:
+          type: string
+          description: "Codice articolo con distinta base (chiave). Valori da articoli.codice. Codice dell'articolo a cui si riferisce il record (negli abbinati: l'articolo abbinato)."
+          x-mexal-tipo: Alfanumerico
+          x-mexal-riferimento:
+            risorsa: articoli
+            campo: codice
+            nota: "Codice dell'articolo a cui si riferisce il record (negli abbinati: l'articolo abbinato)"
+        nr_fase:
+          type: integer
+          description: Numero fase (chiave).
+          x-mexal-tipo: Numerico
+        descr_fase:
+          type: string
+          description: Descrizione della fase.
+          x-mexal-tipo: Alfanumerico
+        indice_cmp:
+          type: string
+          description: Indice componente.
+          x-mexal-tipo: Alfanumerico
+        codice_mp:
+          type: string
+          description: Codice articolo componente (materia prima). Valori da articoli.codice.
+          x-mexal-tipo: Alfanumerico
+          x-mexal-riferimento:
+            risorsa: articoli
+            campo: codice
+        qta_utilizzo:
+          type: string
+          description: Quantità di utilizzo.
+          x-mexal-tipo: Alfanumerico
+        coeff_conv_mp:
+          type: number
+          description: Coefficiente di conversione componente.
+          x-mexal-tipo: Numerico con virgola
+        tp_evidenza:
+          type: string
+          description: Evidenza o fase di disimpegno rapido.
+          x-mexal-tipo: Alfanumerico
+        nr_unita_misura:
+          type: string
+          description: "Unità di misura utilizzata (‘1’=prima, ‘2’=seconda)."
+          x-mexal-tipo: Alfanumerico
+        cod_mag_impegni:
+          type: integer
+          description: Magazzino componente. Valori da dati-generali/magazzini.id. Numero magazzino.
+          x-mexal-tipo: Numerico
+          x-mexal-riferimento:
+            risorsa: dati-generali/magazzini
+            campo: id
+            nota: Numero magazzino
+        tp_cond_art:
+          type: string
+          description: "Tipo condizione (‘A’ o ‘S’)."
+          x-mexal-tipo: Alfanumerico
+        cod_art_cond:
+          type: string
+          description: "Condizione — codice articolo. Valori da articoli.codice."
+          x-mexal-tipo: Alfanumerico
+          x-mexal-riferimento:
+            risorsa: articoli
+            campo: codice
+        cod_cli_cond:
+          type: string
+          description: Codice cliente condizione. Valori da clienti.codice.
+          x-mexal-tipo: Alfanumerico
+          x-mexal-riferimento:
+            risorsa: clienti
+            campo: codice
+        dt_inizio_cond:
+          type: string
+          description: Data inizio condizione. Data in formato AAAAMMGG.
+          x-mexal-tipo: Alfanumerico
+        dt_fine_cond:
+          type: string
+          description: Data fine condizione. Data in formato AAAAMMGG.
+          x-mexal-tipo: Alfanumerico
+        nega_cond_cli:
+          type: string
+          description: Negazione condizione cliente (S/N).
+          x-mexal-tipo: Alfanumerico
+        nega_cond_data:
+          type: string
+          description: Negazione condizione data (S/N).
+          x-mexal-tipo: Alfanumerico
+        nega_cond_tg:
+          type: string
+          description: Negazione condizione taglie (S/N).
+          x-mexal-tipo: Alfanumerico
+        nega_cond_art:
+          type: string
+          description: Negazione condizioni articolo (S/N).
+          x-mexal-tipo: Alfanumerico
+        condizione_tg:
+          type: string
+          description: Condizione per taglia (array, 32 elementi).
+          x-mexal-tipo: Alfanumerico
+        cod_art_sost:
+          type: string
+          description: Articoli sostitutivi (array, 4 elementi). Valori da articoli.codice.
+          x-mexal-tipo: Alfanumerico
+          x-mexal-riferimento:
+            risorsa: articoli
+            campo: codice
+        tp_sost_cmp:
+          type: string
+          description: Tipo sostituzione componente.
+          x-mexal-tipo: Alfanumerico
+        tp_dir_ricerca:
+          type: string
+          description: "Direzione ricerca (‘P’=precedente, ‘S’=successiva)."
+          x-mexal-tipo: Alfanumerico
+        gest_escludi_dl:
+          type: string
+          description: Escludi da deposito (S/N).
+          x-mexal-tipo: Alfanumerico
+        gest_escludi_sl:
+          type: string
+          description: Escludi da scarico (S/N).
+          x-mexal-tipo: Alfanumerico
+        gest_esterna:
+          type: string
+          description: Lavorazione esterna (S/N).
+          x-mexal-tipo: Alfanumerico
+        tp_costo_mp:
+          type: string
+          description: "Tipo di costo (‘U’, ‘S’, ‘M’, ‘V’ o ‘P’)."
+          x-mexal-tipo: Alfanumerico
+        cos_lavorazione:
+          type: number
+          description: Costo lavorazione.
+          x-mexal-tipo: Numerico con virgola
+        cod_fornitore:
+          type: string
+          description: Codice fornitore. Valori da fornitori.codice.
+          x-mexal-tipo: Alfanumerico
+          x-mexal-riferimento:
+            risorsa: fornitori
+            campo: codice
+      x-mexal-origine-campi: manuale
+    DistinteBaseComponentiCampo:
+      type: string
+      enum:
+        - codice
+        - nr_fase
+        - descr_fase
+        - indice_cmp
+        - codice_mp
+        - qta_utilizzo
+        - coeff_conv_mp
+        - tp_evidenza
+        - nr_unita_misura
+        - cod_mag_impegni
+        - tp_cond_art
+        - cod_art_cond
+        - cod_cli_cond
+        - dt_inizio_cond
+        - dt_fine_cond
+        - nega_cond_cli
+        - nega_cond_data
+        - nega_cond_tg
+        - nega_cond_art
+        - condizione_tg
+        - cod_art_sost
+        - tp_sost_cmp
+        - tp_dir_ricerca
+        - gest_escludi_dl
+        - gest_escludi_sl
+        - gest_esterna
+        - tp_costo_mp
+        - cos_lavorazione
+        - cod_fornitore
+      description: Campi di distinte-base/componenti.
+    DistinteBaseComponentiLista:
+      type: object
+      required:
+        - dati
+      properties:
+        dati:
+          type: array
+          items:
+            $ref: "#/components/schemas/DistinteBaseComponenti"
+        data_ric_elab:
+          type: string
+          description: Timestamp di elaborazione, AAAAMMGG HHMMSS.
+        next:
+          type: string
+          description: "Presente solo se ci sono altre pagine: da passare così com'è nel parametro next."
+    DistinteBaseComponentiRicerca:
+      type: object
+      required:
+        - filtri
+      properties:
+        filtri:
+          type: array
+          minItems: 1
+          items:
+            allOf:
+              - $ref: "#/components/schemas/Filtro"
+              - properties:
+                  campo:
+                    $ref: "#/components/schemas/DistinteBaseComponentiCampo"
+    Filtro:
+      type: object
+      required:
+        - campo
+        - condizione
+        - valore
+      properties:
+        campo:
+          type: string
+          description: Nome del campo su cui filtrare.
+        indice1:
+          type: integer
+          minimum: 1
+          description: Indice del primo livello, per i campi array.
+        indice2:
+          type: integer
+          minimum: 1
+          description: Indice del secondo livello, per gli array a due livelli.
+        condizione:
+          type: string
+          enum:
+            - "="
+            - "<>"
+            - ">"
+            - "<"
+            - ">="
+            - "<="
+            - contiene
+            - inizia_per
+        case_insensitive:
+          type: boolean
+          default: false
+          description: Solo per i confronti fra stringhe.
+        valore:
+          description: "Valore da confrontare; un array mette i valori in OR. Date come AAAAMMGG."
+          anyOf:
+            - type: string
+            - type: number
+            - type: array
+              minItems: 1
+              items:
+                type:
+                  - string
+                  - number
+    Errore:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            response-code:
+              type: integer
+            response-detail:
+              type: string
+              description: "Codice numerico + messaggio: \"<codice> - <messaggio> [<dettaglio>]\". 6001 = errore gestionale."
+            response-message:
+              type: string
+            request-uri:
+              type: string
+            request-method:
+              type: string
+            request-id:
+              type: string
+              description: UUID da citare al supporto.
+            warsion:
+              type: string
+            remote:
+              type: string
+            timestamp:
+              type: string

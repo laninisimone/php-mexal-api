@@ -1,0 +1,256 @@
+{
+    "path": "/scadenzario",
+    "origine": "info",
+    "forma": "dati",
+    "campi": [
+        {
+            "nome": "codice",
+            "descrizione": "Codice conto",
+            "tipo": "Alfanumerico",
+            "chiave": true
+        },
+        {
+            "nome": "data_documento",
+            "descrizione": "Data documento",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "serie",
+            "descrizione": "Serie documento",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "numero",
+            "descrizione": "Numero documento",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "causale",
+            "descrizione": "Causale documento",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "codice_agente",
+            "descrizione": "Codice agente",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "imp_provvigione",
+            "descrizione": "Importo provvigione valuta di riferimento",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "tipo_scadenza",
+            "descrizione": "Tipo scadenza",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "250"
+        },
+        {
+            "nome": "dt_sca_pg",
+            "descrizione": "Data scadenza/pagamento",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "250"
+        },
+        {
+            "nome": "imp_scadenza",
+            "descrizione": "Importo scadenza valuta di riferimento",
+            "tipo": "Numerico con virgola",
+            "dimensione_array": "250"
+        },
+        {
+            "nome": "pr_pagata",
+            "descrizione": "Provvigione pagata valuta di riferimento",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "conto_sps_prof",
+            "descrizione": "Conto sospeso professionista",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "27"
+        },
+        {
+            "nome": "imp_sps_prof",
+            "descrizione": "Importo sospeso professionista",
+            "tipo": "Numerico con virgola",
+            "dimensione_array": "27"
+        },
+        {
+            "nome": "numero_valuta",
+            "descrizione": "Numero valuta",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "stato_pagamento",
+            "descrizione": "Stato pagamento",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "250"
+        },
+        {
+            "nome": "dt_registr_doc",
+            "descrizione": "Data registrazione documento",
+            "tipo": "Alfanumerico",
+            "chiave": true
+        },
+        {
+            "nome": "imp_sca_vlt_doc",
+            "descrizione": "Importo scadenza valuta documento",
+            "tipo": "Numerico con virgola",
+            "dimensione_array": "250"
+        },
+        {
+            "nome": "imp_pr_vlt_doc",
+            "descrizione": "Importo provvigione valuta documento",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "nota_documento",
+            "descrizione": "Nota documento",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "protocollo_iva",
+            "descrizione": "Numero protocollo iva",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "nota_rata",
+            "descrizione": "Nota della rata",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "250"
+        },
+        {
+            "nome": "conto_eff",
+            "descrizione": "Conto emissione effetti",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "250"
+        },
+        {
+            "nome": "nr_prot_effetti",
+            "descrizione": "Numero protocollo distinta effetti",
+            "tipo": "Numerico",
+            "dimensione_array": "250"
+        },
+        {
+            "nome": "dt_sca_emissione_eff",
+            "descrizione": "Data scadenza / emissione effetti",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "250"
+        },
+        {
+            "nome": "data_sollecito",
+            "descrizione": "Data sollecito",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "250"
+        },
+        {
+            "nome": "data_recupero",
+            "descrizione": "Data recupero",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "250"
+        },
+        {
+            "nome": "data_legale",
+            "descrizione": "Data legale",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "250"
+        },
+        {
+            "nome": "conto_presso",
+            "descrizione": "Conto presso",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "250"
+        },
+        {
+            "nome": "id_effetto",
+            "descrizione": "Identificativo effetto",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "250"
+        },
+        {
+            "nome": "codice_agente",
+            "descrizione": "Codice agente",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "15"
+        },
+        {
+            "nome": "imp_pr_vlt_rif",
+            "descrizione": "Importo provvigione valuta di riferimento",
+            "tipo": "Numerico con virgola",
+            "dimensione_array": "15"
+        },
+        {
+            "nome": "pr_pg_vlt_rif",
+            "descrizione": "Provvigione pagata valuta di riferimento",
+            "tipo": "Numerico con virgola",
+            "dimensione_array": "15"
+        },
+        {
+            "nome": "imp_pr_doc",
+            "descrizione": "Importo provvigione valuta documento",
+            "tipo": "Numerico con virgola",
+            "dimensione_array": "15"
+        },
+        {
+            "nome": "sottoazienda",
+            "descrizione": "Sottoazienda",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "numero_esteso",
+            "descrizione": "Numero esteso",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "codice_id_gara",
+            "descrizione": "Codice identificativo gara",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "250"
+        },
+        {
+            "nome": "cod_uni_progetto",
+            "descrizione": "Codice unico progetto",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "250"
+        },
+        {
+            "nome": "banca_appoggio",
+            "descrizione": "Codice banca d'appoggio",
+            "tipo": "Numerico",
+            "dimensione_array": "250"
+        },
+        {
+            "nome": "prog_primanota",
+            "descrizione": "Progressivo primanota",
+            "tipo": "Numerico",
+            "chiave": true
+        },
+        {
+            "nome": "imp_sps_prof",
+            "descrizione": "Importo sospeso professionista valuta documento",
+            "tipo": "Numerico con virgola",
+            "dimensione_array": "27"
+        },
+        {
+            "nome": "dt_sca_origine",
+            "descrizione": "Data scadenza origine",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "250"
+        },
+        {
+            "nome": "anno_primanota",
+            "descrizione": "Anno archivio di primanota",
+            "tipo": "Numerico",
+            "chiave": true
+        },
+        {
+            "nome": "utente_ult_mod",
+            "descrizione": "Utente ultima modifica",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "data_ult_mod",
+            "descrizione": "Data ora ultima modifica",
+            "tipo": "Data e ora (formato AAAAMMGG HHMMSS)"
+        }
+    ]
+}

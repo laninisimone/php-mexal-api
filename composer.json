@@ -76,7 +76,8 @@
             "@format:check",
             "@analyse",
             "@test"
-        ]
+        ],
+        "api-docs": "php tools/api-docs/genera.php costruisci"
     },
     "extra": {
         "branch-alias": {

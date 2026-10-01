@@ -1,0 +1,27 @@
+{
+    "path": "/dati-generali/utenti",
+    "origine": "campione",
+    "forma": "radice:Utenti",
+    "campi": [
+        {
+            "nome": "id",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "nome",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "nome_completo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tipo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gruppo",
+            "tipo": "Alfanumerico"
+        }
+    ]
+}

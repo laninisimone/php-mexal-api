@@ -1,0 +1,58 @@
+{
+    "path": "/articoli-abbinati",
+    "origine": "info",
+    "forma": "dati",
+    "campi": [
+        {
+            "nome": "prog_abbinati",
+            "descrizione": "Progressivo articoli abbinati",
+            "tipo": "Numerico",
+            "chiave": true,
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "codice",
+            "descrizione": "Codice abbinato",
+            "tipo": "Alfanumerico",
+            "chiave": true,
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "cat_abbinamento",
+            "descrizione": "Categoria abbinamento",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "descr_cat_abbina",
+            "descrizione": "Descrizione categoria abbinamento",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "codice_articolo",
+            "descrizione": "Codice articolo",
+            "tipo": "Alfanumerico",
+            "chiave": true,
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "nota_01",
+            "descrizione": "Nota 1",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "nota_02",
+            "descrizione": "Nota 2",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "utente_ult_mod",
+            "descrizione": "Utente ultima modifica",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "data_ult_mod",
+            "descrizione": "Data ora ultima modifica",
+            "tipo": "Data e ora (formato AAAAMMGG HHMMSS)"
+        }
+    ]
+}

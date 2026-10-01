@@ -12,6 +12,8 @@ WebAPI v3.1.
 5. **[Errori](errors.md)** — gerarchia delle eccezioni, codici, diagnostica
 6. **[Sicurezza](security.md)** — TLS, credenziali, log, superficie di attacco
 7. **[Integrazione con i framework](framework-integration.md)** — Laravel, Symfony, Slim, CLI
+8. **[OpenAPI e schema per agenti AI](api/README.md)** — specifiche OpenAPI 3.1 per risorsa,
+   tool MCP e catalogo dei campi generati dall'help in linea
 
 ## Mappa dei concetti
 
@@ -48,6 +50,9 @@ $endpoint = $mexal->help(extended: true);
 // Tutti i campi di un endpoint, con tipo e obbligatorietà
 $campi = $mexal->resource('clienti')->info();
 ```
+
+Le stesse informazioni, già raccolte e convertite in OpenAPI e in uno schema per agenti AI, sono
+in [api/](api/README.md).
 
 L'enum `MexalResource` è un elenco statico: comodo per l'autocompletamento dell'IDE, ma va
 verificato contro `help()` quando qualcosa non torna.

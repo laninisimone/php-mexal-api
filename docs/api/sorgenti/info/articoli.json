@@ -1,0 +1,989 @@
+{
+    "path": "/articoli",
+    "origine": "info",
+    "forma": "dati",
+    "campi": [
+        {
+            "nome": "codice",
+            "descrizione": "Codice articolo",
+            "tipo": "Alfanumerico",
+            "chiave": true,
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "nr_record",
+            "descrizione": "Num.rec.articolo. 0 Nuovo, <>0 Variaz. (sola lettura)",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "tipologia",
+            "descrizione": "Tipo articolo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tp_merce_rsm_fe",
+            "descrizione": "Tipo Merce RSM fatture emesse",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "tp_merce_rsm_fr",
+            "descrizione": "Tipo Merce RSM fatture ricevute",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "non_rimb_rsm",
+            "descrizione": "Tipo Merce RSM non rimborsabile",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_struttura",
+            "descrizione": "Numero struttura",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "descrizione",
+            "descrizione": "Descrizione articolo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "descr_estesa",
+            "descrizione": "Descrizione estesa articolo",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "5"
+        },
+        {
+            "nome": "descrizione_agg",
+            "descrizione": "Descrizione articolo aggiuntiva",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "descr_completa",
+            "descrizione": "Descrizione articolo completa",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_alternativo",
+            "descrizione": "Codice alternativo / ulteriore descrizione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "alq_iva",
+            "descrizione": "Aliquota iva",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "um_principale",
+            "descrizione": "Unita' di misura primaria",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "um_secondaria",
+            "descrizione": "Unita' di misura alternativa",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "um_secondaria_A",
+            "descrizione": "Unita' di misura alternativa A",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "um_secondaria_B",
+            "descrizione": "Unita' di misura alternativa B",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "decimali_qta",
+            "descrizione": "Numero decimali articolo",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "qta_collo",
+            "descrizione": "Confezione articolo (<0 Confezione, >0 Multipla)",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "coeff_conv",
+            "descrizione": "Coefficiente conversione",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "coeff_conv_ext",
+            "descrizione": "Coefficiente conversione esteso (sola lettura)",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "coeff_conv_A",
+            "descrizione": "Coefficiente conversione A",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "coeff_conv_B",
+            "descrizione": "Coefficiente conversione B",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "destin_um1",
+            "descrizione": "Destinazione unita' di misura primaria",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "destin_um2",
+            "descrizione": "Destinazione unita' di misura alternativa",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "destin_um2_A",
+            "descrizione": "Destinazione unita' di misura alternativa A",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "destin_um2_B",
+            "descrizione": "Destinazione unita' di misura alternativa B",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cos_ult",
+            "descrizione": "Costo ultimo anno corrente (sola lettura)",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "cos_std_valuta",
+            "descrizione": "Valuta costo standard",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "cos_std",
+            "descrizione": "Costo standard",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "qta_min_fatt",
+            "descrizione": "Condizioni commerciali - Quantita' minima fatturabile",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "imp_min_fatt",
+            "descrizione": "Condizioni commerciali - Importo minimo fatturabile",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "imp_max_fatt",
+            "descrizione": "Condizioni commerciali - Importo massimo fatturabile",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "ctrl_peso",
+            "descrizione": "Controllo peso",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "qta_prendi",
+            "descrizione": "Quantita' presa",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "qta_paghi",
+            "descrizione": "Quantita' pagata",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "cod_imballo",
+            "descrizione": "Imballo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "peso_medio_unit",
+            "descrizione": "Peso medio unitario",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "id_cat_sconto",
+            "descrizione": "Condizioni commerciali - Categoria Sconti",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "id_sconto_qta",
+            "descrizione": "Tabella Sconti quantita'",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "id_categoria_pr",
+            "descrizione": "Condizioni commerciali - Categoria Provvigioni",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "id_cat_prezzo",
+            "descrizione": "Categoria Formazione prezzi",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "sigla_cat_sta",
+            "descrizione": "Categoria statistica (alfanumerico)",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "nr_cat_sta",
+            "descrizione": "Categoria statistica (numerico)",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "dt_creazione",
+            "descrizione": "Data creazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "dt_mod",
+            "descrizione": "Data ult. aggiorn.to anagrafica -la conferma-",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "dt_mod_sistema",
+            "descrizione": "Data ultima modifica (data di sistema)",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_ricavo",
+            "descrizione": "Contropartita Ricavo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_costo",
+            "descrizione": "Contropartita Costo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_ric_sospeso",
+            "descrizione": "Contropartita Ricavo Sospeso, v. parcellazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_sp_sanit",
+            "descrizione": "Condizioni contabili - Tessera sanitaria: tipo ",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tp_sp_sanit",
+            "descrizione": "Condizioni contabili - Tessera sanitaria: particolarita' ",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_analit_cos",
+            "descrizione": "Analitico di Costo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_analit_ric",
+            "descrizione": "Analitico di Ricavo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_precanc",
+            "descrizione": "Articolo precancellato S/N",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_annullato",
+            "descrizione": "Articolo annullato S/N",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_preventivo",
+            "descrizione": "Articolo gestito in preventivo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_art_sost",
+            "descrizione": "Articolo sostitutivo per articolo annullato",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_dbp",
+            "descrizione": "Articolo con dbp S/N",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_dbv",
+            "descrizione": "Articolo con dbv S/N",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_dba",
+            "descrizione": "Articolo con dba S/N",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_cart",
+            "descrizione": "Articolo con cartella S/N",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_tp_mdf",
+            "descrizione": "Modificatore : tipo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "valore_mdf",
+            "descrizione": "Modificatore : valore",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "gest_somma_mdf",
+            "descrizione": "Modificatore : somma prezzo base",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tp_arrot_mdf",
+            "descrizione": "Modificatore : tipo arrotondamento",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "val_arrot_mdf",
+            "descrizione": "Modificatore : valore arrotondamento",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "rif_struttura",
+            "descrizione": "Riferimento struttura",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "tp_descrizione",
+            "descrizione": "Tipo descrizione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_tp_val_mdf",
+            "descrizione": "Modificatore : tipo valore",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "valuta_cos_prec",
+            "descrizione": "Costi anni precedenti - Valuta costo ultimo anni precedenti",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "cos_prec",
+            "descrizione": "Costi anni precedenti - Costo ultimo anni precedenti",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "valuta_cos_ult",
+            "descrizione": "Costi anni precedenti - Valuta costo ultimo ultimo anno",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "costo_ult",
+            "descrizione": "Costi anni precedenti - Costo ultimo ultimo anno",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "dt_cos_ult_ues",
+            "descrizione": "Data costo ultimo ultimo anno (sola lettura)",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "dt_cos_ult_pes",
+            "descrizione": "Data costo ultimo anno precedente (sola lettura)",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_fornitore",
+            "descrizione": "Fornitori - Codice fornitore",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gg_riordino",
+            "descrizione": "Fornitori - Giorni di riordino",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "qta_riordino",
+            "descrizione": "Fornitori - Lotto di riordino",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "valuta_ri",
+            "descrizione": "Fornitori - Valuta prezzo base",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "prz_riordino",
+            "descrizione": "Fornitori - Prezzo base",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "cod_riordino",
+            "descrizione": "Fornitori - Codice articolo del fornitore",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "fino_qta_ri",
+            "descrizione": "Fornitori - Fino a Quantita'",
+            "tipo": "Numerico con virgola",
+            "dimensione_array": "3"
+        },
+        {
+            "nome": "sc_qta_ri",
+            "descrizione": "Fornitori - Sconto quantita'",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "4"
+        },
+        {
+            "nome": "sc_qta_ri_ext",
+            "descrizione": "Fornitori - Tabella Sconti quantita' -cascata-",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "4"
+        },
+        {
+            "nome": "nota",
+            "descrizione": "Note - articolo",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "2"
+        },
+        {
+            "nome": "gest_nota",
+            "descrizione": "Note - Destinazione nota",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "2"
+        },
+        {
+            "nome": "dt_sca_nota",
+            "descrizione": "Note - Data scadenza nota",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "2"
+        },
+        {
+            "nome": "descr_lingua",
+            "descrizione": "Lingue - Descrizione in lingua",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "prz_listino",
+            "descrizione": "Condizioni commerciali - Prezzi",
+            "tipo": "Numerico con virgola",
+            "dimensione_array": "999"
+        },
+        {
+            "nome": "sconto_listino",
+            "descrizione": "Condizioni commerciali - Sconti (no gest.sconti a cascata)",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "sconto_lis_ext",
+            "descrizione": "Condizioni commerciali - Sconti",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tp_pr_listino",
+            "descrizione": "Condizioni commerciali - Tipo provvigione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "pr_formula",
+            "descrizione": "Condizioni commerciali - Provvigione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_agente",
+            "descrizione": "Condizioni commerciali - Codide agente",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "id_cond_agente",
+            "descrizione": "Condizioni commerciali - Condizione agente",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "provvigione",
+            "descrizione": "Condizioni commerciali - Provvigioni",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "perc_prz_lis",
+            "descrizione": "Condizioni commerciali - % Formazione prezzi su listino",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "id_listino",
+            "descrizione": "Condizioni commerciali - Listini condizioni commerciali",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "id_valuta_extra",
+            "descrizione": "Extra - Codice valuta",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "extra_fisso",
+            "descrizione": "Extra - fisso",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "extra_a",
+            "descrizione": "Extra - a",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "extra_b",
+            "descrizione": "Extra - b",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "extra_c",
+            "descrizione": "Extra - c",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "gest_cons_tg",
+            "descrizione": "Produzione - Articolo consumo x taglia",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_forma",
+            "descrizione": "Produzione - Articolo di tipo forma",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_macchinario",
+            "descrizione": "Produzione - Articolo macchinario",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "escl_rilevamento",
+            "descrizione": "Produzione - Escludi da rilevamento",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "escl_planning",
+            "descrizione": "Produzione - Escludi da planning",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_ricambio",
+            "descrizione": "Articolo ricambio",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_grp_merc",
+            "descrizione": "Codice Gruppo Merceologico",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_natura",
+            "descrizione": "Codice Natura",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_peso_wms",
+            "descrizione": "Pesata WMS",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "dt_gest_lotto",
+            "descrizione": "Lotti - Data inizio gestione rintracciabilita'",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_tp_lotto",
+            "descrizione": "Lotti - Tipo lotto; variabile se non movimentato",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_rich_lotto",
+            "descrizione": "Lotti - Richiesta lotto",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tp_sel_auto",
+            "descrizione": "Lotti - Selezione automatica var. se non movimentato",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_enasarco",
+            "descrizione": "Gestione enasarco - Prestazioni clienti",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "nr_mesi_rateo",
+            "descrizione": "Ratei/Risconti - periodo in mesi del rateo risconto",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "gest_ratei",
+            "descrizione": "Ratei/Risconti - gestione ratei risconti S/N",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tp_alimento",
+            "descrizione": "Agroalimentare - valori 'A','D',''",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_ubicazione",
+            "descrizione": "Dati Magazzino - Ubicazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_sotto_ubic",
+            "descrizione": "Dati Magazzino - Sotto ubicazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "dt_ult_carico",
+            "descrizione": "Dati Magazzino - Ultima data di carico",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "dt_ult_scarico",
+            "descrizione": "Dati Magazzino - Ultima data di scarico",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "dt_ult_ordine",
+            "descrizione": "Dati Magazzino - Ultima data ordini/imp",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "dt_ult_mov",
+            "descrizione": "Dati Magazzino - Ultima data movimenti",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "scorta_minima",
+            "descrizione": "Dati Magazzino - Scorta minima",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "scorta_massima",
+            "descrizione": "Dati Magazzino - Scorta massima",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "id_ubicazione",
+            "descrizione": "Identificativo ubicazione",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "larghezza_ubic",
+            "descrizione": "Dati controllo ubicazione: Larghezza",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "altezza_ubic",
+            "descrizione": "Dati controllo ubicazione: Altezza",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "profondita_ubic",
+            "descrizione": "Dati controllo ubicazione: Profondita'",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "peso_ubicazione",
+            "descrizione": "Dati controllo ubicazione: Peso",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "temp_min_ubic",
+            "descrizione": "Dati controllo ubicazione: Temperatura minima",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "temp_max_ubic",
+            "descrizione": "Dati controllo ubicazione: Temperatura massima",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "qta_inventario",
+            "descrizione": "Progressivo anno - Quantita' inventario",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "qta_inventa_tg",
+            "descrizione": "Progressivo anno - Quantita' inventario Taglie",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "valore_inventa",
+            "descrizione": "Progressivo anno - Valore inventario",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "tara_inventa",
+            "descrizione": "Progressivo anno - Tara inventario",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "colli_inventa",
+            "descrizione": "Progressivo anno - Colli inventario",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "qta_carico",
+            "descrizione": "Progressivo anno - Quantita' carico",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "qta_tg_carico",
+            "descrizione": "Progressivo anno - Quantita' carico Taglie",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "valore_carico",
+            "descrizione": "Progressivo anno - Valore carico",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "tara_carico",
+            "descrizione": "Progressivo anno - Tara carico",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "colli_carico",
+            "descrizione": "Progressivo anno - Colli carico",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "qta_scarico",
+            "descrizione": "Progressivo anno - Quantita' scarico",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "qta_scarico_tg",
+            "descrizione": "Progressivo anno - Quantita' scarico Taglie",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "valore_scarico",
+            "descrizione": "Progressivo anno - Valore scarico",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "tara_scarico",
+            "descrizione": "Progressivo anno - Tara scarico",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "colli_scarico",
+            "descrizione": "Progressivo anno - Colli scarico",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "ord_fornitori",
+            "descrizione": "Ordini - Ordini fornitori",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "ord_for_taglie",
+            "descrizione": "Ordini - Ordini fornitori Taglie",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "ord_cli_e",
+            "descrizione": "Ordini - Clienti impegni",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "ord_cli_e_tg",
+            "descrizione": "Ordini - Clienti impegni Taglie",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "ord_cli_sps",
+            "descrizione": "Ordini - Clienti sospesi",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "ord_cli_sps_tg",
+            "descrizione": "Ordini - Clienti sospesi Taglie",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "ord_cli_auto",
+            "descrizione": "Ordini - Clienti automatici / da produrre",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "ord_cli_auto_tg",
+            "descrizione": "Ordini - Clienti automatici / da produrre Taglie",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "ord_produzione",
+            "descrizione": "Ordini - In produzione",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "ord_prod_taglie",
+            "descrizione": "Ordini - In produzione Taglie",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "cod_nomencla",
+            "descrizione": "Intracee - Nomenclatura combinata",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_massa_net",
+            "descrizione": "Intracee - Massa netta",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "coeff_massa_net",
+            "descrizione": "Intracee - Coefficiente massa netta",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "gest_unita_sup",
+            "descrizione": "Intracee - Unita' supplettiva",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "descr_unita_sup",
+            "descrizione": "Intracee - Descrizione unita' supplettiva",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "coeff_unita_sup",
+            "descrizione": "Intracee - Coefficiente unita' supplettiva",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "cod_prv_intra",
+            "descrizione": "Intracee - Provincia origine",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_pae_intra",
+            "descrizione": "Intracee - Paese origine",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_pae_intra_c",
+            "descrizione": "Intracee - Paese origine Cessioni",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_srv_intra",
+            "descrizione": "Intracee - Codice servizio",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "val_sta_unit",
+            "descrizione": "Intracee - Valore statistico unitario",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "gest_attiva",
+            "descrizione": "Stati anagrafica attiva",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "12"
+        },
+        {
+            "nome": "gest_variata",
+            "descrizione": "Stati anagrafica variata",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "12"
+        },
+        {
+            "nome": "dt_variaz_img",
+            "descrizione": "Data variazione immagini",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "img_art_disp",
+            "descrizione": "Immagine articolo disponibile (S/N)",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "img_cat_disp",
+            "descrizione": "Immagine catalogo disponibile (S/N)",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "img_icona_disp",
+            "descrizione": "Immagine icona disponibile (S/N)",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_period",
+            "descrizione": "Parcella prestazioni clienti - Periodicita'",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "mese_period",
+            "descrizione": "Parcella prestazioni clienti - Periodicita' mese",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "gest_ritenuta",
+            "descrizione": "Parcella prestazioni clienti - Ritenuta d'acconto",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_cassa_pre",
+            "descrizione": "Parcella prestazioni clienti - Cassa previdenza",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_sep_inps",
+            "descrizione": "Parcella prestazioni clienti - Gestione separata INPS",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_enpam",
+            "descrizione": "Parcella prestazioni clienti - Soggetto Enpam",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_enpals",
+            "descrizione": "Parcella prestazioni clienti - Soggetto Enpals",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_cat_web",
+            "descrizione": "Codice Categoria Merceologica WEB",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "ora_mod_sistema",
+            "descrizione": "Ora ultima modifica (ora di sistema)",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "data_obbl",
+            "descrizione": "Tipo lotto : data validita' obbligatoria",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "dati_tp_lotto_mod",
+            "descrizione": "Tipo lotto : dati tipo lotto modificati",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "giorni_autocod",
+            "descrizione": "Tipo lotto : giorni per autocodifica",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "giorni_manuale",
+            "descrizione": "Tipo lotto : giorni per codifica manuale",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "giorni_giacenza",
+            "descrizione": "Tipo lotto : giorni minimi giacenza magazzino",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "utente_ult_mod",
+            "descrizione": "Utente ultima modifica",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "data_ult_mod",
+            "descrizione": "Data ora ultima modifica",
+            "tipo": "Data e ora (formato AAAAMMGG HHMMSS)"
+        }
+    ]
+}

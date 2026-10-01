@@ -1,0 +1,47 @@
+{
+    "path": "/dati-generali/esenzioni-iva",
+    "origine": "info",
+    "forma": "dati",
+    "campi": [
+        {
+            "nome": "codice",
+            "descrizione": "Esenzione IVA",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "descrizione",
+            "descrizione": "Descrizione esenzione IVA",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "plafond",
+            "descrizione": "Flag esenzione Plafond",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "descr_estesa",
+            "descrizione": "Descrizione estesa",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tp_operazione",
+            "descrizione": "Tipo operazione IVA",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "id_descrizione",
+            "descrizione": "Id descrizione esenzione",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "id_classifica",
+            "descrizione": "Classificazione codice IVA",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "codice_natura",
+            "descrizione": "Codice natura operazione fattura PA",
+            "tipo": "Alfanumerico"
+        }
+    ]
+}

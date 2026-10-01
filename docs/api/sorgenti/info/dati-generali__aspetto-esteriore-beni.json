@@ -1,0 +1,17 @@
+{
+    "path": "/dati-generali/aspetto-esteriore-beni",
+    "origine": "info",
+    "forma": "dati",
+    "campi": [
+        {
+            "nome": "codice",
+            "descrizione": "Numero",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "descrizione",
+            "descrizione": "Descrizione",
+            "tipo": "Alfanumerico"
+        }
+    ]
+}

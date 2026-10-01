@@ -1,0 +1,93 @@
+{
+    "path": "/dati-generali/tipi-lotti-matricole",
+    "origine": "info",
+    "forma": "dati",
+    "campi": [
+        {
+            "nome": "tipo_lotto",
+            "descrizione": "Tipo lotto",
+            "tipo": "Alfanumerico",
+            "chiave": true
+        },
+        {
+            "nome": "stato",
+            "descrizione": "Stato",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "descrizione",
+            "descrizione": "Descrizione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "chiave_univoca",
+            "descrizione": "Chiave univoca",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "auto_prel_tipo",
+            "descrizione": "Auto prel. tipo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "auto_prel_qta",
+            "descrizione": "Auto prel. man. qta",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "auto_prel_peso",
+            "descrizione": "Auto prel. man. peso",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "auto_prel_spez",
+            "descrizione": "Auto prel. spezza",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "auto_prel_qres",
+            "descrizione": "Auto prel. qta res",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tipo_ctrl_caric",
+            "descrizione": "Carico : Tipo controllo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "auto_prel_gest",
+            "descrizione": "Auto prel. gestione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "qta_insuf_scar",
+            "descrizione": "Scarico : Quantita' insufficiente",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tipo_lott_matr",
+            "descrizione": "Tipo lotto/matricola",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "data_obbl",
+            "descrizione": "Tipo lotto : data validita' obbligatoria",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "giorni_autocod",
+            "descrizione": "Tipo lotto : giorni per autocodifica",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "giorni_manuale",
+            "descrizione": "Tipo lotto : giorni per codifica manuale",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "giorni_giacenza",
+            "descrizione": "Tipo lotto : giorni minimi giacenza magazzino",
+            "tipo": "Numerico"
+        }
+    ]
+}

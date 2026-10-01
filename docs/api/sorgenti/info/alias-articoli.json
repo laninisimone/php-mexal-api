@@ -1,0 +1,73 @@
+{
+    "path": "/alias-articoli",
+    "origine": "info",
+    "forma": "dati",
+    "campi": [
+        {
+            "nome": "id",
+            "descrizione": "Identificatore alias",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "prog_alias",
+            "descrizione": "Progressivo alias (uguali)",
+            "tipo": "Numerico",
+            "chiave": true,
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "cod_alias",
+            "descrizione": "Codice alias",
+            "tipo": "Alfanumerico",
+            "chiave": true,
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "cod_articolo",
+            "descrizione": "Codice articolo",
+            "tipo": "Alfanumerico",
+            "chiave": true,
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "descrizione",
+            "descrizione": "Descrizione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "nota1",
+            "descrizione": "Nota 1",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "nota2",
+            "descrizione": "Nota 2",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "nr_colli",
+            "descrizione": "Numero colli",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "quantita",
+            "descrizione": "Quantita'",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "um",
+            "descrizione": "Tipo unita' di muìisura",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "data_crea",
+            "descrizione": "Data ora creazione (sola lettura)",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "data_ult_mod",
+            "descrizione": "Data ora ultima modifica (sola lettura)",
+            "tipo": "Alfanumerico"
+        }
+    ]
+}

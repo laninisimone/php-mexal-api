@@ -1,0 +1,854 @@
+{
+    "path": "/fornitori",
+    "origine": "info",
+    "forma": "dati",
+    "campi": [
+        {
+            "nome": "codice",
+            "descrizione": "Codice",
+            "tipo": "Alfanumerico",
+            "chiave": true,
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "cod_alternativo",
+            "descrizione": "Codice alternativo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "id_rubrica_uni",
+            "descrizione": "Id. RUBRICA UNICA (sola lettura)",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "tp_nazionalita",
+            "descrizione": "Tipo nazionalita'",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_paese",
+            "descrizione": "Codice paese",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_per_fisica",
+            "descrizione": "Persona fisica",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "codice_fiscale",
+            "descrizione": "Codice Fiscale",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "partita_iva",
+            "descrizione": "Partita IVA",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "ext_piva_estera",
+            "descrizione": "Estensione partita IVA estera dal 16 al 24 carattere",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_no_piva",
+            "descrizione": "Gestione senza Partita IVA",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "denominazione",
+            "descrizione": "Denominazione ditta individuale (persona fisica non privata)",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "ragione_sociale",
+            "descrizione": "Ragione sociale",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "dt_valid_ragsoc",
+            "descrizione": "Data validita' ragione sociale",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "ragsoc_prec",
+            "descrizione": "Ragione Sociale alla data",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cognome",
+            "descrizione": "Cognome",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "nome",
+            "descrizione": "Nome",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "dt_nasc_cost",
+            "descrizione": "Data nascita / costituzione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "loc_nasc_cost",
+            "descrizione": "Localita' nascita / costituzione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "prv_nasc_cost",
+            "descrizione": "Provincia nascita / costituzione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "indirizzo",
+            "descrizione": "Indirizzo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cap",
+            "descrizione": "CAP",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "localita",
+            "descrizione": "Localita'",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "provincia",
+            "descrizione": "Provincia",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "telefono",
+            "descrizione": "Numero telefono",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "fax",
+            "descrizione": "Numero fax",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "email",
+            "descrizione": "Indirizzo E-Mail",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "url",
+            "descrizione": "Indirizzo Internet",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "pec",
+            "descrizione": "Indirizzo E-Mail PEC",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_sportivo",
+            "descrizione": "Gestione collaboratore sportivo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_sport_escl",
+            "descrizione": "Gestione collaboratore esclusivo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "alq_regio_sport",
+            "descrizione": "Alq addizionale regionale collaboratore sportivo",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "alq_comun_sport",
+            "descrizione": "Alq addizionale comunale collaboratore sportivo",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "cod_pg_no_deper",
+            "descrizione": "Cond.commerciali - Pag.art.alimentari non deperibili",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "cod_pg_deper",
+            "descrizione": "Cond.commerciali - Pag.art.alimentari deperibili",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "alq_comp",
+            "descrizione": "Aliquota di Compensazione",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "nome_ricerca_cf",
+            "descrizione": "Nome di ricerca",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tp_societa",
+            "descrizione": "Tipo societa'",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_lotteria",
+            "descrizione": "Codice Lotteria",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_ente_pa",
+            "descrizione": "Gestione ente pubblico",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_spl_pay_pa",
+            "descrizione": "Gestione escludi split payment",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_fatt_el_pa",
+            "descrizione": "Gestione fattura elettronica P.A.",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_fatt_el",
+            "descrizione": "Gestione fattura elettronica soggetti privati",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "dt_gest_fatt_el",
+            "descrizione": "Data inizio gestione Fattura Elettronica",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "serie_fatt_el",
+            "descrizione": "Serie Fattura elettronica",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "allega_fatt_el",
+            "descrizione": "Includi formato allegato HTML",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_modu_allega",
+            "descrizione": "Codice formato modulistica da allegare al file XML",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_modu_allega_pae",
+            "descrizione": "Codice formato modulistica da allegare al file XML parcellazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "rif_ammin_pa",
+            "descrizione": "Riferimento amministrazione PA",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_ufficio_pa",
+            "descrizione": "Codice Univoco Ufficio PA",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "codice_sdi",
+            "descrizione": "Codice destinatario SDI",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_spesometro",
+            "descrizione": "Gestione escludi spesometro",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "trattam_esterom",
+            "descrizione": "Cond.commerciali - Trattamento soggetto in Esterometro",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_agricolo",
+            "descrizione": "Gestione soggetto agricolo A34 c6 N/S",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_condominio",
+            "descrizione": "Gestione condominio",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_self_bill",
+            "descrizione": "Gestione self billing",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "reg_fis_fatt_el",
+            "descrizione": "Regime fiscale Fattura XML, solo conti 'F', self billing attivo.",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_iva_differ",
+            "descrizione": "Gestione iva vendite esigibilità differita, solo conti 'F' self billing attivo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "id_banca",
+            "descrizione": "BANCA - Id banca",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "cod_abi",
+            "descrizione": "Cond.commerciali - Codice ABI",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "cod_cab",
+            "descrizione": "Cond.commerciali - Codice CAB",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "conto_corren",
+            "descrizione": "Cond.commerciali - Codice conto corrente",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cin_bban",
+            "descrizione": "Cond.commerciali - Codice CIN su BBAN",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "assog_iva",
+            "descrizione": "Condizioni generali - Assogettamento Iva",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "assog_ivaxml",
+            "descrizione": "Condizioni generali - Import. op.passive con nat.esenz.IVA N2.1",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "valuta",
+            "descrizione": "Condizioni generali - Valuta estera",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "tp_op_reverse",
+            "descrizione": "Condizioni generali - Tipo operazione reverse charge",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "cod_cat_sta",
+            "descrizione": "Condizioni generali - Categoria statistica",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "cod_zona",
+            "descrizione": "Condizioni generali - Zona",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "cod_pagamento",
+            "descrizione": "Condizioni pagamento - Pagamento abituale",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "scadenza_fissa",
+            "descrizione": "Condizioni pagamento - Scadenza fissa",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "giorni_proroga",
+            "descrizione": "Condizioni pagamento - Giorni proroga sommati al fine mese",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "mesi_esclusi",
+            "descrizione": "Condizioni pagamento - 1^ Mese escluso / 2^ Mese escluso",
+            "tipo": "Numerico",
+            "dimensione_array": "2"
+        },
+        {
+            "nome": "gg_anticipo",
+            "descrizione": "Condizioni pagamento - Giorno anticipato / posticipato 1^ Mese escluso / 2^ Mese escluso",
+            "tipo": "Numerico",
+            "dimensione_array": "2"
+        },
+        {
+            "nome": "cod_banca",
+            "descrizione": "Condizioni pagamento - Codice banca presentazione effetti",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_cig_cup",
+            "descrizione": "Condizioni pagamento - Gestione CIG-CUP abilitato S/N",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "banca_appoggio",
+            "descrizione": "Banca appoggio cliente/fornitore - Banca d'appoggio",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_rid_cliente",
+            "descrizione": "Banca appoggio cliente/fornitore - Codice cliente su RID",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tp_incasso",
+            "descrizione": "Banca appoggio cliente/fornitore - Tipo incasso RId '' o 'V' sdd B2B",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "dt_mandato_rid",
+            "descrizione": "Banca appoggio cliente/fornitore - Data mandato rid clienti banca standard",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "stato_sequenza",
+            "descrizione": "Banca appoggio cliente/fornitore - Stato sequenza rid clienti banca standard",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "intesta_iban",
+            "descrizione": "Banca appoggio cliente/fornitore - Intestatario Iban bonifici",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "banca_appo_agg",
+            "descrizione": "Ult.banche d'appoggio - Descrizione",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "3"
+        },
+        {
+            "nome": "bic_agg",
+            "descrizione": "Ult.banche d'appoggio - Codice BIC della banca",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "3"
+        },
+        {
+            "nome": "pae_iban_agg",
+            "descrizione": "Ult.banche d'appoggio - Sigla paese IBAN a",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "3"
+        },
+        {
+            "nome": "cin_iban_agg",
+            "descrizione": "Ult.banche d'appoggio - Cin IBAN IBAN b",
+            "tipo": "Numerico",
+            "dimensione_array": "3"
+        },
+        {
+            "nome": "iban_agg",
+            "descrizione": "Ult.banche d'appoggio - Codice IBAN IBAN c = BBAN",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "3"
+        },
+        {
+            "nome": "cin_bban_agg",
+            "descrizione": "Ult.banche d'appoggio - Cin BBAN BBAN 1",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "3"
+        },
+        {
+            "nome": "abi_bban_agg",
+            "descrizione": "Ult.banche d'appoggio - Codice ABI BBAN 2",
+            "tipo": "Numerico",
+            "dimensione_array": "3"
+        },
+        {
+            "nome": "cab_bban_agg",
+            "descrizione": "Ult.banche d'appoggio - Codice CAB BBAN 3",
+            "tipo": "Numerico",
+            "dimensione_array": "3"
+        },
+        {
+            "nome": "conto_bban_agg",
+            "descrizione": "Ult.banche d'appoggio - Conto corrente BBAN 4",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "3"
+        },
+        {
+            "nome": "cod_rid_cli_agg",
+            "descrizione": "Ult.banche d'appoggio - Codice Cliente x RID",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "3"
+        },
+        {
+            "nome": "intesta_iban_agg",
+            "descrizione": "Ult.banche d'appoggio - Intestatario Iban bonifici",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "3"
+        },
+        {
+            "nome": "cod_lingua",
+            "descrizione": "Condizioni documenti di magazzino - Lingua estera",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "cod_agente",
+            "descrizione": "Condizioni documenti di magazzino - Codice conto agente",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_fatturare_a",
+            "descrizione": "Condizioni documenti di magazzino - Codice conto fatturare a",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_ind_sped",
+            "descrizione": "Condizioni documenti di magazzino - Codice anagrafica indirizzi di spedizione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tp_trasporto",
+            "descrizione": "Vettore - Trasporto a mezzo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_vettore",
+            "descrizione": "Vettore - Codice vettore abituale",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tp_porto",
+            "descrizione": "Vettore - Porto",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "descr_porto",
+            "descrizione": "Vettore - ulteriore descrizione porto",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_colli_auto",
+            "descrizione": "Vettore - Calcolo colli automatico",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_peso_auto",
+            "descrizione": "Vettore - Calcolo peso automatico",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tp_spese_sped",
+            "descrizione": "Vettore - Tipo spese di spedizione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "spese_sped",
+            "descrizione": "Vettore - Valore spese di spedizione",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "fino_spese_sped",
+            "descrizione": "Vettore - Fino a valore spese di spedizione",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "cod_asp_beni",
+            "descrizione": "Vettore - Aspetto esteriore dei beni (0 - 30)",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "cod_incoterm",
+            "descrizione": "Vettore - Codice Incoterm",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "num_iscr_albo",
+            "descrizione": "Vettore - Iscrizione all'albo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "dt_iscr_albo",
+            "descrizione": "Vettore - Data di iscrizione all'albo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_val_cauz",
+            "descrizione": "Condizioni documenti di magazzino - Imballi - Valorizza cauzioni",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "qta_cauzioni",
+            "descrizione": "Condizioni documenti di magazzino - Imballi - Quantita' cauzioni",
+            "tipo": "Numerico",
+            "dimensione_array": "16"
+        },
+        {
+            "nome": "gest_rit_acc",
+            "descrizione": "Gestione soggetto ritenuta acconto (S/N)",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "alq_rit_acc",
+            "descrizione": "Aliquota ritenuta d'acconto (valore massimo 99,99)",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "perc_impon_rit",
+            "descrizione": "% imponibile ritenuta d'acconto (0 - 100)",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "cod_pg_770S",
+            "descrizione": "Causale pagamento modello 770S",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "cognome_legale",
+            "descrizione": "Spesometro - Cognome del Rappresentante legale",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "nome_legale",
+            "descrizione": "Spesometro - Nome del Rappresentante legale",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_fis_legale",
+            "descrizione": "Spesometro - Codice fiscale Rappresentante legale",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "dt_nasc_legale",
+            "descrizione": "Spesometro - Data nascita del Rappresentante legale",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "loc_nasc_legale",
+            "descrizione": "Spesometro - Localita' nascita del Rappr. legale",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "prv_nasc_legale",
+            "descrizione": "Spesometro - Provincia nascita del Rappr. legale",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_pae_legale",
+            "descrizione": "Spesometro - Codice Domicilio fiscale Rappr. legale",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_analitico",
+            "descrizione": "Contabilita' analitica - Codice analitico per Clienti/Fornitori",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_crit_ripart",
+            "descrizione": "Contabilita' analitica - Numero del criterio di ripartizione per Cli/For",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "gest_spl_pay",
+            "descrizione": "Split payment non ente pubblico - Gestione Split Payment altri soggetti",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "dt_spl_pay",
+            "descrizione": "Split payment non ente pubblico - Da/a data gestione (3)",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "6"
+        },
+        {
+            "nome": "cod_tributo",
+            "descrizione": "Dati percipiente/Regime agevolato - Codice tributo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tp_rit",
+            "descrizione": "Dati percipiente/Regime agevolato - Tipo ritenuta",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tp_regime_agv",
+            "descrizione": "Dati percipiente/Regime agevolato - Regime agevolato",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "dt_fine_regime",
+            "descrizione": "Dati percipiente/Regime agevolato - Fino a data",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_regime_agv",
+            "descrizione": "Dati percipiente/Regime agevolato - Gestione agente",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "perc_fondo_prof",
+            "descrizione": "Dati percipiente/Regime agevolato - Percentuale fondo professionista",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "cod_prestazione",
+            "descrizione": "Dati percipiente/Regime agevolato - Tipo prestazione",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "cod_catasto_dom",
+            "descrizione": "Dati percipiente/Regime agevolato - Codice catastale domicilio percipiente",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_glad",
+            "descrizione": "Dati GLA/D - Abilita gestione modello GLA/D",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "perc_contr_glad",
+            "descrizione": "Dati GLA/D - Percentuale Contributo Inps Collab.coord./Vendita porta a porta",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "perc_ded_glad",
+            "descrizione": "Dati GLA/D - percentuale deduzione forfetaria",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "cod_attiv_glad",
+            "descrizione": "Dati GLA/D - Codice attivita'",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "dt_inizio_mndto",
+            "descrizione": "Enasarco - Data inizio mandato",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "dt_fine_mndto",
+            "descrizione": "Enasarco - Data fine mandato",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "dt_variaz_mndto",
+            "descrizione": "Enasarco - Data variazione mandato",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tp_mndto",
+            "descrizione": "Enasarco - Tipo mandato attuale",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tp_recap",
+            "descrizione": "Recapito - Tipologia recapito",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "nome_recap",
+            "descrizione": "Recapito - Nominativo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "ind_recap",
+            "descrizione": "Recapito - Indirizzo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cap_recap",
+            "descrizione": "Recapito - CAP",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "loc_recap",
+            "descrizione": "Recapito - Localita'",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "prv_recap",
+            "descrizione": "Recapito - Provincia",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_recap_eff",
+            "descrizione": "Recapito - Riporta su effetti",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tp_rating",
+            "descrizione": "Progressivi e saldi - Rating assegnato",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "nr_insoluti",
+            "descrizione": "Progressivi e saldi - Numero insoluti",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "tot_insoluti",
+            "descrizione": "Progressivi e saldi - Importo totale insoluti",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "fido",
+            "descrizione": "Progressivi e saldi - Fido valuta di gestione",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "gest_fuori_fido",
+            "descrizione": "Progressivi e saldi - Messaggio fuori fido emissione documenti",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "descr_nota",
+            "descrizione": "Note - Descrizione",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "2"
+        },
+        {
+            "nome": "dst_nota",
+            "descrizione": "Note - Destinazione",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "2"
+        },
+        {
+            "nome": "dt_sca_nota",
+            "descrizione": "Note - Data di scadenza",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "2"
+        },
+        {
+            "nome": "anag_dt_crea",
+            "descrizione": "Stato anagrafica - Data creazione conto",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "anag_dt_mod",
+            "descrizione": "Stato anagrafica - Data modifica conto",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "anag_mod",
+            "descrizione": "Stato anagrafica - Conto modificato S/N",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "stato_anag_att",
+            "descrizione": "Stato anagrafica attiva. Vedere mirroring (dbmirror)",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "12"
+        },
+        {
+            "nome": "stato_anag_var",
+            "descrizione": "Stato anagrafica variata. Vedere mirroring (dbmirror)",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "12"
+        },
+        {
+            "nome": "conto_precanc",
+            "descrizione": "Conto Precancellato",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "utente_ult_mod",
+            "descrizione": "Utente ultima modifica",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "data_ult_mod",
+            "descrizione": "Data ora ultima modifica",
+            "tipo": "Data e ora (formato AAAAMMGG HHMMSS)"
+        }
+    ]
+}

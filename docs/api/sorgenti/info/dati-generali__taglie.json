@@ -1,0 +1,42 @@
+{
+    "path": "/dati-generali/taglie",
+    "origine": "info",
+    "forma": "dati",
+    "campi": [
+        {
+            "nome": "cod_serie",
+            "descrizione": "Serie taglia",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "numero_taglia",
+            "descrizione": "Numero taglia",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "descr_serie",
+            "descrizione": "Descrizione serie taglia",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "num_massimo_tg",
+            "descrizione": "Numero massimo di taglie per serie",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "descr_taglia",
+            "descrizione": "Descrizione taglia",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "descr_tg_ext",
+            "descrizione": "Descrizione taglia estesa",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "coeff_consumo",
+            "descrizione": "Coefficiente di consumo",
+            "tipo": "Numerico con virgola"
+        }
+    ]
+}

@@ -1,0 +1,27 @@
+{
+    "path": "/dati-generali/installazione",
+    "origine": "campione",
+    "forma": "oggetto",
+    "campi": [
+        {
+            "nome": "codice_prodotto",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "versione_prodotto",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "scadenza_sap",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "id_installazione",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "utenti_connessi",
+            "tipo": "Numerico"
+        }
+    ]
+}

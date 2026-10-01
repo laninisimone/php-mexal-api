@@ -1,0 +1,149 @@
+{
+    "path": "/ubicazioni",
+    "origine": "info",
+    "forma": "dati",
+    "campi": [
+        {
+            "nome": "id",
+            "descrizione": "Identificatore ubicazione",
+            "tipo": "Numerico",
+            "chiave": true,
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "id_magazzino",
+            "descrizione": "Codice Magazzino",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "codice_alt",
+            "descrizione": "Codice alternativo ubicazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tipo",
+            "descrizione": "Tipo ubicazione (S = Standard, E = Servizio)",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "descrizione",
+            "descrizione": "Descrizione ubicazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "codice",
+            "descrizione": "Codice Ubicazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "stato",
+            "descrizione": "Stato (T = Attiva, A = Annullata logicamente, B = Bloccata, U = Bloccata in uscita, I = Bloccata in ingresso)",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "area",
+            "descrizione": "Area ubicazione (S = Stock, C = Carico, P = Picking, A = Scarico)",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "quantita",
+            "descrizione": "Quantita",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "larghezza",
+            "descrizione": "Larghezza",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "altezza",
+            "descrizione": "Altezza",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "profondita",
+            "descrizione": "Profondita'",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "peso",
+            "descrizione": "Peso in Kg",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "temperatura_min",
+            "descrizione": "Temperatura minima",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "temperatura_max",
+            "descrizione": "Temperatura massima",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "latitudine",
+            "descrizione": "Latitudine",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "longitudine",
+            "descrizione": "Longitudine",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "elevazione",
+            "descrizione": "Elevazione",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "alt_dal_suolo",
+            "descrizione": "Altezza dal suolo",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "stru_art_escl",
+            "descrizione": "Struttura articoli esclusiva",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_art_escl",
+            "descrizione": "Codice articolo esclusivo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "catsta_escl",
+            "descrizione": "Categoria Statistica esclusiva",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "grp_merc_escl",
+            "descrizione": "Gruppo Merceologico esclusivo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "natura_escl",
+            "descrizione": "Natura esclusiva",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_for_escl",
+            "descrizione": "Codice fornitore esclusivo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_percorso",
+            "descrizione": "Codice percorso utilizzato per creare un percorso all'interno del magazzino",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "utente_ult_mod",
+            "descrizione": "Utente ultima modifica",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "data_ult_mod",
+            "descrizione": "Data ora ultima modifica",
+            "tipo": "Data e ora (formato AAAAMMGG HHMMSS)"
+        }
+    ]
+}

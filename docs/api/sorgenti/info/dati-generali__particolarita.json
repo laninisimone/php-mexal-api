@@ -1,0 +1,225 @@
+{
+    "path": "/dati-generali/particolarita",
+    "origine": "info",
+    "forma": "dati",
+    "campi": [
+        {
+            "nome": "tipo_part",
+            "descrizione": "Tipo particolarita' (P/V/S/A/I)",
+            "tipo": "Alfanumerico",
+            "chiave": true,
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "tp_dato_conto",
+            "descrizione": "Tipo dato conto (C/N/S/Z)",
+            "tipo": "Alfanumerico",
+            "chiave": true,
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "codice_conto",
+            "descrizione": "Codice conto",
+            "tipo": "Alfanumerico",
+            "chiave": true,
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "id_cat_conto",
+            "descrizione": "Categoria conto(listino-sconto-provvigioni",
+            "tipo": "Numerico",
+            "chiave": true,
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "id_zona_conto",
+            "descrizione": "Zona conto",
+            "tipo": "Numerico",
+            "chiave": true,
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "id_catsta_conto",
+            "descrizione": "Categoria statistica conto",
+            "tipo": "Numerico",
+            "chiave": true,
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "tp_dato_art",
+            "descrizione": "Tipo dato articolo (A/E/M/T/U)",
+            "tipo": "Alfanumerico",
+            "chiave": true,
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "cod_articolo",
+            "descrizione": "Codice articolo",
+            "tipo": "Alfanumerico",
+            "chiave": true,
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "id_cat_art",
+            "descrizione": "Categoria articolo",
+            "tipo": "Numerico",
+            "chiave": true,
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "cod_catsta_art",
+            "descrizione": "Categoria statistica articolo alfanumerica",
+            "tipo": "Alfanumerico",
+            "chiave": true,
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "nr_catsta_art",
+            "descrizione": "Categoria statistica articolo numerica",
+            "tipo": "Numerico",
+            "chiave": true,
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "cod_natura",
+            "descrizione": "Natura",
+            "tipo": "Alfanumerico",
+            "chiave": true,
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "cod_grp_merc",
+            "descrizione": "Gruppo merceologico",
+            "tipo": "Alfanumerico",
+            "chiave": true,
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "data_inizio",
+            "descrizione": "Data di validita' da",
+            "tipo": "Alfanumerico",
+            "chiave": true,
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "data_fine",
+            "descrizione": "Data di validita' a",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_iva",
+            "descrizione": "Aliquota / Esenzione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "id_valuta",
+            "descrizione": "Numero valuta",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "tp_fino",
+            "descrizione": "Tipo fino a (F/Q/P/S)",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_art_cli",
+            "descrizione": "Codice articolo del Cli/For se \"tipo_part\" = 'A'",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "descr_art_cli",
+            "descrizione": "Descrizione articolo del Cli/For se \"tipo_part\" = 'A'",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "id_promozione",
+            "descrizione": "Codice promozione",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "tp_applica",
+            "descrizione": "Applica su: G = Gestionale, E = Entrambi, S = Sito",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tp_condizione",
+            "descrizione": "Condizione: P=a Partire da, altrimenti Fino a",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tp_applicazione",
+            "descrizione": "Applicazione: L=Listini, altrimenti Prezzi",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "scaglione1",
+            "descrizione": "Valore fino a scaglione Q,P,S - elementi da 1 a 3 -",
+            "tipo": "Numerico con virgola",
+            "dimensione_array": "3"
+        },
+        {
+            "nome": "part_1",
+            "descrizione": "Particolarita',a partire da implement.sconti cascata",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "4"
+        },
+        {
+            "nome": "tipo_pr_1",
+            "descrizione": "Campo '%' o 'T' - solo multiagente",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "4"
+        },
+        {
+            "nome": "cod_agente_1",
+            "descrizione": "Codice agente",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "4"
+        },
+        {
+            "nome": "cod_cond_1",
+            "descrizione": "Codice condizione",
+            "tipo": "Numerico",
+            "dimensione_array": "4"
+        },
+        {
+            "nome": "scaglione_2",
+            "descrizione": "Valore fino a scaglione Q,P,S - elementi da 4 a 8 -",
+            "tipo": "Numerico con virgola",
+            "dimensione_array": "8"
+        },
+        {
+            "nome": "part_2",
+            "descrizione": "Particolarita' dello scaglione part_fin",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "9"
+        },
+        {
+            "nome": "tipo_pr_2",
+            "descrizione": "Campo '%' o 'T' - solo multiagente",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "9"
+        },
+        {
+            "nome": "cod_agente_2",
+            "descrizione": "Codice agente",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "9"
+        },
+        {
+            "nome": "cod_cond_2",
+            "descrizione": "Codice condizione",
+            "tipo": "Numerico",
+            "dimensione_array": "9"
+        },
+        {
+            "nome": "utente_ult_mod",
+            "descrizione": "Utente ultima modifica",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "data_ult_mod",
+            "descrizione": "Data ora ultima modifica",
+            "tipo": "Data e ora (formato AAAAMMGG HHMMSS)"
+        }
+    ]
+}

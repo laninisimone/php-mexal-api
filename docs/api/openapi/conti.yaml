@@ -1,0 +1,842 @@
+openapi: "3.1.0"
+info:
+  title: Passepartout WebAPI - Conti
+  version: "88201"
+  description: |-
+    Generato da `tools/api-docs/genera.php` a partire dall'help in linea (`GET /risorse/help?extended=true`)
+    e da `?info=true` di un'installazione Mexal/Passcom 2.9.17 (versione gestionale 88201), integrato con il manuale WebAPI v3.1.
+    Endpoint e campi dipendono da versione e moduli installati: la fonte di verità resta `?info=true`.
+
+    **Convenzioni**
+
+    - Autenticazione: `Authorization: Passepartout <base64(utente:password)>`; sul cloud si aggiunge ` Dominio=<DOMINIO>`.
+    - Contesto aziendale: header `Coordinate-Gestionale: Azienda=XXX Anno=AAAA` (opzionali `SottoAzienda=`, `Magazzino=`).
+    - Date `AAAAMMGG`, date-ora `AAAAMMGG HHMMSS`, decimali con il punto.
+    - Gli array sono liste di coppie `[[indice, valore], ...]`, non liste semplici.
+    - Chiavi composte unite da `+` nel path (es. `OC+1+15`). Codici con `/` o `\` vanno in esadecimale con `?encoding=hex`.
+    - Paginazione: `max` limita i record, il token `next` della risposta va ripassato così com'è e subito.
+    - Ricerca: `POST .../ricerca` con `filtri`; i filtri sono in AND, i valori di uno stesso filtro in OR.
+    - Revisione (PUT): rimandare `data_ult_mod` letto dalla GET per il controllo di modifica concorrente.
+    - Limiti: 5 richieste simultanee per utente WebAPI (oltre si riceve 503).
+servers:
+  - url: "https://{host}:{porta}/webapi/risorse"
+    description: Installazione locale (certificato spesso self-signed)
+    variables:
+      host:
+        default: localhost
+      porta:
+        default: "9004"
+  - url: "https://services.passepartout.cloud/webapi/risorse"
+    description: "Passepartout Live (cloud): aggiungere Dominio=<DOMINIO> all'header Authorization"
+security:
+  - passepartout: []
+tags:
+  - name: conti
+    description: "Piano dei conti: conti generali, clienti, fornitori, banche, agenti. Codice nel formato mastro.conto."
+paths:
+  "/conti":
+    get:
+      tags:
+        - conti
+      operationId: conti_lista
+      summary: Lista conti
+      description: |-
+        Paginata: il server pagina oltre 30 secondi o 50 MB anche senza `max`; seguire `next` fino a esaurimento.
+
+        Senza il parametro fields, vengono restituiti tutti i 67 campi di ciascun conto
+
+        Supporta paginazione tramite max e next (vedi Paginazione)
+      parameters:
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - name: fields
+          in: query
+          description: "Campi da restituire, separati da virgola. Riduce il payload: usarlo sempre sulle liste."
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/ContiCampo"
+        - $ref: "#/components/parameters/Max"
+        - $ref: "#/components/parameters/Next"
+      responses:
+        "200":
+          description: Record trovati
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/ContiLista"
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "81800"
+    post:
+      tags:
+        - conti
+      operationId: conti_crea
+      summary: Inserimento conto
+      description: |-
+        Risponde 201 senza body: il codice assegnato è nell'header `Location`.
+
+        Il campo codice deve rispettare il formato GGG.NNNNN coerente con il piano dei conti dell’azienda
+      parameters:
+        - $ref: "#/components/parameters/CoordinateGestionale"
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/ContiInserimento"
+      responses:
+        "201":
+          description: "Creato. Nessun body: il path della nuova risorsa è nell'header Location."
+          headers:
+            Location:
+              description: "Path della risorsa creata (es. /webapi/risorse/conti/...). Può contenere ?encoding=hex."
+              schema:
+                type: string
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "81800"
+  "/conti/ricerca":
+    post:
+      tags:
+        - conti
+      operationId: conti_cerca
+      summary: Ricerca conti
+      description: |-
+        Filtri in AND fra loro; un `valore` array mette i valori in OR. Condizioni: `=`, `<>`, `>`, `<`, `>=`, `<=`, `contiene`, `inizia_per`.
+
+        Per la sintassi dei filtri vedi Ricerca e Filtri
+
+        I campi filtrabili coincidono con i campi dell’entità (es. ragione_sociale, codice, gest_clas_conto)
+      parameters:
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - name: fields
+          in: query
+          description: "Campi da restituire, separati da virgola. Riduce il payload: usarlo sempre sulle liste."
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/ContiCampo"
+        - $ref: "#/components/parameters/Max"
+        - $ref: "#/components/parameters/Next"
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/ContiRicerca"
+      responses:
+        "200":
+          description: Record trovati
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/ContiLista"
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "81800"
+  "/conti/{codice}":
+    get:
+      tags:
+        - conti
+      operationId: conti_leggi
+      summary: Lettura conto
+      description: "La chiave codice è di tipo string encodable — se contiene caratteri speciali usare l’encoding"
+      parameters:
+        - name: codice
+          in: path
+          required: true
+          description: "Parte di chiave `codice`. Caratteri ASCII stampabili: se il valore contiene `/` o `\\` va inviato in esadecimale con `encoding=hex`."
+          schema:
+            type: string
+            minLength: 1
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - name: fields
+          in: query
+          description: "Campi da restituire, separati da virgola. Riduce il payload: usarlo sempre sulle liste."
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/ContiCampo"
+        - $ref: "#/components/parameters/Encoding"
+      responses:
+        "200":
+          description: Record richiesto
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/Conti"
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "404":
+          $ref: "#/components/responses/NonTrovato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "81800"
+    put:
+      tags:
+        - conti
+      operationId: conti_modifica
+      summary: Modifica conto
+      description: "Inviare solo i campi da modificare, più `data_ult_mod` letto dalla GET se il controllo di modifica concorrente è attivo."
+      parameters:
+        - name: codice
+          in: path
+          required: true
+          description: "Parte di chiave `codice`. Caratteri ASCII stampabili: se il valore contiene `/` o `\\` va inviato in esadecimale con `encoding=hex`."
+          schema:
+            type: string
+            minLength: 1
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - $ref: "#/components/parameters/Encoding"
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/ContiModifica"
+      responses:
+        "204":
+          description: Operazione eseguita, nessun body.
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "404":
+          $ref: "#/components/responses/NonTrovato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "81800"
+    delete:
+      tags:
+        - conti
+      operationId: conti_elimina
+      summary: Cancellazione conto
+      description: La cancellazione può fallire se il conto ha movimenti in prima nota
+      parameters:
+        - name: codice
+          in: path
+          required: true
+          description: "Parte di chiave `codice`. Caratteri ASCII stampabili: se il valore contiene `/` o `\\` va inviato in esadecimale con `encoding=hex`."
+          schema:
+            type: string
+            minLength: 1
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - $ref: "#/components/parameters/Encoding"
+      responses:
+        "204":
+          description: Operazione eseguita, nessun body.
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "404":
+          $ref: "#/components/responses/NonTrovato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "81800"
+components:
+  securitySchemes:
+    passepartout:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: "Formato `Passepartout <base64(utente:password)>`. Sul cloud: `Passepartout <base64> Dominio=<DOMINIO>`. Con login di sistema operativo attivo (login=1) si aggiunge un secondo blocco `<base64(utente_so:password_so)>`."
+  parameters:
+    CoordinateGestionale:
+      name: Coordinate-Gestionale
+      in: header
+      required: true
+      description: Azienda e anno di lavoro, più sotto-azienda e magazzino di default facoltativi (magazzino 1 se omesso).
+      schema:
+        type: string
+        pattern: "^Azienda=\\S+( SottoAzienda=\\S+)? Anno=\\d{4}( Magazzino=\\d+)?$"
+        examples:
+          - "Azienda=DEM Anno=2026 Magazzino=1"
+    Max:
+      name: max
+      in: query
+      description: Numero massimo di record per pagina. Il server può restituirne meno (limiti di 30 s e 50 MB).
+      schema:
+        type: integer
+        minimum: 1
+    Next:
+      name: next
+      in: query
+      description: "Token di pagina restituito dalla risposta precedente: opaco, da usare subito e così com'è."
+      schema:
+        type: string
+    Encoding:
+      name: encoding
+      in: query
+      description: "Codifica delle parti di chiave nel path. Obbligatoria quando un codice contiene `/` o `\\`: il codice va inviato in esadecimale (es. `ARTI/S` -> `415254492f53`)."
+      schema:
+        type: string
+        enum:
+          - hex
+          - base32
+  responses:
+    ErroreRichiesta:
+      description: "Richiesta non valida: parametri o campi errati, errore gestionale (6001), coordinate mancanti."
+      content:
+        "application/json":
+          schema:
+            $ref: "#/components/schemas/Errore"
+    NonAutorizzato:
+      description: "Credenziali assenti o errate. Attenzione: tentativi ripetuti bloccano l'utente WebAPI."
+      content:
+        "application/json":
+          schema:
+            $ref: "#/components/schemas/Errore"
+    NonTrovato:
+      description: Risorsa inesistente o path non valido (nessun body).
+    PoolEsaurito:
+      description: "Pool di 5 servizi dell'utente WebAPI esaurito: riprovare più tardi, senza retry aggressivi."
+      content:
+        "application/json":
+          schema:
+            $ref: "#/components/schemas/Errore"
+  schemas:
+    Conti:
+      type: object
+      properties:
+        codice:
+          type: string
+          description: "Codice conto (formato: GGG.NNNNN). Campo chiave."
+          x-mexal-tipo: Alfanumerico
+        cod_alternativo:
+          type: string
+          description: Codice alternativo.
+          x-mexal-tipo: Alfanumerico
+        ragione_sociale:
+          type: string
+          description: Descrizione/ragione sociale del conto.
+          x-mexal-tipo: Alfanumerico
+        nome_ricerca:
+          type: string
+          description: Nome di ricerca / descrizione aggiuntiva.
+          x-mexal-tipo: Alfanumerico
+        gest_gior_cassa:
+          type: string
+          description: Giornale di cassa (S/N).
+          x-mexal-tipo: Alfanumerico
+        cod_assogg_iva:
+          type: string
+          description: "Assogettamento Iva — Assoggettamento IVA."
+          x-mexal-tipo: Alfanumerico
+        perc_indetra:
+          type: number
+          description: Percentuale Indetraibilita'.
+          x-mexal-tipo: Numerico con virgola
+        gest_auto_trasp:
+          type: string
+          description: Automezzo trasportatore.
+          x-mexal-tipo: Alfanumerico
+        tp_manutenzione:
+          type: string
+          description: Tipo manutenzione.
+          x-mexal-tipo: Alfanumerico
+        perc_manut:
+          type: number
+          description: Percentuale manutenzione.
+          x-mexal-tipo: Numerico con virgola
+        cod_costo_k:
+          type: string
+          description: Conto di costo -per K-.
+          x-mexal-tipo: Alfanumerico
+        cod_effet_z:
+          type: string
+          description: Conto effettivo -per Z-.
+          x-mexal-tipo: Alfanumerico
+        cod_immob_v:
+          type: string
+          description: Conto immobilizzazione -per V-.
+          x-mexal-tipo: Alfanumerico
+        gest_castel_iva:
+          type: string
+          description: Escludi da apertura automatica castelletto iva su conti patrimoniali.
+          x-mexal-tipo: Alfanumerico
+        gest_clas_conto:
+          type: string
+          description: Classe Conto (banca/cassa).
+          x-mexal-tipo: Alfanumerico
+        alq_comp:
+          type: number
+          description: Aliquota di Compensazione.
+          x-mexal-tipo: Numerico con virgola
+        gest_rateo_risc:
+          type: string
+          description: "Gestione Rateo / Risconto — Gestione rateo/risconto (S/N)."
+          x-mexal-tipo: Alfanumerico
+        tp_merce_rsm:
+          type: integer
+          description: Tipo merce aziende RSM.
+          x-mexal-tipo: Numerico
+        bil_34dir_ue_d:
+          type: string
+          description: Codice 34 direttiva UE dare.
+          x-mexal-tipo: Alfanumerico
+        bil_34dir_ue_a:
+          type: string
+          description: Codice 34 direttiva UE avere.
+          x-mexal-tipo: Alfanumerico
+        bil_ivdir_cee_d:
+          type: string
+          description: Codice IV direttiva CEE dare pattrimoniale/economico.
+          x-mexal-tipo: Alfanumerico
+        bil_ivdir_cee_a:
+          type: string
+          description: Codice IV direttiva CEE avere patrimoniale.
+          x-mexal-tipo: Alfanumerico
+        bil_xbrl_rsm_d:
+          type: string
+          description: Codice Dare (Bilancio RSM in formato XBRL).
+          x-mexal-tipo: Alfanumerico
+        bil_xbrl_rsm_a:
+          type: string
+          description: Codice Avere (Bilancio RSM in formato XBRL).
+          x-mexal-tipo: Alfanumerico
+        cod_amm_odn:
+          type: string
+          description: Conti automatici (tipo i) - Conto ammortamento ordinario.
+          x-mexal-tipo: Alfanumerico
+        cod_amm_ant:
+          type: string
+          description: Conti automatici (tipo i) - Conto ammortamento anticipato.
+          x-mexal-tipo: Alfanumerico
+        cod_amm_no_ded:
+          type: string
+          description: Conti automatici (tipo i) - Conto ammortamento non fiscalmente deducibile.
+          x-mexal-tipo: Alfanumerico
+        cod_fnd_odn:
+          type: string
+          description: Conti automatici (tipo i) - Conto f.do ordinario.
+          x-mexal-tipo: Alfanumerico
+        cod_fnd_ant:
+          type: string
+          description: Conti automatici (tipo i) - Conto f.do anticipato.
+          x-mexal-tipo: Alfanumerico
+        cod_fnd_no_ded:
+          type: string
+          description: Conti automatici (tipo i) - Conto f.do non fisc.ded.
+          x-mexal-tipo: Alfanumerico
+        cod_plv:
+          type: string
+          description: Conti automatici (tipo i) - Conto plusvalenze.
+          x-mexal-tipo: Alfanumerico
+        cod_plv_no_ded:
+          type: string
+          description: Conti automatici (tipo i) - Conto plusvalenze non fiscalmente tassabile.
+          x-mexal-tipo: Alfanumerico
+        cod_mnv:
+          type: string
+          description: Conti automatici (tipo i) - Conto minusvalenze.
+          x-mexal-tipo: Alfanumerico
+        cod_mnv_no_ded:
+          type: string
+          description: Conti automatici (tipo i) - Conto minusvalenze non fiscalmente deducibili.
+          x-mexal-tipo: Alfanumerico
+        id_banca:
+          type: integer
+          description: BANCA - Id banca. Valori da banche.codice.
+          x-mexal-tipo: Numerico
+          x-mexal-riferimento:
+            risorsa: banche
+            campo: codice
+        cod_abi:
+          type: integer
+          description: Cond.commerciali - Codice ABI.
+          x-mexal-tipo: Numerico
+        cod_cab:
+          type: integer
+          description: Cond.commerciali - Codice CAB.
+          x-mexal-tipo: Numerico
+        codice_cuc:
+          type: string
+          description: Classificazione - Codice univoco CBI.
+          x-mexal-tipo: Alfanumerico
+        codice_sia:
+          type: string
+          description: Classificazione - Codice S.I.A.
+          x-mexal-tipo: Alfanumerico
+        codice_soc_rid:
+          type: string
+          description: Codice identificatore impresa RID.
+          x-mexal-tipo: Alfanumerico
+        firma_societa:
+          type: string
+          description: Classificazione - Firma Azienda.
+          x-mexal-tipo: Alfanumerico
+        conto_corren_b:
+          type: string
+          description: Anagrafica Banche - Numero conto corrente.
+          x-mexal-tipo: Alfanumerico
+        tp_conto_corren:
+          type: string
+          description: Classificazione - Tipo conto corrente.
+          x-mexal-tipo: Alfanumerico
+        cin_bban:
+          type: string
+          description: Cond.commerciali - Codice CIN su BBAN.
+          x-mexal-tipo: Alfanumerico
+        intesta_iban_ban:
+          type: string
+          description: Intestazione Iban.
+          x-mexal-tipo: Alfanumerico
+        dt_inizio_rapp:
+          type: string
+          description: Ulteriori dati banca - Data inizio rapporto. Data in formato AAAAMMGG.
+          x-mexal-tipo: Alfanumerico
+        dt_fine_rapp:
+          type: string
+          description: Ulteriori dati banca - Data fine rapporto. Data in formato AAAAMMGG.
+          x-mexal-tipo: Alfanumerico
+        fido_scoperto:
+          type: number
+          description: Ulteriori dati banca - Fido scoperto c/c.
+          x-mexal-tipo: Numerico con virgola
+        fido_castel_eff:
+          type: number
+          description: Ulteriori dati banca - Fido castelletto effetti.
+          x-mexal-tipo: Numerico con virgola
+        dt_tasso_attivo:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 6
+              - type: string
+            minItems: 2
+            maxItems: 2
+          maxItems: 6
+          description: "Ulteriori dati banca - Data tasso attivo. Data in formato AAAAMMGG. Array indicizzato [[indice, valore], ...] con indice da 1 a 6."
+          x-mexal-tipo: Alfanumerico
+        alq_tasso_att:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 6
+              - type: number
+            minItems: 2
+            maxItems: 2
+          maxItems: 6
+          description: "Ulteriori dati banca - Aliquota tasso attivo. Array indicizzato [[indice, valore], ...] con indice da 1 a 6."
+          x-mexal-tipo: Numerico con virgola
+        dt_tasso_pas:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 6
+              - type: string
+            minItems: 2
+            maxItems: 2
+          maxItems: 6
+          description: "Ulteriori dati banca - Data tasso passivo. Data in formato AAAAMMGG. Array indicizzato [[indice, valore], ...] con indice da 1 a 6."
+          x-mexal-tipo: Alfanumerico
+        alq_tasso_pas:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 6
+              - type: number
+            minItems: 2
+            maxItems: 2
+          maxItems: 6
+          description: "Ulteriori dati banca - Aliquota tasso passivo. Array indicizzato [[indice, valore], ...] con indice da 1 a 6."
+          x-mexal-tipo: Numerico con virgola
+        rif_signor:
+          type: string
+          description: Ulteriori dati banca - Riferimento Signor.
+          x-mexal-tipo: Alfanumerico
+        rif_settore:
+          type: string
+          description: Ulteriori dati banca - Riferimento Settore.
+          x-mexal-tipo: Alfanumerico
+        rif_telefono:
+          type: string
+          description: Ulteriori dati banca - Riferimento Telefono.
+          x-mexal-tipo: Alfanumerico
+        rif_note:
+          type: string
+          description: Ulteriori dati banca - Riferimento Note.
+          x-mexal-tipo: Alfanumerico
+        cod_sp_sanit_rg:
+          type: string
+          description: Spese sanitarie - Tipo spesa raggruppamento.
+          x-mexal-tipo: Alfanumerico
+        cod_sp_sanit:
+          type: string
+          description: Spese sanitarie - Tipo spesa aziendale.
+          x-mexal-tipo: Alfanumerico
+        cod_part_sanit:
+          type: string
+          description: Spese sanitarie - Particolarità spesa aziendale.
+          x-mexal-tipo: Alfanumerico
+        anag_dt_crea:
+          type: string
+          description: Stato anagrafica - Data creazione conto.
+          x-mexal-tipo: Alfanumerico
+        anag_dt_mod:
+          type: string
+          description: Stato anagrafica - Data modifica conto.
+          x-mexal-tipo: Alfanumerico
+        anag_mod:
+          type: string
+          description: Stato anagrafica - Conto modificato S/N.
+          x-mexal-tipo: Alfanumerico
+        stato_anag_att:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 12
+              - type: string
+            minItems: 2
+            maxItems: 2
+          maxItems: 12
+          description: "Stato anagrafica attiva. Vedere mirroring (dbmirror). Array indicizzato [[indice, valore], ...] con indice da 1 a 12."
+          x-mexal-tipo: Alfanumerico
+        stato_anag_var:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 12
+              - type: string
+            minItems: 2
+            maxItems: 2
+          maxItems: 12
+          description: "Stato anagrafica variata. Vedere mirroring (dbmirror). Array indicizzato [[indice, valore], ...] con indice da 1 a 12."
+          x-mexal-tipo: Alfanumerico
+        conto_precanc:
+          type: string
+          description: Conto Precancellato.
+          x-mexal-tipo: Alfanumerico
+        utente_ult_mod:
+          type: string
+          description: Utente ultima modifica.
+          x-mexal-tipo: Alfanumerico
+        data_ult_mod:
+          type: string
+          pattern: "^(\\d{8} \\d{6})?$"
+          description: Data ora ultima modifica. Formato AAAAMMGG HHMMSS.
+          x-mexal-tipo: Data e ora
+      x-mexal-origine-campi: info
+    ContiCampo:
+      type: string
+      enum:
+        - codice
+        - cod_alternativo
+        - ragione_sociale
+        - nome_ricerca
+        - gest_gior_cassa
+        - cod_assogg_iva
+        - perc_indetra
+        - gest_auto_trasp
+        - tp_manutenzione
+        - perc_manut
+        - cod_costo_k
+        - cod_effet_z
+        - cod_immob_v
+        - gest_castel_iva
+        - gest_clas_conto
+        - alq_comp
+        - gest_rateo_risc
+        - tp_merce_rsm
+        - bil_34dir_ue_d
+        - bil_34dir_ue_a
+        - bil_ivdir_cee_d
+        - bil_ivdir_cee_a
+        - bil_xbrl_rsm_d
+        - bil_xbrl_rsm_a
+        - cod_amm_odn
+        - cod_amm_ant
+        - cod_amm_no_ded
+        - cod_fnd_odn
+        - cod_fnd_ant
+        - cod_fnd_no_ded
+        - cod_plv
+        - cod_plv_no_ded
+        - cod_mnv
+        - cod_mnv_no_ded
+        - id_banca
+        - cod_abi
+        - cod_cab
+        - codice_cuc
+        - codice_sia
+        - codice_soc_rid
+        - firma_societa
+        - conto_corren_b
+        - tp_conto_corren
+        - cin_bban
+        - intesta_iban_ban
+        - dt_inizio_rapp
+        - dt_fine_rapp
+        - fido_scoperto
+        - fido_castel_eff
+        - dt_tasso_attivo
+        - alq_tasso_att
+        - dt_tasso_pas
+        - alq_tasso_pas
+        - rif_signor
+        - rif_settore
+        - rif_telefono
+        - rif_note
+        - cod_sp_sanit_rg
+        - cod_sp_sanit
+        - cod_part_sanit
+        - anag_dt_crea
+        - anag_dt_mod
+        - anag_mod
+        - stato_anag_att
+        - stato_anag_var
+        - conto_precanc
+        - utente_ult_mod
+        - data_ult_mod
+      description: Campi di conti.
+    ContiLista:
+      type: object
+      required:
+        - dati
+      properties:
+        dati:
+          type: array
+          items:
+            $ref: "#/components/schemas/Conti"
+        data_ric_elab:
+          type: string
+          description: Timestamp di elaborazione, AAAAMMGG HHMMSS.
+        next:
+          type: string
+          description: "Presente solo se ci sono altre pagine: da passare così com'è nel parametro next."
+    ContiRicerca:
+      type: object
+      required:
+        - filtri
+      properties:
+        filtri:
+          type: array
+          minItems: 1
+          items:
+            allOf:
+              - $ref: "#/components/schemas/Filtro"
+              - properties:
+                  campo:
+                    $ref: "#/components/schemas/ContiCampo"
+    ContiInserimento:
+      allOf:
+        - $ref: "#/components/schemas/Conti"
+      required:
+        - codice
+        - ragione_sociale
+      description: "Body di inserimento. Obbligatori secondo il manuale: codice, ragione_sociale."
+    ContiModifica:
+      allOf:
+        - $ref: "#/components/schemas/Conti"
+      description: "Body di revisione: solo i campi da modificare. Campi da indicare sempre secondo ?info=true: codice."
+      x-mexal-obbligatori-put:
+        - codice
+    Filtro:
+      type: object
+      required:
+        - campo
+        - condizione
+        - valore
+      properties:
+        campo:
+          type: string
+          description: Nome del campo su cui filtrare.
+        indice1:
+          type: integer
+          minimum: 1
+          description: Indice del primo livello, per i campi array.
+        indice2:
+          type: integer
+          minimum: 1
+          description: Indice del secondo livello, per gli array a due livelli.
+        condizione:
+          type: string
+          enum:
+            - "="
+            - "<>"
+            - ">"
+            - "<"
+            - ">="
+            - "<="
+            - contiene
+            - inizia_per
+        case_insensitive:
+          type: boolean
+          default: false
+          description: Solo per i confronti fra stringhe.
+        valore:
+          description: "Valore da confrontare; un array mette i valori in OR. Date come AAAAMMGG."
+          anyOf:
+            - type: string
+            - type: number
+            - type: array
+              minItems: 1
+              items:
+                type:
+                  - string
+                  - number
+    Errore:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            response-code:
+              type: integer
+            response-detail:
+              type: string
+              description: "Codice numerico + messaggio: \"<codice> - <messaggio> [<dettaglio>]\". 6001 = errore gestionale."
+            response-message:
+              type: string
+            request-uri:
+              type: string
+            request-method:
+              type: string
+            request-id:
+              type: string
+              description: UUID da citare al supporto.
+            warsion:
+              type: string
+            remote:
+              type: string
+            timestamp:
+              type: string

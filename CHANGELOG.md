@@ -5,6 +5,16 @@ Il formato segue [Keep a Changelog](https://keepachangelog.com/it/1.1.0/) e il p
 
 ## [Unreleased]
 
+### Added
+
+- `docs/api/`: specifiche OpenAPI 3.1 per ogni gruppo di risorse e per il canale servizi,
+  generate dall'help in linea (`help?extended=true`, `?info=true`) e integrate con il manuale
+  WebAPI v3.1 (campi obbligatori in inserimento, parametri speciali, strutture non esposte).
+- `docs/api/ai/`: schema per agenti AI con tool in formato MCP, catalogo delle risorse con campi,
+  chiavi e relazioni fra archivi, indice compatto e guida d'uso per il modello.
+- `tools/api-docs/genera.php` (`composer api-docs`) per rigenerare tutto dalle istantanee o dal
+  gestionale. Si ferma al primo errore di autenticazione per non bloccare l'utente WebAPI.
+
 ## [1.0.0]
 
 Prima release framework-agnostic. Riscrittura completa: il pacchetto non dipende più da Laravel e

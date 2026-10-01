@@ -1,0 +1,742 @@
+openapi: "3.1.0"
+info:
+  title: Passepartout WebAPI - Scadenzario
+  version: "88201"
+  description: |-
+    Generato da `tools/api-docs/genera.php` a partire dall'help in linea (`GET /risorse/help?extended=true`)
+    e da `?info=true` di un'installazione Mexal/Passcom 2.9.17 (versione gestionale 88201), integrato con il manuale WebAPI v3.1.
+    Endpoint e campi dipendono da versione e moduli installati: la fonte di verità resta `?info=true`.
+
+    **Convenzioni**
+
+    - Autenticazione: `Authorization: Passepartout <base64(utente:password)>`; sul cloud si aggiunge ` Dominio=<DOMINIO>`.
+    - Contesto aziendale: header `Coordinate-Gestionale: Azienda=XXX Anno=AAAA` (opzionali `SottoAzienda=`, `Magazzino=`).
+    - Date `AAAAMMGG`, date-ora `AAAAMMGG HHMMSS`, decimali con il punto.
+    - Gli array sono liste di coppie `[[indice, valore], ...]`, non liste semplici.
+    - Chiavi composte unite da `+` nel path (es. `OC+1+15`). Codici con `/` o `\` vanno in esadecimale con `?encoding=hex`.
+    - Paginazione: `max` limita i record, il token `next` della risposta va ripassato così com'è e subito.
+    - Ricerca: `POST .../ricerca` con `filtri`; i filtri sono in AND, i valori di uno stesso filtro in OR.
+    - Revisione (PUT): rimandare `data_ult_mod` letto dalla GET per il controllo di modifica concorrente.
+    - Limiti: 5 richieste simultanee per utente WebAPI (oltre si riceve 503).
+servers:
+  - url: "https://{host}:{porta}/webapi/risorse"
+    description: Installazione locale (certificato spesso self-signed)
+    variables:
+      host:
+        default: localhost
+      porta:
+        default: "9004"
+  - url: "https://services.passepartout.cloud/webapi/risorse"
+    description: "Passepartout Live (cloud): aggiungere Dominio=<DOMINIO> all'header Authorization"
+security:
+  - passepartout: []
+tags:
+  - name: scadenzario
+    description: "Scadenzario: partite aperte, rate ed effetti di clienti e fornitori."
+paths:
+  "/scadenzario":
+    get:
+      tags:
+        - scadenzario
+      operationId: scadenzario_lista
+      summary: Lista scadenzario
+      description: |-
+        Richiede header Coordinate-Gestionale con azienda e anno
+
+        Supporta paginazione tramite max e next (vedi Paginazione)
+
+        Supporta selezione campi tramite fields
+      parameters:
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - name: fields
+          in: query
+          description: "Campi da restituire, separati da virgola. Riduce il payload: usarlo sempre sulle liste."
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/ScadenzarioCampo"
+      responses:
+        "200":
+          description: Record trovati
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/ScadenzarioLista"
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "85000"
+  "/scadenzario/ricerca":
+    post:
+      tags:
+        - scadenzario
+      operationId: scadenzario_cerca
+      summary: Ricerca scadenzario
+      description: |-
+        Filtri in AND fra loro; un `valore` array mette i valori in OR. Condizioni: `=`, `<>`, `>`, `<`, `>=`, `<=`, `contiene`, `inizia_per`.
+
+        Utile per estrarre scadenze di un singolo conto, per causale, o per intervallo di date registrazione
+
+        I filtri possono operare su qualsiasi campo della risorsa (es. codice, causale, data_documento)
+
+        Per filtrare su campi array (es. dt_sca_pg) utilizzare la sintassi con indice: "indice1": 1
+      parameters:
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - name: fields
+          in: query
+          description: "Campi da restituire, separati da virgola. Riduce il payload: usarlo sempre sulle liste."
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/ScadenzarioCampo"
+        - $ref: "#/components/parameters/Max"
+        - $ref: "#/components/parameters/Next"
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/ScadenzarioRicerca"
+      responses:
+        "200":
+          description: Record trovati
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/ScadenzarioLista"
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "85000"
+components:
+  securitySchemes:
+    passepartout:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: "Formato `Passepartout <base64(utente:password)>`. Sul cloud: `Passepartout <base64> Dominio=<DOMINIO>`. Con login di sistema operativo attivo (login=1) si aggiunge un secondo blocco `<base64(utente_so:password_so)>`."
+  parameters:
+    CoordinateGestionale:
+      name: Coordinate-Gestionale
+      in: header
+      required: true
+      description: Azienda e anno di lavoro, più sotto-azienda e magazzino di default facoltativi (magazzino 1 se omesso).
+      schema:
+        type: string
+        pattern: "^Azienda=\\S+( SottoAzienda=\\S+)? Anno=\\d{4}( Magazzino=\\d+)?$"
+        examples:
+          - "Azienda=DEM Anno=2026 Magazzino=1"
+    Max:
+      name: max
+      in: query
+      description: Numero massimo di record per pagina. Il server può restituirne meno (limiti di 30 s e 50 MB).
+      schema:
+        type: integer
+        minimum: 1
+    Next:
+      name: next
+      in: query
+      description: "Token di pagina restituito dalla risposta precedente: opaco, da usare subito e così com'è."
+      schema:
+        type: string
+    Encoding:
+      name: encoding
+      in: query
+      description: "Codifica delle parti di chiave nel path. Obbligatoria quando un codice contiene `/` o `\\`: il codice va inviato in esadecimale (es. `ARTI/S` -> `415254492f53`)."
+      schema:
+        type: string
+        enum:
+          - hex
+          - base32
+  responses:
+    ErroreRichiesta:
+      description: "Richiesta non valida: parametri o campi errati, errore gestionale (6001), coordinate mancanti."
+      content:
+        "application/json":
+          schema:
+            $ref: "#/components/schemas/Errore"
+    NonAutorizzato:
+      description: "Credenziali assenti o errate. Attenzione: tentativi ripetuti bloccano l'utente WebAPI."
+      content:
+        "application/json":
+          schema:
+            $ref: "#/components/schemas/Errore"
+    NonTrovato:
+      description: Risorsa inesistente o path non valido (nessun body).
+    PoolEsaurito:
+      description: "Pool di 5 servizi dell'utente WebAPI esaurito: riprovare più tardi, senza retry aggressivi."
+      content:
+        "application/json":
+          schema:
+            $ref: "#/components/schemas/Errore"
+  schemas:
+    Scadenzario:
+      type: object
+      properties:
+        codice:
+          type: string
+          description: Codice conto. Campo chiave.
+          x-mexal-tipo: Alfanumerico
+        data_documento:
+          type: string
+          description: Data documento. Data in formato AAAAMMGG.
+          x-mexal-tipo: Alfanumerico
+        serie:
+          type: integer
+          description: Serie documento.
+          x-mexal-tipo: Numerico
+        numero:
+          type: integer
+          description: Numero documento.
+          x-mexal-tipo: Numerico
+        causale:
+          type: string
+          description: Causale documento.
+          x-mexal-tipo: Alfanumerico
+        codice_agente:
+          type: string
+          description: Codice agente. Valori da conti.codice. Conto dell'agente (formato mastro.conto).
+          x-mexal-tipo: Alfanumerico
+          x-mexal-riferimento:
+            risorsa: conti
+            campo: codice
+            nota: Conto dell'agente (formato mastro.conto)
+        imp_provvigione:
+          type: number
+          description: Importo provvigione valuta di riferimento.
+          x-mexal-tipo: Numerico con virgola
+        tipo_scadenza:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 250
+              - type: string
+            minItems: 2
+            maxItems: 2
+          maxItems: 250
+          description: "Tipo scadenza. Array indicizzato [[indice, valore], ...] con indice da 1 a 250."
+          x-mexal-tipo: Alfanumerico
+        dt_sca_pg:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 250
+              - type: string
+            minItems: 2
+            maxItems: 2
+          maxItems: 250
+          description: "Data scadenza/pagamento. Data in formato AAAAMMGG. Array indicizzato [[indice, valore], ...] con indice da 1 a 250."
+          x-mexal-tipo: Alfanumerico
+        imp_scadenza:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 250
+              - type: number
+            minItems: 2
+            maxItems: 2
+          maxItems: 250
+          description: "Importo scadenza valuta di riferimento. Array indicizzato [[indice, valore], ...] con indice da 1 a 250."
+          x-mexal-tipo: Numerico con virgola
+        pr_pagata:
+          type: number
+          description: Provvigione pagata valuta di riferimento.
+          x-mexal-tipo: Numerico con virgola
+        conto_sps_prof:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 27
+              - type: string
+            minItems: 2
+            maxItems: 2
+          maxItems: 27
+          description: "Conto sospeso professionista. Array indicizzato [[indice, valore], ...] con indice da 1 a 27."
+          x-mexal-tipo: Alfanumerico
+        imp_sps_prof:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 27
+              - type: number
+            minItems: 2
+            maxItems: 2
+          maxItems: 27
+          description: "Importo sospeso professionista (dichiarato anche come: Importo sospeso professionista valuta documento). Array indicizzato [[indice, valore], ...] con indice da 1 a 27."
+          x-mexal-tipo: Numerico con virgola
+        numero_valuta:
+          type: integer
+          description: Numero valuta.
+          x-mexal-tipo: Numerico
+        stato_pagamento:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 250
+              - type: string
+            minItems: 2
+            maxItems: 2
+          maxItems: 250
+          description: "Stato pagamento. Array indicizzato [[indice, valore], ...] con indice da 1 a 250."
+          x-mexal-tipo: Alfanumerico
+        dt_registr_doc:
+          type: string
+          description: Data registrazione documento. Data in formato AAAAMMGG. Campo chiave.
+          x-mexal-tipo: Alfanumerico
+        imp_sca_vlt_doc:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 250
+              - type: number
+            minItems: 2
+            maxItems: 2
+          maxItems: 250
+          description: "Importo scadenza valuta documento. Array indicizzato [[indice, valore], ...] con indice da 1 a 250."
+          x-mexal-tipo: Numerico con virgola
+        imp_pr_vlt_doc:
+          type: number
+          description: Importo provvigione valuta documento.
+          x-mexal-tipo: Numerico con virgola
+        nota_documento:
+          type: string
+          description: Nota documento.
+          x-mexal-tipo: Alfanumerico
+        protocollo_iva:
+          type: string
+          description: Numero protocollo iva.
+          x-mexal-tipo: Alfanumerico
+        nota_rata:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 250
+              - type: string
+            minItems: 2
+            maxItems: 2
+          maxItems: 250
+          description: "Nota della rata. Array indicizzato [[indice, valore], ...] con indice da 1 a 250."
+          x-mexal-tipo: Alfanumerico
+        conto_eff:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 250
+              - type: string
+            minItems: 2
+            maxItems: 2
+          maxItems: 250
+          description: "Conto emissione effetti. Array indicizzato [[indice, valore], ...] con indice da 1 a 250. Valori da conti.codice. Conto del piano dei conti (formato mastro.conto)."
+          x-mexal-tipo: Alfanumerico
+          x-mexal-riferimento:
+            risorsa: conti
+            campo: codice
+            nota: Conto del piano dei conti (formato mastro.conto)
+        nr_prot_effetti:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 250
+              - type: integer
+            minItems: 2
+            maxItems: 2
+          maxItems: 250
+          description: "Numero protocollo distinta effetti. Array indicizzato [[indice, valore], ...] con indice da 1 a 250."
+          x-mexal-tipo: Numerico
+        dt_sca_emissione_eff:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 250
+              - type: string
+            minItems: 2
+            maxItems: 2
+          maxItems: 250
+          description: "Data scadenza / emissione effetti. Data in formato AAAAMMGG. Array indicizzato [[indice, valore], ...] con indice da 1 a 250."
+          x-mexal-tipo: Alfanumerico
+        data_sollecito:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 250
+              - type: string
+            minItems: 2
+            maxItems: 2
+          maxItems: 250
+          description: "Data sollecito. Data in formato AAAAMMGG. Array indicizzato [[indice, valore], ...] con indice da 1 a 250."
+          x-mexal-tipo: Alfanumerico
+        data_recupero:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 250
+              - type: string
+            minItems: 2
+            maxItems: 2
+          maxItems: 250
+          description: "Data recupero. Data in formato AAAAMMGG. Array indicizzato [[indice, valore], ...] con indice da 1 a 250."
+          x-mexal-tipo: Alfanumerico
+        data_legale:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 250
+              - type: string
+            minItems: 2
+            maxItems: 2
+          maxItems: 250
+          description: "Data legale. Data in formato AAAAMMGG. Array indicizzato [[indice, valore], ...] con indice da 1 a 250."
+          x-mexal-tipo: Alfanumerico
+        conto_presso:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 250
+              - type: string
+            minItems: 2
+            maxItems: 2
+          maxItems: 250
+          description: "Conto presso. Array indicizzato [[indice, valore], ...] con indice da 1 a 250. Valori da conti.codice. Conto del piano dei conti (formato mastro.conto)."
+          x-mexal-tipo: Alfanumerico
+          x-mexal-riferimento:
+            risorsa: conti
+            campo: codice
+            nota: Conto del piano dei conti (formato mastro.conto)
+        id_effetto:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 250
+              - type: string
+            minItems: 2
+            maxItems: 2
+          maxItems: 250
+          description: "Identificativo effetto. Array indicizzato [[indice, valore], ...] con indice da 1 a 250."
+          x-mexal-tipo: Alfanumerico
+        imp_pr_vlt_rif:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 15
+              - type: number
+            minItems: 2
+            maxItems: 2
+          maxItems: 15
+          description: "Importo provvigione valuta di riferimento. Array indicizzato [[indice, valore], ...] con indice da 1 a 15."
+          x-mexal-tipo: Numerico con virgola
+        pr_pg_vlt_rif:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 15
+              - type: number
+            minItems: 2
+            maxItems: 2
+          maxItems: 15
+          description: "Provvigione pagata valuta di riferimento. Array indicizzato [[indice, valore], ...] con indice da 1 a 15."
+          x-mexal-tipo: Numerico con virgola
+        imp_pr_doc:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 15
+              - type: number
+            minItems: 2
+            maxItems: 2
+          maxItems: 15
+          description: "Importo provvigione valuta documento. Array indicizzato [[indice, valore], ...] con indice da 1 a 15."
+          x-mexal-tipo: Numerico con virgola
+        sottoazienda:
+          type: integer
+          description: Sottoazienda.
+          x-mexal-tipo: Numerico
+        numero_esteso:
+          type: string
+          description: Numero esteso.
+          x-mexal-tipo: Alfanumerico
+        codice_id_gara:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 250
+              - type: string
+            minItems: 2
+            maxItems: 2
+          maxItems: 250
+          description: "Codice identificativo gara. Array indicizzato [[indice, valore], ...] con indice da 1 a 250."
+          x-mexal-tipo: Alfanumerico
+        cod_uni_progetto:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 250
+              - type: string
+            minItems: 2
+            maxItems: 2
+          maxItems: 250
+          description: "Codice unico progetto. Array indicizzato [[indice, valore], ...] con indice da 1 a 250."
+          x-mexal-tipo: Alfanumerico
+        banca_appoggio:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 250
+              - type: integer
+            minItems: 2
+            maxItems: 2
+          maxItems: 250
+          description: "Codice banca d'appoggio. Array indicizzato [[indice, valore], ...] con indice da 1 a 250."
+          x-mexal-tipo: Numerico
+        prog_primanota:
+          type: integer
+          description: Progressivo primanota. Campo chiave.
+          x-mexal-tipo: Numerico
+        dt_sca_origine:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 250
+              - type: string
+            minItems: 2
+            maxItems: 2
+          maxItems: 250
+          description: "Data scadenza origine. Data in formato AAAAMMGG. Array indicizzato [[indice, valore], ...] con indice da 1 a 250."
+          x-mexal-tipo: Alfanumerico
+        anno_primanota:
+          type: integer
+          description: Anno archivio di primanota. Campo chiave.
+          x-mexal-tipo: Numerico
+        utente_ult_mod:
+          type: string
+          description: Utente ultima modifica.
+          x-mexal-tipo: Alfanumerico
+        data_ult_mod:
+          type: string
+          pattern: "^(\\d{8} \\d{6})?$"
+          description: Data ora ultima modifica. Formato AAAAMMGG HHMMSS.
+          x-mexal-tipo: Data e ora
+      x-mexal-origine-campi: info
+    ScadenzarioCampo:
+      type: string
+      enum:
+        - codice
+        - data_documento
+        - serie
+        - numero
+        - causale
+        - codice_agente
+        - imp_provvigione
+        - tipo_scadenza
+        - dt_sca_pg
+        - imp_scadenza
+        - pr_pagata
+        - conto_sps_prof
+        - imp_sps_prof
+        - numero_valuta
+        - stato_pagamento
+        - dt_registr_doc
+        - imp_sca_vlt_doc
+        - imp_pr_vlt_doc
+        - nota_documento
+        - protocollo_iva
+        - nota_rata
+        - conto_eff
+        - nr_prot_effetti
+        - dt_sca_emissione_eff
+        - data_sollecito
+        - data_recupero
+        - data_legale
+        - conto_presso
+        - id_effetto
+        - imp_pr_vlt_rif
+        - pr_pg_vlt_rif
+        - imp_pr_doc
+        - sottoazienda
+        - numero_esteso
+        - codice_id_gara
+        - cod_uni_progetto
+        - banca_appoggio
+        - prog_primanota
+        - dt_sca_origine
+        - anno_primanota
+        - utente_ult_mod
+        - data_ult_mod
+      description: Campi di scadenzario.
+    ScadenzarioLista:
+      type: object
+      required:
+        - dati
+      properties:
+        dati:
+          type: array
+          items:
+            $ref: "#/components/schemas/Scadenzario"
+        data_ric_elab:
+          type: string
+          description: Timestamp di elaborazione, AAAAMMGG HHMMSS.
+        next:
+          type: string
+          description: "Presente solo se ci sono altre pagine: da passare così com'è nel parametro next."
+    ScadenzarioRicerca:
+      type: object
+      required:
+        - filtri
+      properties:
+        filtri:
+          type: array
+          minItems: 1
+          items:
+            allOf:
+              - $ref: "#/components/schemas/Filtro"
+              - properties:
+                  campo:
+                    $ref: "#/components/schemas/ScadenzarioCampo"
+    Filtro:
+      type: object
+      required:
+        - campo
+        - condizione
+        - valore
+      properties:
+        campo:
+          type: string
+          description: Nome del campo su cui filtrare.
+        indice1:
+          type: integer
+          minimum: 1
+          description: Indice del primo livello, per i campi array.
+        indice2:
+          type: integer
+          minimum: 1
+          description: Indice del secondo livello, per gli array a due livelli.
+        condizione:
+          type: string
+          enum:
+            - "="
+            - "<>"
+            - ">"
+            - "<"
+            - ">="
+            - "<="
+            - contiene
+            - inizia_per
+        case_insensitive:
+          type: boolean
+          default: false
+          description: Solo per i confronti fra stringhe.
+        valore:
+          description: "Valore da confrontare; un array mette i valori in OR. Date come AAAAMMGG."
+          anyOf:
+            - type: string
+            - type: number
+            - type: array
+              minItems: 1
+              items:
+                type:
+                  - string
+                  - number
+    Errore:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            response-code:
+              type: integer
+            response-detail:
+              type: string
+              description: "Codice numerico + messaggio: \"<codice> - <messaggio> [<dettaglio>]\". 6001 = errore gestionale."
+            response-message:
+              type: string
+            request-uri:
+              type: string
+            request-method:
+              type: string
+            request-id:
+              type: string
+              description: UUID da citare al supporto.
+            warsion:
+              type: string
+            remote:
+              type: string
+            timestamp:
+              type: string

@@ -1,0 +1,97 @@
+{
+    "path": "/dati-generali/listini",
+    "origine": "info",
+    "forma": "dati",
+    "campi": [
+        {
+            "nome": "id",
+            "descrizione": "Numero listino",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "cod_cat_art",
+            "descrizione": "Categoria articolo",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "descr_corta",
+            "descrizione": "Descrizione corta",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "descr_estesa",
+            "descrizione": "Descrizione estesa",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "descrizione",
+            "descrizione": "Descrizione listino",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "nota",
+            "descrizione": "Nota",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "valuta",
+            "descrizione": "Valuta listino",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "data_cambio",
+            "descrizione": "Data validita' cambio",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "giorno_cambio",
+            "descrizione": "Giorno validita' cambio",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "mese_cambio",
+            "descrizione": "Mese validita' cambio",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "anno_cambio",
+            "descrizione": "Anno validita' cambio",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "gest_con_iva",
+            "descrizione": "Comprensivo di IVA",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tp_arrot",
+            "descrizione": "Tipo arrotondamento",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "imp_fino_a",
+            "descrizione": "Importo fino a",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "arrot_a",
+            "descrizione": "Arrotondamento a",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "arrot_oltre",
+            "descrizione": "Arrotondamento oltre a",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "tp_calcolo",
+            "descrizione": "Calcolo su",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "perc_ricarico",
+            "descrizione": "Percentuale ricarico",
+            "tipo": "Numerico con virgola"
+        }
+    ]
+}

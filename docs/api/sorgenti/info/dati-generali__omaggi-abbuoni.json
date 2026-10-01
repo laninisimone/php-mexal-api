@@ -1,0 +1,32 @@
+{
+    "path": "/dati-generali/omaggi-abbuoni",
+    "origine": "info",
+    "forma": "dati",
+    "campi": [
+        {
+            "nome": "codice",
+            "descrizione": "Codice sconto",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "descrizione",
+            "descrizione": "Descrizione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_esenz_iva",
+            "descrizione": "Esenzione iva su documento",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "descr_estesa",
+            "descrizione": "Descrizione estesa",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_altern_sc130",
+            "descrizione": "Gestione alternativa sc130",
+            "tipo": "Alfanumerico"
+        }
+    ]
+}

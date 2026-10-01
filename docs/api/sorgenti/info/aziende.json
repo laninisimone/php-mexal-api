@@ -1,0 +1,59 @@
+{
+    "path": "/aziende",
+    "origine": "campione",
+    "forma": "radice:Aziende",
+    "campi": [
+        {
+            "nome": "id",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "sigla",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "ragione_sociale",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "descrizione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_fis_piva",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "stato",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tipo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_impresa_prof",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gestione_fiscale",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "primo_anno_gest",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "ult_anno_gest",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "raggruppamento",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "livello_azienda",
+            "tipo": "Alfanumerico"
+        }
+    ]
+}

@@ -1,0 +1,44 @@
+{
+    "path": "/liste-prelievo",
+    "origine": "info",
+    "forma": "dati",
+    "campi": [
+        {
+            "nome": "id",
+            "descrizione": "Identificatore lista prelievo Testata",
+            "tipo": "Numerico",
+            "chiave": true,
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "data_creazione",
+            "descrizione": "Data creazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "stato",
+            "descrizione": "Stato",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "descrizione",
+            "descrizione": "Descrizione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tipo",
+            "descrizione": "Tipo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "utente_ult_mod",
+            "descrizione": "Utente ultima modifica",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "data_ult_mod",
+            "descrizione": "Data ora ultima modifica",
+            "tipo": "Data e ora (formato AAAAMMGG HHMMSS)"
+        }
+    ]
+}

@@ -1,0 +1,43 @@
+{
+    "path": "/dati-generali/condizioni-generali-pagamenti",
+    "origine": "campione",
+    "forma": "dati",
+    "campi": [
+        {
+            "nome": "tipo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "descrizione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "valuta",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "des_valuta",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "rata_minima",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "id_pg_alt",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "tipo_pg_alt",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "id_pg_ft_elettr",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "descr_pg_ft_elettr",
+            "tipo": "Alfanumerico"
+        }
+    ]
+}

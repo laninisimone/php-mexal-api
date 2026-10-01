@@ -1,0 +1,42 @@
+{
+    "path": "/dati-generali/provvigioni-listini",
+    "origine": "info",
+    "forma": "dati",
+    "campi": [
+        {
+            "nome": "cod_cat_cli",
+            "descrizione": "Categoria cliente",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "cod_cat_art",
+            "descrizione": "Categoria articolo",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "provvigione",
+            "descrizione": "Provvigione",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "tipo",
+            "descrizione": "Tipo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "formula",
+            "descrizione": "Formula",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_agente",
+            "descrizione": "Codide agente",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_cond_agente",
+            "descrizione": "Condizione agente",
+            "tipo": "Numerico"
+        }
+    ]
+}

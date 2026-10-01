@@ -1,0 +1,5 @@
+{
+    "path": "/dati-generali/fasi-lavorazione",
+    "origine": "errore",
+    "errore": "6001 - errore gestionale [cmd get_tabella_fasi_lavorazione disponibile solo per aziende di livello produzione o superiore]"
+}

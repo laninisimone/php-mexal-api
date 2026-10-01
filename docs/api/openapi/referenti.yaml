@@ -1,0 +1,863 @@
+openapi: "3.1.0"
+info:
+  title: Passepartout WebAPI - Referenti
+  version: "88201"
+  description: |-
+    Generato da `tools/api-docs/genera.php` a partire dall'help in linea (`GET /risorse/help?extended=true`)
+    e da `?info=true` di un'installazione Mexal/Passcom 2.9.17 (versione gestionale 88201), integrato con il manuale WebAPI v3.1.
+    Endpoint e campi dipendono da versione e moduli installati: la fonte di verità resta `?info=true`.
+
+    **Convenzioni**
+
+    - Autenticazione: `Authorization: Passepartout <base64(utente:password)>`; sul cloud si aggiunge ` Dominio=<DOMINIO>`.
+    - Contesto aziendale: header `Coordinate-Gestionale: Azienda=XXX Anno=AAAA` (opzionali `SottoAzienda=`, `Magazzino=`).
+    - Date `AAAAMMGG`, date-ora `AAAAMMGG HHMMSS`, decimali con il punto.
+    - Gli array sono liste di coppie `[[indice, valore], ...]`, non liste semplici.
+    - Chiavi composte unite da `+` nel path (es. `OC+1+15`). Codici con `/` o `\` vanno in esadecimale con `?encoding=hex`.
+    - Paginazione: `max` limita i record, il token `next` della risposta va ripassato così com'è e subito.
+    - Ricerca: `POST .../ricerca` con `filtri`; i filtri sono in AND, i valori di uno stesso filtro in OR.
+    - Revisione (PUT): rimandare `data_ult_mod` letto dalla GET per il controllo di modifica concorrente.
+    - Limiti: 5 richieste simultanee per utente WebAPI (oltre si riceve 503).
+servers:
+  - url: "https://{host}:{porta}/webapi/risorse"
+    description: Installazione locale (certificato spesso self-signed)
+    variables:
+      host:
+        default: localhost
+      porta:
+        default: "9004"
+  - url: "https://services.passepartout.cloud/webapi/risorse"
+    description: "Passepartout Live (cloud): aggiungere Dominio=<DOMINIO> all'header Authorization"
+security:
+  - passepartout: []
+tags:
+  - name: referenti/clienti
+    description: Referenti (persone di contatto) dei clienti.
+  - name: referenti/fornitori
+    description: Referenti (persone di contatto) dei fornitori.
+paths:
+  "/referenti/clienti":
+    get:
+      tags:
+        - referenti/clienti
+      operationId: referenti_clienti_lista
+      summary: Lista referenti clienti
+      description: "Paginata: il server pagina oltre 30 secondi o 50 MB anche senza `max`; seguire `next` fino a esaurimento."
+      parameters:
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - name: fields
+          in: query
+          description: "Campi da restituire, separati da virgola. Riduce il payload: usarlo sempre sulle liste."
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/ReferentiClientiCampo"
+        - $ref: "#/components/parameters/Max"
+        - $ref: "#/components/parameters/Next"
+      responses:
+        "200":
+          description: Record trovati
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/ReferentiClientiLista"
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "81500"
+    post:
+      tags:
+        - referenti/clienti
+      operationId: referenti_clienti_crea
+      summary: Inserimento referente cliente
+      description: "Risponde 201 senza body: il codice assegnato è nell'header `Location`."
+      parameters:
+        - $ref: "#/components/parameters/CoordinateGestionale"
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/ReferentiClientiInserimento"
+      responses:
+        "201":
+          description: "Creato. Nessun body: il path della nuova risorsa è nell'header Location."
+          headers:
+            Location:
+              description: "Path della risorsa creata (es. /webapi/risorse/referenti/clienti/...). Può contenere ?encoding=hex."
+              schema:
+                type: string
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "81500"
+  "/referenti/clienti/ricerca":
+    post:
+      tags:
+        - referenti/clienti
+      operationId: referenti_clienti_cerca
+      summary: Ricerca clienti
+      description: "Filtri in AND fra loro; un `valore` array mette i valori in OR. Condizioni: `=`, `<>`, `>`, `<`, `>=`, `<=`, `contiene`, `inizia_per`."
+      parameters:
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - name: fields
+          in: query
+          description: "Campi da restituire, separati da virgola. Riduce il payload: usarlo sempre sulle liste."
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/ReferentiClientiCampo"
+        - $ref: "#/components/parameters/Max"
+        - $ref: "#/components/parameters/Next"
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/ReferentiClientiRicerca"
+      responses:
+        "200":
+          description: Record trovati
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/ReferentiClientiLista"
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "81500"
+  "/referenti/clienti/{codice_cli_for}+{cod_referente}":
+    get:
+      tags:
+        - referenti/clienti
+      operationId: referenti_clienti_leggi
+      summary: Lettura referenti cliente
+      parameters:
+        - name: codice_cli_for
+          in: path
+          required: true
+          description: "Parte di chiave `codice_cli_for`. Caratteri ASCII stampabili: se il valore contiene `/` o `\\` va inviato in esadecimale con `encoding=hex`."
+          schema:
+            type: string
+            minLength: 1
+        - name: cod_referente
+          in: path
+          required: true
+          description: "Parte di chiave `cod_referente`."
+          schema:
+            type: integer
+            minimum: 0
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - name: fields
+          in: query
+          description: "Campi da restituire, separati da virgola. Riduce il payload: usarlo sempre sulle liste."
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/ReferentiClientiCampo"
+        - $ref: "#/components/parameters/Encoding"
+      responses:
+        "200":
+          description: Record richiesto
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/ReferentiClienti"
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "404":
+          $ref: "#/components/responses/NonTrovato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "81500"
+    put:
+      tags:
+        - referenti/clienti
+      operationId: referenti_clienti_modifica
+      summary: Modifica referenti cliente
+      description: "Inviare solo i campi da modificare, più `data_ult_mod` letto dalla GET se il controllo di modifica concorrente è attivo."
+      parameters:
+        - name: codice_cli_for
+          in: path
+          required: true
+          description: "Parte di chiave `codice_cli_for`. Caratteri ASCII stampabili: se il valore contiene `/` o `\\` va inviato in esadecimale con `encoding=hex`."
+          schema:
+            type: string
+            minLength: 1
+        - name: cod_referente
+          in: path
+          required: true
+          description: "Parte di chiave `cod_referente`."
+          schema:
+            type: integer
+            minimum: 0
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - $ref: "#/components/parameters/Encoding"
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/ReferentiClientiModifica"
+      responses:
+        "204":
+          description: Operazione eseguita, nessun body.
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "404":
+          $ref: "#/components/responses/NonTrovato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "81500"
+    delete:
+      tags:
+        - referenti/clienti
+      operationId: referenti_clienti_elimina
+      summary: Cancellazione referenti cliente
+      parameters:
+        - name: codice_cli_for
+          in: path
+          required: true
+          description: "Parte di chiave `codice_cli_for`. Caratteri ASCII stampabili: se il valore contiene `/` o `\\` va inviato in esadecimale con `encoding=hex`."
+          schema:
+            type: string
+            minLength: 1
+        - name: cod_referente
+          in: path
+          required: true
+          description: "Parte di chiave `cod_referente`."
+          schema:
+            type: integer
+            minimum: 0
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - $ref: "#/components/parameters/Encoding"
+      responses:
+        "204":
+          description: Operazione eseguita, nessun body.
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "404":
+          $ref: "#/components/responses/NonTrovato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "81500"
+  "/referenti/fornitori":
+    get:
+      tags:
+        - referenti/fornitori
+      operationId: referenti_fornitori_lista
+      summary: Lista referenti fornitore
+      description: |-
+        Stessa struttura della lista referenti clienti.
+
+        Paginata: il server pagina oltre 30 secondi o 50 MB anche senza `max`; seguire `next` fino a esaurimento.
+      parameters:
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - name: fields
+          in: query
+          description: "Campi da restituire, separati da virgola. Riduce il payload: usarlo sempre sulle liste."
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/ReferentiFornitoriCampo"
+        - $ref: "#/components/parameters/Max"
+        - $ref: "#/components/parameters/Next"
+      responses:
+        "200":
+          description: Record trovati
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/ReferentiFornitoriLista"
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "81500"
+    post:
+      tags:
+        - referenti/fornitori
+      operationId: referenti_fornitori_crea
+      summary: Inserimento referente fornitore
+      description: |-
+        Stessa struttura dell’inserimento referente cliente. Il campo codice_cli_for indica il codice
+
+        Risponde 201 senza body: il codice assegnato è nell'header `Location`.
+      parameters:
+        - $ref: "#/components/parameters/CoordinateGestionale"
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/ReferentiFornitoriInserimento"
+      responses:
+        "201":
+          description: "Creato. Nessun body: il path della nuova risorsa è nell'header Location."
+          headers:
+            Location:
+              description: "Path della risorsa creata (es. /webapi/risorse/referenti/fornitori/...). Può contenere ?encoding=hex."
+              schema:
+                type: string
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "81500"
+  "/referenti/fornitori/ricerca":
+    post:
+      tags:
+        - referenti/fornitori
+      operationId: referenti_fornitori_cerca
+      summary: Ricerca fornitori
+      description: |-
+        Stessa struttura della ricerca referenti clienti.
+
+        Filtri in AND fra loro; un `valore` array mette i valori in OR. Condizioni: `=`, `<>`, `>`, `<`, `>=`, `<=`, `contiene`, `inizia_per`.
+      parameters:
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - name: fields
+          in: query
+          description: "Campi da restituire, separati da virgola. Riduce il payload: usarlo sempre sulle liste."
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/ReferentiFornitoriCampo"
+        - $ref: "#/components/parameters/Max"
+        - $ref: "#/components/parameters/Next"
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/ReferentiFornitoriRicerca"
+      responses:
+        "200":
+          description: Record trovati
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/ReferentiFornitoriLista"
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "81500"
+  "/referenti/fornitori/{codice_cli_for}+{cod_referente}":
+    get:
+      tags:
+        - referenti/fornitori
+      operationId: referenti_fornitori_leggi
+      summary: Lettura referenti fornitore
+      description: Stessa struttura della lettura referente cliente.
+      parameters:
+        - name: codice_cli_for
+          in: path
+          required: true
+          description: "Parte di chiave `codice_cli_for`. Caratteri ASCII stampabili: se il valore contiene `/` o `\\` va inviato in esadecimale con `encoding=hex`."
+          schema:
+            type: string
+            minLength: 1
+        - name: cod_referente
+          in: path
+          required: true
+          description: "Parte di chiave `cod_referente`."
+          schema:
+            type: integer
+            minimum: 0
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - name: fields
+          in: query
+          description: "Campi da restituire, separati da virgola. Riduce il payload: usarlo sempre sulle liste."
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/ReferentiFornitoriCampo"
+        - $ref: "#/components/parameters/Encoding"
+      responses:
+        "200":
+          description: Record richiesto
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/ReferentiFornitori"
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "404":
+          $ref: "#/components/responses/NonTrovato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "81500"
+    put:
+      tags:
+        - referenti/fornitori
+      operationId: referenti_fornitori_modifica
+      summary: Modifica referenti fornitore
+      description: |-
+        Stessa struttura della modifica referente cliente.
+
+        Inviare solo i campi da modificare, più `data_ult_mod` letto dalla GET se il controllo di modifica concorrente è attivo.
+      parameters:
+        - name: codice_cli_for
+          in: path
+          required: true
+          description: "Parte di chiave `codice_cli_for`. Caratteri ASCII stampabili: se il valore contiene `/` o `\\` va inviato in esadecimale con `encoding=hex`."
+          schema:
+            type: string
+            minLength: 1
+        - name: cod_referente
+          in: path
+          required: true
+          description: "Parte di chiave `cod_referente`."
+          schema:
+            type: integer
+            minimum: 0
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - $ref: "#/components/parameters/Encoding"
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/ReferentiFornitoriModifica"
+      responses:
+        "204":
+          description: Operazione eseguita, nessun body.
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "404":
+          $ref: "#/components/responses/NonTrovato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "81500"
+    delete:
+      tags:
+        - referenti/fornitori
+      operationId: referenti_fornitori_elimina
+      summary: Cancellazione referenti fornitore
+      description: |-
+        Stessa struttura della cancellazione referente cliente.
+
+        Chiave composta: codice_cli_for + cod_referente separati da +
+
+        Il campo codice_cli_for è di tipo stringa e supporta encoding per caratteri speciali (vedi
+      parameters:
+        - name: codice_cli_for
+          in: path
+          required: true
+          description: "Parte di chiave `codice_cli_for`. Caratteri ASCII stampabili: se il valore contiene `/` o `\\` va inviato in esadecimale con `encoding=hex`."
+          schema:
+            type: string
+            minLength: 1
+        - name: cod_referente
+          in: path
+          required: true
+          description: "Parte di chiave `cod_referente`."
+          schema:
+            type: integer
+            minimum: 0
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - $ref: "#/components/parameters/Encoding"
+      responses:
+        "204":
+          description: Operazione eseguita, nessun body.
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "404":
+          $ref: "#/components/responses/NonTrovato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "81500"
+components:
+  securitySchemes:
+    passepartout:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: "Formato `Passepartout <base64(utente:password)>`. Sul cloud: `Passepartout <base64> Dominio=<DOMINIO>`. Con login di sistema operativo attivo (login=1) si aggiunge un secondo blocco `<base64(utente_so:password_so)>`."
+  parameters:
+    CoordinateGestionale:
+      name: Coordinate-Gestionale
+      in: header
+      required: true
+      description: Azienda e anno di lavoro, più sotto-azienda e magazzino di default facoltativi (magazzino 1 se omesso).
+      schema:
+        type: string
+        pattern: "^Azienda=\\S+( SottoAzienda=\\S+)? Anno=\\d{4}( Magazzino=\\d+)?$"
+        examples:
+          - "Azienda=DEM Anno=2026 Magazzino=1"
+    Max:
+      name: max
+      in: query
+      description: Numero massimo di record per pagina. Il server può restituirne meno (limiti di 30 s e 50 MB).
+      schema:
+        type: integer
+        minimum: 1
+    Next:
+      name: next
+      in: query
+      description: "Token di pagina restituito dalla risposta precedente: opaco, da usare subito e così com'è."
+      schema:
+        type: string
+    Encoding:
+      name: encoding
+      in: query
+      description: "Codifica delle parti di chiave nel path. Obbligatoria quando un codice contiene `/` o `\\`: il codice va inviato in esadecimale (es. `ARTI/S` -> `415254492f53`)."
+      schema:
+        type: string
+        enum:
+          - hex
+          - base32
+  responses:
+    ErroreRichiesta:
+      description: "Richiesta non valida: parametri o campi errati, errore gestionale (6001), coordinate mancanti."
+      content:
+        "application/json":
+          schema:
+            $ref: "#/components/schemas/Errore"
+    NonAutorizzato:
+      description: "Credenziali assenti o errate. Attenzione: tentativi ripetuti bloccano l'utente WebAPI."
+      content:
+        "application/json":
+          schema:
+            $ref: "#/components/schemas/Errore"
+    NonTrovato:
+      description: Risorsa inesistente o path non valido (nessun body).
+    PoolEsaurito:
+      description: "Pool di 5 servizi dell'utente WebAPI esaurito: riprovare più tardi, senza retry aggressivi."
+      content:
+        "application/json":
+          schema:
+            $ref: "#/components/schemas/Errore"
+  schemas:
+    ReferentiClienti:
+      type: object
+      properties:
+        codice_cli_for:
+          type: string
+          description: "Codice del cliente/fornitore; si può inserire anche un codice contatto — Codice cliente (o contatto). Valori da clienti.codice. Ammesso anche un codice dell'anagrafica contatti. Campo chiave."
+          x-mexal-tipo: Alfanumerico
+          x-mexal-riferimento:
+            risorsa: clienti
+            campo: codice
+            nota: Ammesso anche un codice dell'anagrafica contatti
+        cod_referente:
+          type: integer
+          description: Codice referente - è il collegamento fra referente registrato e array. Campo chiave.
+          x-mexal-tipo: Numerico
+        cod_posizione:
+          type: integer
+          description: Codice posizione referente in tabella posizioni. Valori da dati-generali/posizione-referenti.id.
+          x-mexal-tipo: Numerico
+          x-mexal-riferimento:
+            risorsa: dati-generali/posizione-referenti
+            campo: id
+        nome:
+          type: string
+          description: Nome referente.
+          x-mexal-tipo: Alfanumerico
+        nota:
+          type: string
+          description: Nota referente.
+          x-mexal-tipo: Alfanumerico
+        telefono:
+          type: string
+          description: Telefono referente.
+          x-mexal-tipo: Alfanumerico
+        cellulare:
+          type: string
+          description: "Cellulare referente - per l'azzeramento occorre impostare con uno spazio = ' '."
+          x-mexal-tipo: Alfanumerico
+        fax:
+          type: string
+          description: Fax referente.
+          x-mexal-tipo: Alfanumerico
+        email:
+          type: string
+          description: "Indirizzo e-mail referente — Email."
+          x-mexal-tipo: Alfanumerico
+        url:
+          type: string
+          description: Indirizzo internet referente.
+          x-mexal-tipo: Alfanumerico
+        tipo:
+          type: string
+          description: Tipo referente.
+          x-mexal-tipo: Alfanumerico
+      x-mexal-origine-campi: info
+    ReferentiClientiCampo:
+      type: string
+      enum:
+        - codice_cli_for
+        - cod_referente
+        - cod_posizione
+        - nome
+        - nota
+        - telefono
+        - cellulare
+        - fax
+        - email
+        - url
+        - tipo
+      description: Campi di referenti/clienti.
+    ReferentiClientiLista:
+      type: object
+      required:
+        - dati
+      properties:
+        dati:
+          type: array
+          items:
+            $ref: "#/components/schemas/ReferentiClienti"
+        data_ric_elab:
+          type: string
+          description: Timestamp di elaborazione, AAAAMMGG HHMMSS.
+        next:
+          type: string
+          description: "Presente solo se ci sono altre pagine: da passare così com'è nel parametro next."
+    ReferentiClientiRicerca:
+      type: object
+      required:
+        - filtri
+      properties:
+        filtri:
+          type: array
+          minItems: 1
+          items:
+            allOf:
+              - $ref: "#/components/schemas/Filtro"
+              - properties:
+                  campo:
+                    $ref: "#/components/schemas/ReferentiClientiCampo"
+    ReferentiClientiInserimento:
+      allOf:
+        - $ref: "#/components/schemas/ReferentiClienti"
+      required:
+        - codice_cli_for
+      description: "Body di inserimento. Obbligatori secondo il manuale: codice_cli_for."
+    ReferentiClientiModifica:
+      allOf:
+        - $ref: "#/components/schemas/ReferentiClienti"
+      description: "Body di revisione: solo i campi da modificare. Campi da indicare sempre secondo ?info=true: codice_cli_for, cod_referente."
+      x-mexal-obbligatori-put:
+        - codice_cli_for
+        - cod_referente
+    ReferentiFornitori:
+      type: object
+      properties:
+        codice_cli_for:
+          type: string
+          description: "Codice del cliente/fornitore; si può inserire anche un codice contatto. Valori da fornitori.codice. Ammesso anche un codice dell'anagrafica contatti. Campo chiave."
+          x-mexal-tipo: Alfanumerico
+          x-mexal-riferimento:
+            risorsa: fornitori
+            campo: codice
+            nota: Ammesso anche un codice dell'anagrafica contatti
+        cod_referente:
+          type: integer
+          description: Codice referente - è il collegamento fra referente registrato e array. Campo chiave.
+          x-mexal-tipo: Numerico
+        cod_posizione:
+          type: integer
+          description: Codice posizione referente in tabella posizioni. Valori da dati-generali/posizione-referenti.id.
+          x-mexal-tipo: Numerico
+          x-mexal-riferimento:
+            risorsa: dati-generali/posizione-referenti
+            campo: id
+        nome:
+          type: string
+          description: Nome referente.
+          x-mexal-tipo: Alfanumerico
+        nota:
+          type: string
+          description: Nota referente.
+          x-mexal-tipo: Alfanumerico
+        telefono:
+          type: string
+          description: Telefono referente.
+          x-mexal-tipo: Alfanumerico
+        cellulare:
+          type: string
+          description: "Cellulare referente - per l'azzeramento occorre impostare con uno spazio = ' '."
+          x-mexal-tipo: Alfanumerico
+        fax:
+          type: string
+          description: Fax referente.
+          x-mexal-tipo: Alfanumerico
+        email:
+          type: string
+          description: Indirizzo e-mail referente.
+          x-mexal-tipo: Alfanumerico
+        url:
+          type: string
+          description: Indirizzo internet referente.
+          x-mexal-tipo: Alfanumerico
+        tipo:
+          type: string
+          description: Tipo referente.
+          x-mexal-tipo: Alfanumerico
+      x-mexal-origine-campi: info
+    ReferentiFornitoriCampo:
+      type: string
+      enum:
+        - codice_cli_for
+        - cod_referente
+        - cod_posizione
+        - nome
+        - nota
+        - telefono
+        - cellulare
+        - fax
+        - email
+        - url
+        - tipo
+      description: Campi di referenti/fornitori.
+    ReferentiFornitoriLista:
+      type: object
+      required:
+        - dati
+      properties:
+        dati:
+          type: array
+          items:
+            $ref: "#/components/schemas/ReferentiFornitori"
+        data_ric_elab:
+          type: string
+          description: Timestamp di elaborazione, AAAAMMGG HHMMSS.
+        next:
+          type: string
+          description: "Presente solo se ci sono altre pagine: da passare così com'è nel parametro next."
+    ReferentiFornitoriRicerca:
+      type: object
+      required:
+        - filtri
+      properties:
+        filtri:
+          type: array
+          minItems: 1
+          items:
+            allOf:
+              - $ref: "#/components/schemas/Filtro"
+              - properties:
+                  campo:
+                    $ref: "#/components/schemas/ReferentiFornitoriCampo"
+    ReferentiFornitoriInserimento:
+      allOf:
+        - $ref: "#/components/schemas/ReferentiFornitori"
+      description: "Body di inserimento. Obbligatori secondo il manuale: non indicati."
+    ReferentiFornitoriModifica:
+      allOf:
+        - $ref: "#/components/schemas/ReferentiFornitori"
+      description: "Body di revisione: solo i campi da modificare. Campi da indicare sempre secondo ?info=true: codice_cli_for, cod_referente."
+      x-mexal-obbligatori-put:
+        - codice_cli_for
+        - cod_referente
+    Filtro:
+      type: object
+      required:
+        - campo
+        - condizione
+        - valore
+      properties:
+        campo:
+          type: string
+          description: Nome del campo su cui filtrare.
+        indice1:
+          type: integer
+          minimum: 1
+          description: Indice del primo livello, per i campi array.
+        indice2:
+          type: integer
+          minimum: 1
+          description: Indice del secondo livello, per gli array a due livelli.
+        condizione:
+          type: string
+          enum:
+            - "="
+            - "<>"
+            - ">"
+            - "<"
+            - ">="
+            - "<="
+            - contiene
+            - inizia_per
+        case_insensitive:
+          type: boolean
+          default: false
+          description: Solo per i confronti fra stringhe.
+        valore:
+          description: "Valore da confrontare; un array mette i valori in OR. Date come AAAAMMGG."
+          anyOf:
+            - type: string
+            - type: number
+            - type: array
+              minItems: 1
+              items:
+                type:
+                  - string
+                  - number
+    Errore:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            response-code:
+              type: integer
+            response-detail:
+              type: string
+              description: "Codice numerico + messaggio: \"<codice> - <messaggio> [<dettaglio>]\". 6001 = errore gestionale."
+            response-message:
+              type: string
+            request-uri:
+              type: string
+            request-method:
+              type: string
+            request-id:
+              type: string
+              description: UUID da citare al supporto.
+            warsion:
+              type: string
+            remote:
+              type: string
+            timestamp:
+              type: string

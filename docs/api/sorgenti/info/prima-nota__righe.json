@@ -1,0 +1,347 @@
+{
+    "path": "/prima-nota/righe",
+    "origine": "info",
+    "forma": "dati",
+    "campi": [
+        {
+            "nome": "data_registr",
+            "descrizione": "Data registrazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "progressivo",
+            "descrizione": "Numero progressivo (solo lettura)",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "cau_contabile",
+            "descrizione": "Causale contabile",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "rstro_prot_iva",
+            "descrizione": "Registro protocollo iva",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "serie_prot",
+            "descrizione": "Numero serie protocollo",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "nr_protocollo",
+            "descrizione": "Numero protocollo (0 = AUTO)",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "nr_documento",
+            "descrizione": "Numero documento (0 = AUTO)",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "data_documento",
+            "descrizione": "Data documento",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "codice_conto",
+            "descrizione": "Righe - Codice conto",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cos_ric_riga",
+            "descrizione": "Righe - Centro costo/ricavo",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "descr_riga",
+            "descrizione": "Righe - Descrizione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "importo_riga",
+            "descrizione": "Righe - Importo contabile",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "nr_tipo_merce",
+            "descrizione": "Righe - Numero tipo merce",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "imponibile_iva",
+            "descrizione": "Castelletto IVA - Imponibile IVA",
+            "tipo": "Numerico con virgola",
+            "dimensione_array": "4"
+        },
+        {
+            "nome": "imposta_iva",
+            "descrizione": "Castelletto IVA - Imposta IVA",
+            "tipo": "Numerico con virgola",
+            "dimensione_array": "4"
+        },
+        {
+            "nome": "aliquota_iva",
+            "descrizione": "Castelletto IVA - Aliquota IVA",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "4"
+        },
+        {
+            "nome": "alq_iva_differ",
+            "descrizione": "Castelletto IVA - Aliquota IVA ventilazione differita",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "4"
+        },
+        {
+            "nome": "gest_cast",
+            "descrizione": "Castelletto IVA - Gestione castelletto no doppio protocollo",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "4"
+        },
+        {
+            "nome": "gest_spes_forza",
+            "descrizione": "Spesometro - Gestione forza comunicazione se documento inferiore al limite",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_nota_var",
+            "descrizione": "Spesometro - Gestione nota di variazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "serie_nota_var",
+            "descrizione": "Spesometro - Riferimento documento serie per nota di variazione",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "data_nota_var",
+            "descrizione": "Spesometro - Riferimento documento data per nota di variazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_op_rif_ctr",
+            "descrizione": "Spesometro - Operazione riferita a contratto",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_escl_cast",
+            "descrizione": "Spesometro - Gestione esclusione castelletto da comunicazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "sp_cod_fis_piva",
+            "descrizione": "Spesometro - Codice fiscale / partita IVA",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "sp_cod_cliente",
+            "descrizione": "Spesometro - Codice cliente",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "sp_codice_ctr",
+            "descrizione": "Spesometro - Codice contratto",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "sp_rif_op",
+            "descrizione": "Spesometro - Riferimento operazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "spes_op_rcharge",
+            "descrizione": "Spesometro - Tipo operazione reverse charge",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "spes_dt_plafond",
+            "descrizione": "Spesometro - Data competenza plafond",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "ps_cod_conto",
+            "descrizione": "Riferimenti pagamenti PS - Codice conto",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "4"
+        },
+        {
+            "nome": "ps_serie_doc",
+            "descrizione": "Riferimenti pagamenti PS - Serie documento in pagamento",
+            "tipo": "Numerico",
+            "dimensione_array": "4"
+        },
+        {
+            "nome": "ps_nr_documento",
+            "descrizione": "Riferimenti pagamenti PS - Numero documento in pagamento",
+            "tipo": "Numerico",
+            "dimensione_array": "4"
+        },
+        {
+            "nome": "ps_dt_documento",
+            "descrizione": "Riferimenti pagamenti PS - Data documento in pagamento",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "4"
+        },
+        {
+            "nome": "ca_cod_analit",
+            "descrizione": "Contabilita' analitica - Codice analitico",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "50"
+        },
+        {
+            "nome": "ca_commessa",
+            "descrizione": "Contabilita' analitica - Commessa",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "50"
+        },
+        {
+            "nome": "ca_anno",
+            "descrizione": "Contabilita' analitica - Anno",
+            "tipo": "Numerico",
+            "dimensione_array": "50"
+        },
+        {
+            "nome": "ca_importo",
+            "descrizione": "Contabilita' analitica - Importo",
+            "tipo": "Numerico con virgola",
+            "dimensione_array": "50"
+        },
+        {
+            "nome": "intra_natura",
+            "descrizione": "Dati IntraCEE - Natura transazione",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "50"
+        },
+        {
+            "nome": "intra_natura_b",
+            "descrizione": "Dati IntraCEE - Natura transazione colonna b",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "50"
+        },
+        {
+            "nome": "intra_nomencla",
+            "descrizione": "Dati IntraCEE - Nomenclatura combinata",
+            "tipo": "Numerico",
+            "dimensione_array": "50"
+        },
+        {
+            "nome": "intra_massa_net",
+            "descrizione": "Dati IntraCEE - Massa netta",
+            "tipo": "Numerico con virgola",
+            "dimensione_array": "50"
+        },
+        {
+            "nome": "intra_unita_sup",
+            "descrizione": "Dati IntraCEE - Unita' suppletiva",
+            "tipo": "Numerico",
+            "dimensione_array": "50"
+        },
+        {
+            "nome": "intra_val_sta",
+            "descrizione": "Dati IntraCEE - Valore statistico",
+            "tipo": "Numerico con virgola",
+            "dimensione_array": "50"
+        },
+        {
+            "nome": "intra_cond_gna",
+            "descrizione": "Dati IntraCEE - Condizioni consegna - ex regime statis",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "50"
+        },
+        {
+            "nome": "intra_trasp",
+            "descrizione": "Dati IntraCEE - Modalita' di trasporto",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "50"
+        },
+        {
+            "nome": "intra_prv_dest",
+            "descrizione": "Dati IntraCEE - Provincia di destinazione",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "50"
+        },
+        {
+            "nome": "intra_pae_dest",
+            "descrizione": "Dati IntraCEE - Paese di destinazione",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "50"
+        },
+        {
+            "nome": "intra_pae_orig",
+            "descrizione": "Dati IntraCEE - Paese di origine",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "50"
+        },
+        {
+            "nome": "intra_mese_rif",
+            "descrizione": "Dati IntraCEE - Mese di riferimento",
+            "tipo": "Numerico",
+            "dimensione_array": "50"
+        },
+        {
+            "nome": "intra_trim_rif",
+            "descrizione": "Dati IntraCEE - Trimestre di riferimento",
+            "tipo": "Numerico",
+            "dimensione_array": "50"
+        },
+        {
+            "nome": "intra_anno_rif",
+            "descrizione": "Dati IntraCEE - Anno di riferimento",
+            "tipo": "Numerico",
+            "dimensione_array": "50"
+        },
+        {
+            "nome": "intra_pae_iso",
+            "descrizione": "Dati IntraCEE - Codice ISO paese",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "50"
+        },
+        {
+            "nome": "intra_iva_conto",
+            "descrizione": "Dati IntraCEE - Codice IVA del conto",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "50"
+        },
+        {
+            "nome": "intra_segno_imp",
+            "descrizione": "Dati IntraCEE - Segno degli importi",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "50"
+        },
+        {
+            "nome": "intra_transitoria",
+            "descrizione": "Dati IntraCEE - Natura transitoria",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "50"
+        },
+        {
+            "nome": "intra_imp_op_euro",
+            "descrizione": "Dati IntraCEE - Ammontare operazione in Euro",
+            "tipo": "Numerico con virgola",
+            "dimensione_array": "50"
+        },
+        {
+            "nome": "intra_imp_op_vlt",
+            "descrizione": "Dati IntraCEE - Ammontare operazione in valuta",
+            "tipo": "Numerico con virgola",
+            "dimensione_array": "50"
+        },
+        {
+            "nome": "intra_val_sta",
+            "descrizione": "Dati IntraCEE - Valore statistico",
+            "tipo": "Numerico con virgola",
+            "dimensione_array": "50"
+        },
+        {
+            "nome": "intra_combinata",
+            "descrizione": "Dati IntraCEE - Nomenclatura combinata",
+            "tipo": "Numerico",
+            "dimensione_array": "50"
+        },
+        {
+            "nome": "data_ult_mod",
+            "descrizione": "Data ora ultima modifica",
+            "tipo": "Data e ora (formato AAAAMMGG HHMMSS)"
+        }
+    ]
+}

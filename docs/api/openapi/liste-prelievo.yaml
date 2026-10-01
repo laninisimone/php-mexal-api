@@ -1,0 +1,1425 @@
+openapi: "3.1.0"
+info:
+  title: Passepartout WebAPI - Liste prelievo
+  version: "88201"
+  description: |-
+    Generato da `tools/api-docs/genera.php` a partire dall'help in linea (`GET /risorse/help?extended=true`)
+    e da `?info=true` di un'installazione Mexal/Passcom 2.9.17 (versione gestionale 88201), integrato con il manuale WebAPI v3.1.
+    Endpoint e campi dipendono da versione e moduli installati: la fonte di verità resta `?info=true`.
+
+    **Convenzioni**
+
+    - Autenticazione: `Authorization: Passepartout <base64(utente:password)>`; sul cloud si aggiunge ` Dominio=<DOMINIO>`.
+    - Contesto aziendale: header `Coordinate-Gestionale: Azienda=XXX Anno=AAAA` (opzionali `SottoAzienda=`, `Magazzino=`).
+    - Date `AAAAMMGG`, date-ora `AAAAMMGG HHMMSS`, decimali con il punto.
+    - Gli array sono liste di coppie `[[indice, valore], ...]`, non liste semplici.
+    - Chiavi composte unite da `+` nel path (es. `OC+1+15`). Codici con `/` o `\` vanno in esadecimale con `?encoding=hex`.
+    - Paginazione: `max` limita i record, il token `next` della risposta va ripassato così com'è e subito.
+    - Ricerca: `POST .../ricerca` con `filtri`; i filtri sono in AND, i valori di uno stesso filtro in OR.
+    - Revisione (PUT): rimandare `data_ult_mod` letto dalla GET per il controllo di modifica concorrente.
+    - Limiti: 5 richieste simultanee per utente WebAPI (oltre si riceve 503).
+servers:
+  - url: "https://{host}:{porta}/webapi/risorse"
+    description: Installazione locale (certificato spesso self-signed)
+    variables:
+      host:
+        default: localhost
+      porta:
+        default: "9004"
+  - url: "https://services.passepartout.cloud/webapi/risorse"
+    description: "Passepartout Live (cloud): aggiungere Dominio=<DOMINIO> all'header Authorization"
+security:
+  - passepartout: []
+tags:
+  - name: liste-prelievo
+    description: "Liste di prelievo (picking) del magazzino: testate. Il singolo record restituisce anche le righe."
+  - name: liste-prelievo/righe
+    description: Vista trasversale delle righe delle liste di prelievo.
+paths:
+  "/liste-prelievo":
+    get:
+      tags:
+        - liste-prelievo
+      operationId: liste_prelievo_lista
+      summary: Lista prelievi - testate
+      description: |-
+        Supporta max, next, fields.
+
+        Paginata: il server pagina oltre 30 secondi o 50 MB anche senza `max`; seguire `next` fino a esaurimento.
+      parameters:
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - name: fields
+          in: query
+          description: "Campi da restituire, separati da virgola. Riduce il payload: usarlo sempre sulle liste."
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/ListePrelievoCampo"
+        - $ref: "#/components/parameters/Max"
+        - $ref: "#/components/parameters/Next"
+      responses:
+        "200":
+          description: Record trovati
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/ListePrelievoLista"
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "82300"
+    post:
+      tags:
+        - liste-prelievo
+      operationId: liste_prelievo_crea
+      summary: Inserimento prelievo
+      description: "Risponde 201 senza body: il codice assegnato è nell'header `Location`."
+      parameters:
+        - $ref: "#/components/parameters/CoordinateGestionale"
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/ListePrelievoInserimento"
+      responses:
+        "201":
+          description: "Creato. Nessun body: il path della nuova risorsa è nell'header Location."
+          headers:
+            Location:
+              description: "Path della risorsa creata (es. /webapi/risorse/liste-prelievo/...). Può contenere ?encoding=hex."
+              schema:
+                type: string
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "82300"
+  "/liste-prelievo/ricerca":
+    post:
+      tags:
+        - liste-prelievo
+      operationId: liste_prelievo_cerca
+      summary: Ricerca prelievi - testate
+      description: |-
+        Supporta max, next, fields. Filtri nel body JSON (vedi Ricerca e Filtri).
+
+        Filtri in AND fra loro; un `valore` array mette i valori in OR. Condizioni: `=`, `<>`, `>`, `<`, `>=`, `<=`, `contiene`, `inizia_per`.
+      parameters:
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - name: fields
+          in: query
+          description: "Campi da restituire, separati da virgola. Riduce il payload: usarlo sempre sulle liste."
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/ListePrelievoCampo"
+        - $ref: "#/components/parameters/Max"
+        - $ref: "#/components/parameters/Next"
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/ListePrelievoRicerca"
+      responses:
+        "200":
+          description: Record trovati
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/ListePrelievoLista"
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "82300"
+  "/liste-prelievo/{id}":
+    get:
+      tags:
+        - liste-prelievo
+      operationId: liste_prelievo_leggi
+      summary: Lettura prelievo
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: "Parte di chiave `id`."
+          schema:
+            type: integer
+            minimum: 0
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - name: fields
+          in: query
+          description: "Campi da restituire, separati da virgola. Riduce il payload: usarlo sempre sulle liste."
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/ListePrelievoCampo"
+      responses:
+        "200":
+          description: Record richiesto
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/ListePrelievoDocumento"
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "404":
+          $ref: "#/components/responses/NonTrovato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "82300"
+    put:
+      tags:
+        - liste-prelievo
+      operationId: liste_prelievo_modifica
+      summary: Modifica prelievo
+      description: "Indicare sempre tutti gli `id_riga` e `tp_riga`, anche delle righe non modificate: le righe omesse vengono cancellate. Con `?solo_testata=true` le righe sono preservate."
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: "Parte di chiave `id`."
+          schema:
+            type: integer
+            minimum: 0
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - name: solo_testata
+          in: query
+          description: Se true modifica solo la testata e preserva le righe anche se omesse dal body.
+          schema:
+            type: boolean
+            default: false
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/ListePrelievoModifica"
+      responses:
+        "204":
+          description: Operazione eseguita, nessun body.
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "404":
+          $ref: "#/components/responses/NonTrovato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "82300"
+    delete:
+      tags:
+        - liste-prelievo
+      operationId: liste_prelievo_elimina
+      summary: Cancellazione prelievo
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: "Parte di chiave `id`."
+          schema:
+            type: integer
+            minimum: 0
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - name: sigla
+          in: query
+          description: Sigla documento (per cancellazione selettiva)
+          schema:
+            type: string
+        - name: serie
+          in: query
+          description: Serie documento
+          schema:
+            type: integer
+        - name: numero
+          in: query
+          description: Numero documento
+          schema:
+            type: integer
+        - name: id_riga
+          in: query
+          description: ID riga
+          schema:
+            type: integer
+        - name: prog_riga
+          in: query
+          description: "Progressivo riga picking La cancellazione senza parametri in query string elimina l’intera lista; con parametri elimina solo la riga specificata."
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Operazione eseguita, nessun body.
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "404":
+          $ref: "#/components/responses/NonTrovato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "82300"
+  "/liste-prelievo/righe":
+    get:
+      tags:
+        - liste-prelievo/righe
+      operationId: liste_prelievo_righe_lista
+      summary: Lista prelievi - righe
+      description: |-
+        Supporta max, next, fields.
+
+        Paginata: il server pagina oltre 30 secondi o 50 MB anche senza `max`; seguire `next` fino a esaurimento.
+      parameters:
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - name: fields
+          in: query
+          description: "Campi da restituire, separati da virgola. Riduce il payload: usarlo sempre sulle liste."
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/ListePrelievoRigheCampo"
+        - $ref: "#/components/parameters/Max"
+        - $ref: "#/components/parameters/Next"
+      responses:
+        "200":
+          description: Record trovati
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/ListePrelievoRigheLista"
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "82300"
+  "/liste-prelievo/righe/ricerca":
+    post:
+      tags:
+        - liste-prelievo/righe
+      operationId: liste_prelievo_righe_cerca
+      summary: Ricerca prelievi - righe
+      description: |-
+        Supporta max, next, fields. Filtri nel body JSON (vedi Ricerca e Filtri).
+
+        Filtri in AND fra loro; un `valore` array mette i valori in OR. Condizioni: `=`, `<>`, `>`, `<`, `>=`, `<=`, `contiene`, `inizia_per`.
+
+        Tutti gli endpoint richiedono coordinate gestionale
+
+        La chiave per le righe è composta da: sigla + serie + numero + id_riga
+
+        Le righe di picking aggiungono prog_riga alla chiave
+
+        Per la modifica (PUT) è obbligatorio specificare sempre tutti i campi chiave
+
+        Per modificare solo la testata: ?solo_testata=true
+
+        La cancellazione senza parametri in query string elimina l’intera lista; con parametri elimina solo la riga specificata
+      parameters:
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - name: fields
+          in: query
+          description: "Campi da restituire, separati da virgola. Riduce il payload: usarlo sempre sulle liste."
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/ListePrelievoRigheCampo"
+        - $ref: "#/components/parameters/Max"
+        - $ref: "#/components/parameters/Next"
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/ListePrelievoRigheRicerca"
+      responses:
+        "200":
+          description: Record trovati
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/ListePrelievoRigheLista"
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "82300"
+components:
+  securitySchemes:
+    passepartout:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: "Formato `Passepartout <base64(utente:password)>`. Sul cloud: `Passepartout <base64> Dominio=<DOMINIO>`. Con login di sistema operativo attivo (login=1) si aggiunge un secondo blocco `<base64(utente_so:password_so)>`."
+  parameters:
+    CoordinateGestionale:
+      name: Coordinate-Gestionale
+      in: header
+      required: true
+      description: Azienda e anno di lavoro, più sotto-azienda e magazzino di default facoltativi (magazzino 1 se omesso).
+      schema:
+        type: string
+        pattern: "^Azienda=\\S+( SottoAzienda=\\S+)? Anno=\\d{4}( Magazzino=\\d+)?$"
+        examples:
+          - "Azienda=DEM Anno=2026 Magazzino=1"
+    Max:
+      name: max
+      in: query
+      description: Numero massimo di record per pagina. Il server può restituirne meno (limiti di 30 s e 50 MB).
+      schema:
+        type: integer
+        minimum: 1
+    Next:
+      name: next
+      in: query
+      description: "Token di pagina restituito dalla risposta precedente: opaco, da usare subito e così com'è."
+      schema:
+        type: string
+    Encoding:
+      name: encoding
+      in: query
+      description: "Codifica delle parti di chiave nel path. Obbligatoria quando un codice contiene `/` o `\\`: il codice va inviato in esadecimale (es. `ARTI/S` -> `415254492f53`)."
+      schema:
+        type: string
+        enum:
+          - hex
+          - base32
+  responses:
+    ErroreRichiesta:
+      description: "Richiesta non valida: parametri o campi errati, errore gestionale (6001), coordinate mancanti."
+      content:
+        "application/json":
+          schema:
+            $ref: "#/components/schemas/Errore"
+    NonAutorizzato:
+      description: "Credenziali assenti o errate. Attenzione: tentativi ripetuti bloccano l'utente WebAPI."
+      content:
+        "application/json":
+          schema:
+            $ref: "#/components/schemas/Errore"
+    NonTrovato:
+      description: Risorsa inesistente o path non valido (nessun body).
+    PoolEsaurito:
+      description: "Pool di 5 servizi dell'utente WebAPI esaurito: riprovare più tardi, senza retry aggressivi."
+      content:
+        "application/json":
+          schema:
+            $ref: "#/components/schemas/Errore"
+  schemas:
+    ListePrelievo:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: "Identificatore lista prelievo Testata — Identificatore lista prelievo (valorizzare a 0). Campo chiave."
+          x-mexal-tipo: Numerico
+        data_creazione:
+          type: string
+          description: Data creazione. Data in formato AAAAMMGG.
+          x-mexal-tipo: Alfanumerico
+        stato:
+          type: string
+          description: Stato.
+          x-mexal-tipo: Alfanumerico
+        descrizione:
+          type: string
+          description: Descrizione della lista.
+          x-mexal-tipo: Alfanumerico
+        tipo:
+          type: string
+          description: Tipo.
+          x-mexal-tipo: Alfanumerico
+        utente_ult_mod:
+          type: string
+          description: Utente ultima modifica.
+          x-mexal-tipo: Alfanumerico
+        data_ult_mod:
+          type: string
+          pattern: "^(\\d{8} \\d{6})?$"
+          description: Data ora ultima modifica. Formato AAAAMMGG HHMMSS.
+          x-mexal-tipo: Data e ora
+      x-mexal-origine-campi: info
+    ListePrelievoCampo:
+      type: string
+      enum:
+        - id
+        - data_creazione
+        - stato
+        - descrizione
+        - tipo
+        - utente_ult_mod
+        - data_ult_mod
+      description: Campi di liste-prelievo.
+    ListePrelievoLista:
+      type: object
+      required:
+        - dati
+      properties:
+        dati:
+          type: array
+          items:
+            $ref: "#/components/schemas/ListePrelievo"
+        data_ric_elab:
+          type: string
+          description: Timestamp di elaborazione, AAAAMMGG HHMMSS.
+        next:
+          type: string
+          description: "Presente solo se ci sono altre pagine: da passare così com'è nel parametro next."
+    ListePrelievoRicerca:
+      type: object
+      required:
+        - filtri
+      properties:
+        filtri:
+          type: array
+          minItems: 1
+          items:
+            allOf:
+              - $ref: "#/components/schemas/Filtro"
+              - properties:
+                  campo:
+                    $ref: "#/components/schemas/ListePrelievoCampo"
+    ListePrelievoDocumento:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: "Identificatore lista prelievo Testata — Identificatore lista prelievo (valorizzare a 0). Campo chiave."
+          x-mexal-tipo: Numerico
+        data_creazione:
+          type: string
+          description: Data creazione. Data in formato AAAAMMGG.
+          x-mexal-tipo: Alfanumerico
+        stato:
+          type: string
+          description: Stato.
+          x-mexal-tipo: Alfanumerico
+        descrizione:
+          type: string
+          description: Descrizione della lista.
+          x-mexal-tipo: Alfanumerico
+        tipo:
+          type: string
+          description: Tipo.
+          x-mexal-tipo: Alfanumerico
+        utente_ult_mod:
+          type: string
+          description: Utente ultima modifica.
+          x-mexal-tipo: Alfanumerico
+        data_ult_mod:
+          type: string
+          pattern: "^(\\d{8} \\d{6})?$"
+          description: Data ora ultima modifica. Formato AAAAMMGG HHMMSS.
+          x-mexal-tipo: Data e ora
+        sigla:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: string
+            minItems: 2
+            maxItems: 2
+          description: "Sigla Documento. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Alfanumerico
+        sottoazienda:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: integer
+            minItems: 2
+            maxItems: 2
+          description: "Codice sottoazienda documento. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Numerico
+        serie:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: integer
+            minItems: 2
+            maxItems: 2
+          description: "Serie Documento. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Numerico
+        numero:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: integer
+            minItems: 2
+            maxItems: 2
+          description: "Numero Documento. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Numerico
+        id_riga:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: integer
+            minItems: 2
+            maxItems: 2
+          description: "Riga univoca documento. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Numerico
+        prog_riga:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: integer
+            minItems: 2
+            maxItems: 2
+          description: "Progressivo riga. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Numerico
+        codice_articolo:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: string
+            minItems: 2
+            maxItems: 2
+          description: "Codice articolo. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento. Valori da articoli.codice."
+          x-mexal-tipo: Alfanumerico
+          x-mexal-riferimento:
+            risorsa: articoli
+            campo: codice
+        data_documento:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: string
+            minItems: 2
+            maxItems: 2
+          description: "Data documento. Data in formato AAAAMMGG. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Alfanumerico
+        nr_riga_art:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: integer
+            minItems: 2
+            maxItems: 2
+          description: "Numero record articolo. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Numerico
+        id_magazzino:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: integer
+            minItems: 2
+            maxItems: 2
+          description: "Numero magazzino. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento. Valori da dati-generali/magazzini.id."
+          x-mexal-tipo: Numerico
+          x-mexal-riferimento:
+            risorsa: dati-generali/magazzini
+            campo: id
+            nota: Numero magazzino
+        id_ubicazione:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: integer
+            minItems: 2
+            maxItems: 2
+          description: "Identificatore ubicazione. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento. Valori da ubicazioni.id. 0 = nessuna ubicazione."
+          x-mexal-tipo: Numerico
+          x-mexal-riferimento:
+            risorsa: ubicazioni
+            campo: id
+            nota: "0 = nessuna ubicazione"
+        dt_sca_doc:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: string
+            minItems: 2
+            maxItems: 2
+          description: "Data scadenza documento. Data in formato AAAAMMGG. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Alfanumerico
+        tp_um_articolo:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: string
+            minItems: 2
+            maxItems: 2
+          description: "Tipo um. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Alfanumerico
+        nr_colli:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: integer
+            minItems: 2
+            maxItems: 2
+          description: "Numero colli. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Numerico
+        quantita:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: number
+            minItems: 2
+            maxItems: 2
+          description: "Quantita' / Peso Lordo. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Numerico con virgola
+        decimali_qta:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: integer
+            minItems: 2
+            maxItems: 2
+          description: "Numero decimali quantita articolo. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Numerico
+        coeff_conv:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: number
+            minItems: 2
+            maxItems: 2
+          description: "Rapporto di conversione misura o tara. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Numerico con virgola
+        nota:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: string
+            minItems: 2
+            maxItems: 2
+          description: "Nota. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Alfanumerico
+        id_lotto:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: integer
+            minItems: 2
+            maxItems: 2
+          description: "Identificatore lotto. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento. Valori da lotti.id."
+          x-mexal-tipo: Numerico
+          x-mexal-riferimento:
+            risorsa: lotti
+            campo: id
+        id_lotto_ord:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: integer
+            minItems: 2
+            maxItems: 2
+          description: "Identificatore lotto su ordine. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento. Valori da lotti.id."
+          x-mexal-tipo: Numerico
+          x-mexal-riferimento:
+            risorsa: lotti
+            campo: id
+        dec_qta_lo_ord:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: integer
+            minItems: 2
+            maxItems: 2
+          description: "Lotti su ordine - Numero decimali quantita'. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Numerico
+        qta_lotto_ord:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: number
+            minItems: 2
+            maxItems: 2
+          description: "Lotti su ordine - Quantita'. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Numerico con virgola
+        nr_colli_lo_ord:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: integer
+            minItems: 2
+            maxItems: 2
+          description: "Lotti su ordine - Colli. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Numerico
+        qta_tg_lo_ord:
+          type: array
+          items:
+            type: array
+            minItems: 2
+            maxItems: 3
+            prefixItems:
+              - type: integer
+                minimum: 1
+          description: "Lotti su ordine - Quantita' per taglia. Array indicizzato [[indice, valore], ...] con indice da 1 a 32. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Numerico
+        numero_taglia:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: integer
+            minItems: 2
+            maxItems: 2
+          description: "Numero taglia. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Numerico
+        qta_taglia:
+          type: array
+          items:
+            type: array
+            minItems: 2
+            maxItems: 3
+            prefixItems:
+              - type: integer
+                minimum: 1
+          description: "Quantita' per taglia. Array indicizzato [[indice, valore], ...] con indice da 1 a 32. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Numerico
+        id_alias:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: integer
+            minItems: 2
+            maxItems: 2
+          description: "Identificatore alias. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento. Valori da alias-articoli.id."
+          x-mexal-tipo: Numerico
+          x-mexal-riferimento:
+            risorsa: alias-articoli
+            campo: id
+        cod_conto:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: string
+            minItems: 2
+            maxItems: 2
+          description: "Codice cliente. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento. Valori da clienti.codice o fornitori.codice. Cliente o fornitore a seconda della sigla documento (formato mastro.conto)."
+          x-mexal-tipo: Alfanumerico
+          x-mexal-riferimento:
+            risorsa:
+              - clienti
+              - fornitori
+            campo: codice
+            nota: Cliente o fornitore a seconda della sigla documento (formato mastro.conto)
+        cod_agente:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: string
+            minItems: 2
+            maxItems: 2
+          description: "Codide agente. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento. Valori da conti.codice. Conto dell'agente (formato mastro.conto)."
+          x-mexal-tipo: Alfanumerico
+          x-mexal-riferimento:
+            risorsa: conti
+            campo: codice
+            nota: Conto dell'agente (formato mastro.conto)
+        cod_vettore:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: string
+            minItems: 2
+            maxItems: 2
+          description: "Codide vettore. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Alfanumerico
+        ute_ult_mod:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: string
+            minItems: 2
+            maxItems: 2
+          description: "Id utente ultima modifica riga (sola lettura). Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          readOnly: true
+          x-mexal-tipo: Alfanumerico
+        dt_ult_mod:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: string
+            minItems: 2
+            maxItems: 2
+          description: "Data ora ultima modifica riga (sola lettura). Data in formato AAAAMMGG. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          readOnly: true
+          x-mexal-tipo: Alfanumerico
+        conto_ind_sped:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: string
+            minItems: 2
+            maxItems: 2
+          description: "Conto indirizzo di spedizione. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Alfanumerico
+        ind_spedizione:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: string
+            minItems: 2
+            maxItems: 2
+          description: "Indirizzo spedizione. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Alfanumerico
+        priorita:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: integer
+            minItems: 2
+            maxItems: 2
+          description: "Priorita. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Numerico
+        gest_residuo:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: string
+            minItems: 2
+            maxItems: 2
+          description: "Stralcio / residuo. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Alfanumerico
+        gest_tipo_lav:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: string
+            minItems: 2
+            maxItems: 2
+          description: "Riga in prelievo magazzino. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Alfanumerico
+        note_documento:
+          type: array
+          items:
+            type: array
+            minItems: 2
+            maxItems: 3
+            prefixItems:
+              - type: integer
+                minimum: 1
+          description: "Annotazioni documento. Array indicizzato [[indice, valore], ...] con indice da 1 a 65535. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Alfanumerico
+        note_articolo:
+          type: array
+          items:
+            type: array
+            minItems: 2
+            maxItems: 3
+            prefixItems:
+              - type: integer
+                minimum: 1
+          description: "Annotazioni articolo. Array indicizzato [[indice, valore], ...] con indice da 1 a 65535. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Alfanumerico
+      x-mexal-origine-campi: info
+      description: "Documento completo (GET con chiave, POST, PUT): testata più righe. Ogni campo di riga è un array [[indice_riga, valore], ...] dove indice_riga è la posizione a video della riga; gli indici devono essere coerenti fra tutti i campi di riga. id_riga = 0 indica una riga nuova."
+    ListePrelievoInserimento:
+      allOf:
+        - $ref: "#/components/schemas/ListePrelievoDocumento"
+      required:
+        - id
+      description: "Body di inserimento. Obbligatori secondo il manuale: id."
+    ListePrelievoModifica:
+      allOf:
+        - $ref: "#/components/schemas/ListePrelievoDocumento"
+      description: "Body di revisione: solo i campi da modificare. Campi da indicare sempre secondo ?info=true: id."
+      x-mexal-obbligatori-put:
+        - id
+    ListePrelievoRighe:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Identificatore lista prelievo Testata. Campo chiave.
+          x-mexal-tipo: Numerico
+        sigla:
+          type: string
+          description: Sigla Documento.
+          x-mexal-tipo: Alfanumerico
+        sottoazienda:
+          type: integer
+          description: Codice sottoazienda documento.
+          x-mexal-tipo: Numerico
+        serie:
+          type: integer
+          description: Serie Documento.
+          x-mexal-tipo: Numerico
+        numero:
+          type: integer
+          description: Numero Documento.
+          x-mexal-tipo: Numerico
+        id_riga:
+          type: integer
+          description: Riga univoca documento.
+          x-mexal-tipo: Numerico
+        prog_riga:
+          type: integer
+          description: Progressivo riga.
+          x-mexal-tipo: Numerico
+        codice_articolo:
+          type: string
+          description: Codice articolo. Valori da articoli.codice.
+          x-mexal-tipo: Alfanumerico
+          x-mexal-riferimento:
+            risorsa: articoli
+            campo: codice
+        data_documento:
+          type: string
+          description: Data documento. Data in formato AAAAMMGG.
+          x-mexal-tipo: Alfanumerico
+        nr_riga_art:
+          type: integer
+          description: Numero record articolo.
+          x-mexal-tipo: Numerico
+        id_magazzino:
+          type: integer
+          description: Numero magazzino. Valori da dati-generali/magazzini.id.
+          x-mexal-tipo: Numerico
+          x-mexal-riferimento:
+            risorsa: dati-generali/magazzini
+            campo: id
+            nota: Numero magazzino
+        id_ubicazione:
+          type: integer
+          description: "Identificatore ubicazione. Valori da ubicazioni.id. 0 = nessuna ubicazione."
+          x-mexal-tipo: Numerico
+          x-mexal-riferimento:
+            risorsa: ubicazioni
+            campo: id
+            nota: "0 = nessuna ubicazione"
+        dt_sca_doc:
+          type: string
+          description: Data scadenza documento. Data in formato AAAAMMGG.
+          x-mexal-tipo: Alfanumerico
+        tp_um_articolo:
+          type: string
+          description: Tipo um.
+          x-mexal-tipo: Alfanumerico
+        nr_colli:
+          type: integer
+          description: Numero colli.
+          x-mexal-tipo: Numerico
+        quantita:
+          type: number
+          description: Quantita' / Peso Lordo.
+          x-mexal-tipo: Numerico con virgola
+        decimali_qta:
+          type: integer
+          description: Numero decimali quantita articolo.
+          x-mexal-tipo: Numerico
+        coeff_conv:
+          type: number
+          description: Rapporto di conversione misura o tara.
+          x-mexal-tipo: Numerico con virgola
+        nota:
+          type: string
+          description: Nota.
+          x-mexal-tipo: Alfanumerico
+        id_lotto:
+          type: integer
+          description: Identificatore lotto. Valori da lotti.id.
+          x-mexal-tipo: Numerico
+          x-mexal-riferimento:
+            risorsa: lotti
+            campo: id
+        id_lotto_ord:
+          type: integer
+          description: Identificatore lotto su ordine. Valori da lotti.id.
+          x-mexal-tipo: Numerico
+          x-mexal-riferimento:
+            risorsa: lotti
+            campo: id
+        dec_qta_lo_ord:
+          type: integer
+          description: Lotti su ordine - Numero decimali quantita'.
+          x-mexal-tipo: Numerico
+        qta_lotto_ord:
+          type: number
+          description: Lotti su ordine - Quantita'.
+          x-mexal-tipo: Numerico con virgola
+        nr_colli_lo_ord:
+          type: integer
+          description: Lotti su ordine - Colli.
+          x-mexal-tipo: Numerico
+        qta_tg_lo_ord:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 32
+              - type: integer
+            minItems: 2
+            maxItems: 2
+          maxItems: 32
+          description: "Lotti su ordine - Quantita' per taglia. Array indicizzato [[indice, valore], ...] con indice da 1 a 32."
+          x-mexal-tipo: Numerico
+        numero_taglia:
+          type: integer
+          description: Numero taglia.
+          x-mexal-tipo: Numerico
+        qta_taglia:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 32
+              - type: integer
+            minItems: 2
+            maxItems: 2
+          maxItems: 32
+          description: "Quantita' per taglia. Array indicizzato [[indice, valore], ...] con indice da 1 a 32."
+          x-mexal-tipo: Numerico
+        id_alias:
+          type: integer
+          description: Identificatore alias. Valori da alias-articoli.id.
+          x-mexal-tipo: Numerico
+          x-mexal-riferimento:
+            risorsa: alias-articoli
+            campo: id
+        cod_conto:
+          type: string
+          description: Codice cliente. Valori da clienti.codice o fornitori.codice. Cliente o fornitore a seconda della sigla documento (formato mastro.conto).
+          x-mexal-tipo: Alfanumerico
+          x-mexal-riferimento:
+            risorsa:
+              - clienti
+              - fornitori
+            campo: codice
+            nota: Cliente o fornitore a seconda della sigla documento (formato mastro.conto)
+        cod_agente:
+          type: string
+          description: Codide agente. Valori da conti.codice. Conto dell'agente (formato mastro.conto).
+          x-mexal-tipo: Alfanumerico
+          x-mexal-riferimento:
+            risorsa: conti
+            campo: codice
+            nota: Conto dell'agente (formato mastro.conto)
+        cod_vettore:
+          type: string
+          description: Codide vettore.
+          x-mexal-tipo: Alfanumerico
+        ute_ult_mod:
+          type: string
+          description: Id utente ultima modifica riga (sola lettura).
+          readOnly: true
+          x-mexal-tipo: Alfanumerico
+        dt_ult_mod:
+          type: string
+          description: Data ora ultima modifica riga (sola lettura). Data in formato AAAAMMGG.
+          readOnly: true
+          x-mexal-tipo: Alfanumerico
+        conto_ind_sped:
+          type: string
+          description: Conto indirizzo di spedizione.
+          x-mexal-tipo: Alfanumerico
+        ind_spedizione:
+          type: string
+          description: Indirizzo spedizione.
+          x-mexal-tipo: Alfanumerico
+        priorita:
+          type: integer
+          description: Priorita.
+          x-mexal-tipo: Numerico
+        gest_residuo:
+          type: string
+          description: Stralcio / residuo.
+          x-mexal-tipo: Alfanumerico
+        gest_tipo_lav:
+          type: string
+          description: Riga in prelievo magazzino.
+          x-mexal-tipo: Alfanumerico
+        note_documento:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 65535
+              - type: string
+            minItems: 2
+            maxItems: 2
+          maxItems: 65535
+          description: "Annotazioni documento. Array indicizzato [[indice, valore], ...] con indice da 1 a 65535."
+          x-mexal-tipo: Alfanumerico
+        note_articolo:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 65535
+              - type: string
+            minItems: 2
+            maxItems: 2
+          maxItems: 65535
+          description: "Annotazioni articolo. Array indicizzato [[indice, valore], ...] con indice da 1 a 65535."
+          x-mexal-tipo: Alfanumerico
+      x-mexal-origine-campi: info
+    ListePrelievoRigheCampo:
+      type: string
+      enum:
+        - id
+        - sigla
+        - sottoazienda
+        - serie
+        - numero
+        - id_riga
+        - prog_riga
+        - codice_articolo
+        - data_documento
+        - nr_riga_art
+        - id_magazzino
+        - id_ubicazione
+        - dt_sca_doc
+        - tp_um_articolo
+        - nr_colli
+        - quantita
+        - decimali_qta
+        - coeff_conv
+        - nota
+        - id_lotto
+        - id_lotto_ord
+        - dec_qta_lo_ord
+        - qta_lotto_ord
+        - nr_colli_lo_ord
+        - qta_tg_lo_ord
+        - numero_taglia
+        - qta_taglia
+        - id_alias
+        - cod_conto
+        - cod_agente
+        - cod_vettore
+        - ute_ult_mod
+        - dt_ult_mod
+        - conto_ind_sped
+        - ind_spedizione
+        - priorita
+        - gest_residuo
+        - gest_tipo_lav
+        - note_documento
+        - note_articolo
+      description: Campi di liste-prelievo/righe.
+    ListePrelievoRigheLista:
+      type: object
+      required:
+        - dati
+      properties:
+        dati:
+          type: array
+          items:
+            $ref: "#/components/schemas/ListePrelievoRighe"
+        data_ric_elab:
+          type: string
+          description: Timestamp di elaborazione, AAAAMMGG HHMMSS.
+        next:
+          type: string
+          description: "Presente solo se ci sono altre pagine: da passare così com'è nel parametro next."
+    ListePrelievoRigheRicerca:
+      type: object
+      required:
+        - filtri
+      properties:
+        filtri:
+          type: array
+          minItems: 1
+          items:
+            allOf:
+              - $ref: "#/components/schemas/Filtro"
+              - properties:
+                  campo:
+                    $ref: "#/components/schemas/ListePrelievoRigheCampo"
+    Filtro:
+      type: object
+      required:
+        - campo
+        - condizione
+        - valore
+      properties:
+        campo:
+          type: string
+          description: Nome del campo su cui filtrare.
+        indice1:
+          type: integer
+          minimum: 1
+          description: Indice del primo livello, per i campi array.
+        indice2:
+          type: integer
+          minimum: 1
+          description: Indice del secondo livello, per gli array a due livelli.
+        condizione:
+          type: string
+          enum:
+            - "="
+            - "<>"
+            - ">"
+            - "<"
+            - ">="
+            - "<="
+            - contiene
+            - inizia_per
+        case_insensitive:
+          type: boolean
+          default: false
+          description: Solo per i confronti fra stringhe.
+        valore:
+          description: "Valore da confrontare; un array mette i valori in OR. Date come AAAAMMGG."
+          anyOf:
+            - type: string
+            - type: number
+            - type: array
+              minItems: 1
+              items:
+                type:
+                  - string
+                  - number
+    Errore:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            response-code:
+              type: integer
+            response-detail:
+              type: string
+              description: "Codice numerico + messaggio: \"<codice> - <messaggio> [<dettaglio>]\". 6001 = errore gestionale."
+            response-message:
+              type: string
+            request-uri:
+              type: string
+            request-method:
+              type: string
+            request-id:
+              type: string
+              description: UUID da citare al supporto.
+            warsion:
+              type: string
+            remote:
+              type: string
+            timestamp:
+              type: string

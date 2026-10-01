@@ -1,0 +1,52 @@
+{
+    "path": "/dati-generali/magazzini",
+    "origine": "info",
+    "forma": "dati",
+    "campi": [
+        {
+            "nome": "id",
+            "descrizione": "Numero magazzino",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "descrizione",
+            "descrizione": "Descrizione magazzino",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_valorizza",
+            "descrizione": "Magazzino da valorizzare",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "nota",
+            "descrizione": "Nota",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cap",
+            "descrizione": "Cap",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "localita",
+            "descrizione": "Localita'",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "provincia",
+            "descrizione": "Provincia",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "indirizzo",
+            "descrizione": "Indirizzo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "annullato",
+            "descrizione": "Annullato",
+            "tipo": "Alfanumerico"
+        }
+    ]
+}

@@ -1,0 +1,368 @@
+openapi: "3.1.0"
+info:
+  title: Passepartout WebAPI - Aziende
+  version: "88201"
+  description: |-
+    Generato da `tools/api-docs/genera.php` a partire dall'help in linea (`GET /risorse/help?extended=true`)
+    e da `?info=true` di un'installazione Mexal/Passcom 2.9.17 (versione gestionale 88201), integrato con il manuale WebAPI v3.1.
+    Endpoint e campi dipendono da versione e moduli installati: la fonte di verità resta `?info=true`.
+
+    **Convenzioni**
+
+    - Autenticazione: `Authorization: Passepartout <base64(utente:password)>`; sul cloud si aggiunge ` Dominio=<DOMINIO>`.
+    - Contesto aziendale: header `Coordinate-Gestionale: Azienda=XXX Anno=AAAA` (opzionali `SottoAzienda=`, `Magazzino=`).
+    - Date `AAAAMMGG`, date-ora `AAAAMMGG HHMMSS`, decimali con il punto.
+    - Gli array sono liste di coppie `[[indice, valore], ...]`, non liste semplici.
+    - Chiavi composte unite da `+` nel path (es. `OC+1+15`). Codici con `/` o `\` vanno in esadecimale con `?encoding=hex`.
+    - Paginazione: `max` limita i record, il token `next` della risposta va ripassato così com'è e subito.
+    - Ricerca: `POST .../ricerca` con `filtri`; i filtri sono in AND, i valori di uno stesso filtro in OR.
+    - Revisione (PUT): rimandare `data_ult_mod` letto dalla GET per il controllo di modifica concorrente.
+    - Limiti: 5 richieste simultanee per utente WebAPI (oltre si riceve 503).
+servers:
+  - url: "https://{host}:{porta}/webapi/risorse"
+    description: Installazione locale (certificato spesso self-signed)
+    variables:
+      host:
+        default: localhost
+      porta:
+        default: "9004"
+  - url: "https://services.passepartout.cloud/webapi/risorse"
+    description: "Passepartout Live (cloud): aggiungere Dominio=<DOMINIO> all'header Authorization"
+security:
+  - passepartout: []
+tags:
+  - name: aziende
+    description: "Aziende configurate nell'installazione. Non richiede coordinate gestionale. Non richiede l'header Coordinate-Gestionale. Campi ricavati dal manuale WebAPI v3.1: l'installazione interrogata non li espone con ?info=true."
+paths:
+  "/aziende":
+    get:
+      tags:
+        - aziende
+      operationId: aziende_lista
+      summary: Lista aziende
+      description: |-
+        Paginata: il server pagina oltre 30 secondi o 50 MB anche senza `max`; seguire `next` fino a esaurimento.
+
+        NON richiede coordinate gestionale (Azienda/Anno)
+
+        Supporta paginazione tramite max e next
+
+        Supporta selezione campi tramite fields
+
+        Il wrapper della response è Aziende (non dati)
+
+        Il campo stato indica se l’azienda è utilizzabile: solo le aziende con stato Ok e con ult_anno_gest che copra l’anno richiesto sono operabili nelle altre API
+
+        NON supporta ricerca con filtri
+      parameters:
+        - name: fields
+          in: query
+          description: "Campi da restituire, separati da virgola. Riduce il payload: usarlo sempre sulle liste."
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/AziendeCampo"
+        - $ref: "#/components/parameters/Max"
+        - $ref: "#/components/parameters/Next"
+      responses:
+        "200":
+          description: Record trovati
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  Aziende:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Aziende"
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "85000"
+    post:
+      tags:
+        - aziende
+      operationId: aziende_crea
+      summary: Creazione azienda
+      description: |-
+        Risponde 201 senza body: il codice assegnato è nell'header `Location`.
+
+        NON richiede coordinate gestionale
+
+        La response restituisce l’header Location con l’URL della risorsa creata
+
+        Richiede un soggetto pre-esistente in anagrafica unica (in_id_anagrafica)
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/AziendeInserimento"
+      responses:
+        "201":
+          description: "Creato. Nessun body: il path della nuova risorsa è nell'header Location."
+          headers:
+            Location:
+              description: "Path della risorsa creata (es. /webapi/risorse/aziende/...). Può contenere ?encoding=hex."
+              schema:
+                type: string
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "86000"
+components:
+  securitySchemes:
+    passepartout:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: "Formato `Passepartout <base64(utente:password)>`. Sul cloud: `Passepartout <base64> Dominio=<DOMINIO>`. Con login di sistema operativo attivo (login=1) si aggiunge un secondo blocco `<base64(utente_so:password_so)>`."
+  parameters:
+    CoordinateGestionale:
+      name: Coordinate-Gestionale
+      in: header
+      required: true
+      description: Azienda e anno di lavoro, più sotto-azienda e magazzino di default facoltativi (magazzino 1 se omesso).
+      schema:
+        type: string
+        pattern: "^Azienda=\\S+( SottoAzienda=\\S+)? Anno=\\d{4}( Magazzino=\\d+)?$"
+        examples:
+          - "Azienda=DEM Anno=2026 Magazzino=1"
+    Max:
+      name: max
+      in: query
+      description: Numero massimo di record per pagina. Il server può restituirne meno (limiti di 30 s e 50 MB).
+      schema:
+        type: integer
+        minimum: 1
+    Next:
+      name: next
+      in: query
+      description: "Token di pagina restituito dalla risposta precedente: opaco, da usare subito e così com'è."
+      schema:
+        type: string
+    Encoding:
+      name: encoding
+      in: query
+      description: "Codifica delle parti di chiave nel path. Obbligatoria quando un codice contiene `/` o `\\`: il codice va inviato in esadecimale (es. `ARTI/S` -> `415254492f53`)."
+      schema:
+        type: string
+        enum:
+          - hex
+          - base32
+  responses:
+    ErroreRichiesta:
+      description: "Richiesta non valida: parametri o campi errati, errore gestionale (6001), coordinate mancanti."
+      content:
+        "application/json":
+          schema:
+            $ref: "#/components/schemas/Errore"
+    NonAutorizzato:
+      description: "Credenziali assenti o errate. Attenzione: tentativi ripetuti bloccano l'utente WebAPI."
+      content:
+        "application/json":
+          schema:
+            $ref: "#/components/schemas/Errore"
+    NonTrovato:
+      description: Risorsa inesistente o path non valido (nessun body).
+    PoolEsaurito:
+      description: "Pool di 5 servizi dell'utente WebAPI esaurito: riprovare più tardi, senza retry aggressivi."
+      content:
+        "application/json":
+          schema:
+            $ref: "#/components/schemas/Errore"
+  schemas:
+    Aziende:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Identificativo numerico progressivo.
+          x-mexal-tipo: Numerico
+        sigla:
+          type: string
+          description: Sigla azienda (3 caratteri).
+          x-mexal-tipo: Alfanumerico
+        ragione_sociale:
+          type: string
+          description: Ragione sociale.
+          x-mexal-tipo: Alfanumerico
+        descrizione:
+          type: string
+          description: Descrizione aggiuntiva.
+          x-mexal-tipo: Alfanumerico
+        cod_fis_piva:
+          type: string
+          description: Codice fiscale o partita IVA.
+          x-mexal-tipo: Alfanumerico
+        stato:
+          type: string
+          description: Stato dell’azienda (Ok, Da aggiornare, Anno non gestito).
+          x-mexal-tipo: Alfanumerico
+        tipo:
+          type: string
+          description: Tipologia societaria (Soc. Capitali, Soc. Persone, Pers. Fisica, Ente non commerciale).
+          x-mexal-tipo: Alfanumerico
+        gest_impresa_prof:
+          type: string
+          description: Tipo gestione (Impresa, Professionista).
+          x-mexal-tipo: Alfanumerico
+        gestione_fiscale:
+          type: string
+          description: Regime fiscale (Ordinaria, Semplificata).
+          x-mexal-tipo: Alfanumerico
+        primo_anno_gest:
+          type: integer
+          description: Primo anno gestito.
+          x-mexal-tipo: Numerico
+        ult_anno_gest:
+          type: integer
+          description: Ultimo anno gestito.
+          x-mexal-tipo: Numerico
+        raggruppamento:
+          type: string
+          description: Codice raggruppamento (vuoto se non impostato).
+          x-mexal-tipo: Alfanumerico
+        livello_azienda:
+          type: string
+          description: Livello di abilitazione dell’azienda.
+          x-mexal-tipo: Alfanumerico
+      x-mexal-origine-campi: manuale
+    AziendeCampo:
+      type: string
+      enum:
+        - id
+        - sigla
+        - ragione_sociale
+        - descrizione
+        - cod_fis_piva
+        - stato
+        - tipo
+        - gest_impresa_prof
+        - gestione_fiscale
+        - primo_anno_gest
+        - ult_anno_gest
+        - raggruppamento
+        - livello_azienda
+      description: Campi di aziende.
+    AziendeInserimento:
+      allOf:
+        - $ref: "#/components/schemas/Aziende"
+      properties:
+        in_sigla_azienda:
+          type: string
+          description: Sigla azienda (3 caratteri alfanumerici).
+          x-mexal-tipo: Alfanumerico
+          x-mexal-solo-inserimento: true
+        in_data_inizio_gestione:
+          type: string
+          description: Data di creazione (formato AAAAMMGG).
+          x-mexal-tipo: Alfanumerico
+          x-mexal-solo-inserimento: true
+        in_gest_impresa_professionista:
+          type: string
+          description: "P = Professionista, I = Impresa."
+          x-mexal-tipo: Alfanumerico
+          x-mexal-solo-inserimento: true
+        in_gestione_fiscale:
+          type: string
+          description: Tipo gestione fiscale (vedi tabella sotto) in_contabilita_cassa string Condizionale body Solo se impresa + semplificata (vedi tabella sotto).
+          x-mexal-tipo: Alfanumerico
+          x-mexal-solo-inserimento: true
+        in_id_anagrafica:
+          type: integer
+          description: ID anagrafica unica collegata.
+          x-mexal-tipo: Numerico
+          x-mexal-solo-inserimento: true
+        in_mese_inizio_anno_contabile:
+          type: integer
+          description: Mese inizio anno contabile (1-12) Valori Gestione Fiscale (in_gestione_fiscale) Valore Descrizione O Ordinaria S Semplificata U Super minimo I Solo attività istituzionale Y Forfetaria 2015 Valori Contabilità per Cassa (in_contabilita_cassa) Valore Descrizione S Reale V Virtuale.
+          x-mexal-tipo: Numerico
+          x-mexal-solo-inserimento: true
+      required:
+        - in_sigla_azienda
+        - in_data_inizio_gestione
+        - in_gest_impresa_professionista
+        - in_gestione_fiscale
+        - in_id_anagrafica
+        - in_mese_inizio_anno_contabile
+      description: "Body di inserimento. Obbligatori secondo il manuale: in_sigla_azienda, in_data_inizio_gestione, in_gest_impresa_professionista, in_gestione_fiscale, in_id_anagrafica, in_mese_inizio_anno_contabile."
+    Filtro:
+      type: object
+      required:
+        - campo
+        - condizione
+        - valore
+      properties:
+        campo:
+          type: string
+          description: Nome del campo su cui filtrare.
+        indice1:
+          type: integer
+          minimum: 1
+          description: Indice del primo livello, per i campi array.
+        indice2:
+          type: integer
+          minimum: 1
+          description: Indice del secondo livello, per gli array a due livelli.
+        condizione:
+          type: string
+          enum:
+            - "="
+            - "<>"
+            - ">"
+            - "<"
+            - ">="
+            - "<="
+            - contiene
+            - inizia_per
+        case_insensitive:
+          type: boolean
+          default: false
+          description: Solo per i confronti fra stringhe.
+        valore:
+          description: "Valore da confrontare; un array mette i valori in OR. Date come AAAAMMGG."
+          anyOf:
+            - type: string
+            - type: number
+            - type: array
+              minItems: 1
+              items:
+                type:
+                  - string
+                  - number
+    Errore:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            response-code:
+              type: integer
+            response-detail:
+              type: string
+              description: "Codice numerico + messaggio: \"<codice> - <messaggio> [<dettaglio>]\". 6001 = errore gestionale."
+            response-message:
+              type: string
+            request-uri:
+              type: string
+            request-method:
+              type: string
+            request-id:
+              type: string
+              description: UUID da citare al supporto.
+            warsion:
+              type: string
+            remote:
+              type: string
+            timestamp:
+              type: string

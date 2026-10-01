@@ -1,0 +1,976 @@
+{
+    "tools": [
+        {
+            "name": "mexal_elenca_risorse",
+            "title": "Elenca le risorse del gestionale",
+            "description": "Elenca gli archivi esposti dalle WebAPI di Mexal/Passcom (clienti, articoli, ordini, tabelle di dati generali, ...) con descrizione e operazioni disponibili. Usalo per scegliere la risorsa giusta prima di qualunque altra chiamata.",
+            "inputSchema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                    "gruppo": {
+                        "type": "string",
+                        "enum": [
+                            "dati-generali",
+                            "banche",
+                            "indirizzi-spedizione",
+                            "referenti",
+                            "clienti",
+                            "fornitori",
+                            "conti",
+                            "articoli",
+                            "articoli-abbinati",
+                            "progressivi-articoli",
+                            "dba",
+                            "documenti",
+                            "impegni",
+                            "prima-nota",
+                            "mydb",
+                            "distinte-base",
+                            "lotti",
+                            "ubicazioni",
+                            "scadenzario",
+                            "liste-prelievo",
+                            "alias-articoli",
+                            "mappa-articoli",
+                            "aziende",
+                            "anagrafica-unica",
+                            "anagrafica-contatti"
+                        ],
+                        "description": "Limita a un gruppo."
+                    },
+                    "testo": {
+                        "type": "string",
+                        "description": "Filtra per testo su id e descrizione (es. \"pagament\", \"ordini\")."
+                    }
+                }
+            },
+            "annotations": {
+                "readOnlyHint": true,
+                "openWorldHint": false
+            }
+        },
+        {
+            "name": "mexal_descrivi_risorsa",
+            "title": "Descrive campi e chiavi di una risorsa",
+            "description": "Restituisce la struttura di una risorsa: chiave (formato_chiave), operazioni, campi con tipo, descrizione, obbligatorietà in inserimento (obbligatorio_crea) e in revisione, formato delle date e degli array, e per i campi codice la risorsa da cui prendere il valore (riferimento). Chiamalo prima di mexal_cerca, mexal_crea o mexal_modifica: i nomi dei campi non vanno indovinati.",
+            "inputSchema": {
+                "type": "object",
+                "required": [
+                    "risorsa"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                    "risorsa": {
+                        "type": "string",
+                        "enum": [
+                            "dati-generali/aspetto-esteriore-beni",
+                            "dati-generali/centri-costo-ricavo",
+                            "dati-generali/classi-docuvision",
+                            "dati-generali/correlazione-unita-misura",
+                            "dati-generali/installazione",
+                            "dati-generali/cartella-abbinamenti",
+                            "dati-generali/utenti",
+                            "dati-generali/valute",
+                            "dati-generali/posizione-referenti",
+                            "dati-generali/gruppi-mastri",
+                            "dati-generali/fasi-lavorazione",
+                            "dati-generali/categorie-statistiche-cli-for",
+                            "dati-generali/lingue-straniere",
+                            "dati-generali/condizioni-generali-pagamenti",
+                            "dati-generali/categorie-provvigioni-articoli",
+                            "dati-generali/categorie-sconti-articoli",
+                            "dati-generali/magazzini",
+                            "dati-generali/sconti-listini",
+                            "dati-generali/abbinamenti-colori",
+                            "dati-generali/taglie",
+                            "dati-generali/pagamenti",
+                            "dati-generali/tipi-lotti-matricole",
+                            "dati-generali/gruppi-merceologici",
+                            "dati-generali/esenzioni-iva",
+                            "dati-generali/nature-articoli",
+                            "dati-generali/strutture-articoli",
+                            "dati-generali/categorie-prezzi",
+                            "dati-generali/categorie-provvigioni",
+                            "dati-generali/categorie-sconti",
+                            "dati-generali/categorie-statistiche-articoli",
+                            "dati-generali/causali-movimenti",
+                            "dati-generali/omaggi-abbuoni",
+                            "dati-generali/listini",
+                            "dati-generali/provvigioni-listini",
+                            "dati-generali/sconti-quantita",
+                            "dati-generali/serie-documenti",
+                            "dati-generali/particolarita",
+                            "dati-generali/imballi",
+                            "dati-generali/zone-clienti-fornitori",
+                            "dati-generali/parametri-aziendali",
+                            "banche",
+                            "indirizzi-spedizione",
+                            "referenti/clienti",
+                            "referenti/fornitori",
+                            "clienti",
+                            "fornitori",
+                            "conti",
+                            "articoli",
+                            "articoli/{codice}/allegati",
+                            "articoli/{cod_articolo}/progressivi",
+                            "articoli/{codice_articolo}/abbinati",
+                            "articoli-abbinati",
+                            "progressivi-articoli",
+                            "dba",
+                            "documenti/moduli-stampa",
+                            "documenti/ordini-clienti",
+                            "documenti/ordini-clienti/righe",
+                            "documenti/ordini-fornitori",
+                            "documenti/ordini-fornitori/righe",
+                            "documenti/ordini-matrici",
+                            "documenti/ordini-matrici/righe",
+                            "documenti/preventivi",
+                            "documenti/preventivi/righe",
+                            "documenti/movimenti-magazzino",
+                            "documenti/movimenti-magazzino/righe",
+                            "documenti/lavorazione/prodotti",
+                            "documenti/lavorazione/bolle",
+                            "documenti/lavorazione/impegni",
+                            "impegni",
+                            "prima-nota",
+                            "prima-nota/righe",
+                            "mydb/{nome_archivio}",
+                            "mydb/{nome_archivio}/{sigla_doc}",
+                            "distinte-base/fasi",
+                            "distinte-base/componenti",
+                            "lotti",
+                            "ubicazioni",
+                            "scadenzario",
+                            "liste-prelievo",
+                            "liste-prelievo/righe",
+                            "alias-articoli",
+                            "mappa-articoli",
+                            "aziende",
+                            "anagrafica-unica",
+                            "anagrafica-unica/storico",
+                            "anagrafica-contatti"
+                        ],
+                        "description": "Id della risorsa."
+                    },
+                    "campi": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "Restituisce solo questi campi."
+                    },
+                    "solo_obbligatori": {
+                        "type": "boolean",
+                        "default": false,
+                        "description": "Solo chiave e campi obbligatori in inserimento."
+                    },
+                    "testo": {
+                        "type": "string",
+                        "description": "Solo i campi il cui nome o descrizione contiene il testo (es. \"pagamento\", \"iva\")."
+                    },
+                    "aggiorna": {
+                        "type": "boolean",
+                        "default": false,
+                        "description": "Rilegge i campi dal gestionale con ?info=true invece che dal catalogo."
+                    }
+                }
+            },
+            "annotations": {
+                "readOnlyHint": true,
+                "openWorldHint": false
+            }
+        },
+        {
+            "name": "mexal_lista",
+            "title": "Legge una collezione",
+            "description": "GET su una collezione: restituisce i record in \"dati\" e, se ce ne sono altri, il token \"next\". Senza filtri: per cercare record specifici usa mexal_cerca. Nei documenti restituisce solo le testate (le righe sono nella risorsa .../righe o nel documento letto con mexal_leggi).",
+            "inputSchema": {
+                "type": "object",
+                "required": [
+                    "risorsa"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                    "risorsa": {
+                        "type": "string",
+                        "enum": [
+                            "dati-generali/aspetto-esteriore-beni",
+                            "dati-generali/centri-costo-ricavo",
+                            "dati-generali/classi-docuvision",
+                            "dati-generali/correlazione-unita-misura",
+                            "dati-generali/installazione",
+                            "dati-generali/cartella-abbinamenti",
+                            "dati-generali/utenti",
+                            "dati-generali/valute",
+                            "dati-generali/posizione-referenti",
+                            "dati-generali/gruppi-mastri",
+                            "dati-generali/fasi-lavorazione",
+                            "dati-generali/categorie-statistiche-cli-for",
+                            "dati-generali/lingue-straniere",
+                            "dati-generali/condizioni-generali-pagamenti",
+                            "dati-generali/categorie-provvigioni-articoli",
+                            "dati-generali/categorie-sconti-articoli",
+                            "dati-generali/magazzini",
+                            "dati-generali/sconti-listini",
+                            "dati-generali/abbinamenti-colori",
+                            "dati-generali/taglie",
+                            "dati-generali/pagamenti",
+                            "dati-generali/tipi-lotti-matricole",
+                            "dati-generali/gruppi-merceologici",
+                            "dati-generali/esenzioni-iva",
+                            "dati-generali/nature-articoli",
+                            "dati-generali/strutture-articoli",
+                            "dati-generali/categorie-prezzi",
+                            "dati-generali/categorie-provvigioni",
+                            "dati-generali/categorie-sconti",
+                            "dati-generali/categorie-statistiche-articoli",
+                            "dati-generali/causali-movimenti",
+                            "dati-generali/omaggi-abbuoni",
+                            "dati-generali/listini",
+                            "dati-generali/provvigioni-listini",
+                            "dati-generali/sconti-quantita",
+                            "dati-generali/serie-documenti",
+                            "dati-generali/particolarita",
+                            "dati-generali/imballi",
+                            "dati-generali/zone-clienti-fornitori",
+                            "dati-generali/parametri-aziendali",
+                            "banche",
+                            "indirizzi-spedizione",
+                            "referenti/clienti",
+                            "referenti/fornitori",
+                            "clienti",
+                            "fornitori",
+                            "conti",
+                            "articoli",
+                            "articoli/{cod_articolo}/progressivi",
+                            "articoli-abbinati",
+                            "progressivi-articoli",
+                            "dba",
+                            "documenti/moduli-stampa",
+                            "documenti/ordini-clienti",
+                            "documenti/ordini-clienti/righe",
+                            "documenti/ordini-fornitori",
+                            "documenti/ordini-fornitori/righe",
+                            "documenti/ordini-matrici",
+                            "documenti/ordini-matrici/righe",
+                            "documenti/preventivi",
+                            "documenti/preventivi/righe",
+                            "documenti/movimenti-magazzino",
+                            "documenti/movimenti-magazzino/righe",
+                            "documenti/lavorazione/prodotti",
+                            "documenti/lavorazione/bolle",
+                            "documenti/lavorazione/impegni",
+                            "impegni",
+                            "prima-nota",
+                            "prima-nota/righe",
+                            "mydb/{nome_archivio}",
+                            "mydb/{nome_archivio}/{sigla_doc}",
+                            "distinte-base/fasi",
+                            "distinte-base/componenti",
+                            "lotti",
+                            "ubicazioni",
+                            "scadenzario",
+                            "liste-prelievo",
+                            "liste-prelievo/righe",
+                            "alias-articoli",
+                            "mappa-articoli",
+                            "aziende",
+                            "anagrafica-unica",
+                            "anagrafica-unica/storico",
+                            "anagrafica-contatti"
+                        ],
+                        "description": "Id della risorsa."
+                    },
+                    "campi": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "Campi da restituire (parametro fields). Indicare sempre solo quelli che servono: i record completi hanno centinaia di campi."
+                    },
+                    "max": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 1000,
+                        "default": 50,
+                        "description": "Numero massimo di record della pagina."
+                    },
+                    "next": {
+                        "type": "string",
+                        "description": "Token next restituito dalla chiamata precedente, per la pagina successiva. Va usato subito."
+                    },
+                    "parametri_path": {
+                        "type": "object",
+                        "description": "Solo per le risorse con parametri nel path (es. {\"codice\": \"ART01\"} per articoli/{codice}/allegati, {\"nome_archivio\": \"APP@archivio\"} per mydb). Vedi parametri_path in mexal_descrivi_risorsa.",
+                        "additionalProperties": {
+                            "type": [
+                                "string",
+                                "integer"
+                            ]
+                        }
+                    }
+                }
+            },
+            "outputSchema": {
+                "type": "object",
+                "required": [
+                    "dati"
+                ],
+                "properties": {
+                    "dati": {
+                        "type": "array",
+                        "items": {
+                            "type": "object"
+                        }
+                    },
+                    "next": {
+                        "type": "string",
+                        "description": "Presente se ci sono altre pagine."
+                    }
+                }
+            },
+            "annotations": {
+                "readOnlyHint": true,
+                "idempotentHint": true,
+                "openWorldHint": false
+            }
+        },
+        {
+            "name": "mexal_cerca",
+            "title": "Cerca record con filtri",
+            "description": "POST <risorsa>/ricerca. I filtri sono in AND; un valore array mette i valori in OR. Esempi: cliente per nome {\"campo\":\"ragione_sociale\",\"condizione\":\"contiene\",\"valore\":\"rossi\",\"case_insensitive\":true}; documenti di gennaio [{\"campo\":\"data_documento\",\"condizione\":\">=\",\"valore\":\"20260101\"},{\"campo\":\"data_documento\",\"condizione\":\"<=\",\"valore\":\"20260131\"}]. È il modo giusto per trovare il codice da usare in un campo con riferimento.",
+            "inputSchema": {
+                "type": "object",
+                "required": [
+                    "risorsa",
+                    "filtri"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                    "risorsa": {
+                        "type": "string",
+                        "enum": [
+                            "dati-generali/centri-costo-ricavo",
+                            "dati-generali/cartella-abbinamenti",
+                            "dati-generali/valute",
+                            "dati-generali/gruppi-mastri",
+                            "dati-generali/fasi-lavorazione",
+                            "dati-generali/magazzini",
+                            "dati-generali/sconti-listini",
+                            "dati-generali/abbinamenti-colori",
+                            "dati-generali/taglie",
+                            "dati-generali/pagamenti",
+                            "dati-generali/tipi-lotti-matricole",
+                            "dati-generali/gruppi-merceologici",
+                            "dati-generali/esenzioni-iva",
+                            "dati-generali/nature-articoli",
+                            "dati-generali/strutture-articoli",
+                            "dati-generali/categorie-statistiche-articoli",
+                            "dati-generali/causali-movimenti",
+                            "dati-generali/omaggi-abbuoni",
+                            "dati-generali/listini",
+                            "dati-generali/provvigioni-listini",
+                            "dati-generali/sconti-quantita",
+                            "dati-generali/serie-documenti",
+                            "dati-generali/particolarita",
+                            "dati-generali/imballi",
+                            "banche",
+                            "indirizzi-spedizione",
+                            "referenti/clienti",
+                            "referenti/fornitori",
+                            "clienti",
+                            "fornitori",
+                            "conti",
+                            "articoli",
+                            "articoli-abbinati",
+                            "dba",
+                            "documenti/ordini-clienti",
+                            "documenti/ordini-clienti/righe",
+                            "documenti/ordini-fornitori",
+                            "documenti/ordini-fornitori/righe",
+                            "documenti/ordini-matrici",
+                            "documenti/ordini-matrici/righe",
+                            "documenti/preventivi",
+                            "documenti/preventivi/righe",
+                            "documenti/movimenti-magazzino",
+                            "documenti/movimenti-magazzino/righe",
+                            "documenti/lavorazione/prodotti",
+                            "documenti/lavorazione/bolle",
+                            "documenti/lavorazione/impegni",
+                            "impegni",
+                            "prima-nota",
+                            "prima-nota/righe",
+                            "mydb/{nome_archivio}",
+                            "mydb/{nome_archivio}/{sigla_doc}",
+                            "distinte-base/fasi",
+                            "distinte-base/componenti",
+                            "lotti",
+                            "ubicazioni",
+                            "scadenzario",
+                            "liste-prelievo",
+                            "liste-prelievo/righe",
+                            "alias-articoli",
+                            "mappa-articoli",
+                            "anagrafica-unica",
+                            "anagrafica-unica/storico",
+                            "anagrafica-contatti"
+                        ],
+                        "description": "Id della risorsa."
+                    },
+                    "filtri": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                            "type": "object",
+                            "required": [
+                                "campo",
+                                "condizione",
+                                "valore"
+                            ],
+                            "additionalProperties": false,
+                            "properties": {
+                                "campo": {
+                                    "type": "string",
+                                    "description": "Nome di un campo della risorsa."
+                                },
+                                "condizione": {
+                                    "type": "string",
+                                    "enum": [
+                                        "=",
+                                        "<>",
+                                        ">",
+                                        "<",
+                                        ">=",
+                                        "<=",
+                                        "contiene",
+                                        "inizia_per"
+                                    ]
+                                },
+                                "valore": {
+                                    "description": "Valore da confrontare. Un array mette i valori in OR. Date come AAAAMMGG.",
+                                    "anyOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "number"
+                                        },
+                                        {
+                                            "type": "array",
+                                            "minItems": 1,
+                                            "items": {
+                                                "type": [
+                                                    "string",
+                                                    "number"
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                },
+                                "case_insensitive": {
+                                    "type": "boolean",
+                                    "default": false
+                                },
+                                "indice1": {
+                                    "type": "integer",
+                                    "minimum": 1,
+                                    "description": "Solo per campi array: indice dell'elemento."
+                                },
+                                "indice2": {
+                                    "type": "integer",
+                                    "minimum": 1,
+                                    "description": "Solo per array a due livelli."
+                                }
+                            }
+                        }
+                    },
+                    "campi": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "Campi da restituire (parametro fields). Indicare sempre solo quelli che servono: i record completi hanno centinaia di campi."
+                    },
+                    "max": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 1000,
+                        "default": 50,
+                        "description": "Numero massimo di record della pagina."
+                    },
+                    "next": {
+                        "type": "string",
+                        "description": "Token next restituito dalla chiamata precedente, per la pagina successiva. Va usato subito."
+                    },
+                    "parametri_path": {
+                        "type": "object",
+                        "description": "Solo per le risorse con parametri nel path (es. {\"codice\": \"ART01\"} per articoli/{codice}/allegati, {\"nome_archivio\": \"APP@archivio\"} per mydb). Vedi parametri_path in mexal_descrivi_risorsa.",
+                        "additionalProperties": {
+                            "type": [
+                                "string",
+                                "integer"
+                            ]
+                        }
+                    }
+                }
+            },
+            "outputSchema": {
+                "type": "object",
+                "required": [
+                    "dati"
+                ],
+                "properties": {
+                    "dati": {
+                        "type": "array",
+                        "items": {
+                            "type": "object"
+                        }
+                    },
+                    "next": {
+                        "type": "string",
+                        "description": "Presente se ci sono altre pagine."
+                    }
+                }
+            },
+            "annotations": {
+                "readOnlyHint": true,
+                "idempotentHint": true,
+                "openWorldHint": false
+            }
+        },
+        {
+            "name": "mexal_leggi",
+            "title": "Legge un record per chiave",
+            "description": "GET su un singolo record. Per i documenti (ordini, preventivi, movimenti, prima nota, liste prelievo) restituisce testata e righe, con i campi di riga come array [[indice_riga, valore], ...]. Conserva data_ult_mod se poi devi modificare il record.",
+            "inputSchema": {
+                "type": "object",
+                "required": [
+                    "risorsa",
+                    "chiave"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                    "risorsa": {
+                        "type": "string",
+                        "enum": [
+                            "dati-generali/categorie-statistiche-cli-for",
+                            "dati-generali/lingue-straniere",
+                            "dati-generali/tipi-lotti-matricole",
+                            "indirizzi-spedizione",
+                            "referenti/clienti",
+                            "referenti/fornitori",
+                            "clienti",
+                            "fornitori",
+                            "conti",
+                            "articoli",
+                            "articoli/{codice}/allegati",
+                            "articoli/{codice_articolo}/abbinati",
+                            "documenti/moduli-stampa",
+                            "documenti/ordini-clienti",
+                            "documenti/ordini-fornitori",
+                            "documenti/ordini-matrici",
+                            "documenti/preventivi",
+                            "documenti/movimenti-magazzino",
+                            "documenti/lavorazione/bolle",
+                            "documenti/lavorazione/impegni",
+                            "impegni",
+                            "prima-nota",
+                            "mydb/{nome_archivio}",
+                            "mydb/{nome_archivio}/{sigla_doc}",
+                            "distinte-base/fasi",
+                            "lotti",
+                            "ubicazioni",
+                            "liste-prelievo",
+                            "alias-articoli",
+                            "anagrafica-unica",
+                            "anagrafica-contatti"
+                        ],
+                        "description": "Id della risorsa."
+                    },
+                    "chiave": {
+                        "type": "object",
+                        "description": "Parti della chiave per nome, nell'ordine di formato_chiave restituito da mexal_descrivi_risorsa. Es. {\"codice\": \"501.00001\"} per clienti, {\"sigla\": \"OC\", \"serie\": 1, \"numero\": 15} per documenti/ordini-clienti. Passare i codici come appaiono nel gestionale: la codifica esadecimale dei codici con / o \\ è automatica.",
+                        "additionalProperties": {
+                            "type": [
+                                "string",
+                                "integer"
+                            ]
+                        },
+                        "minProperties": 1
+                    },
+                    "campi": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "Campi da restituire (parametro fields). Indicare sempre solo quelli che servono: i record completi hanno centinaia di campi."
+                    },
+                    "parametri_path": {
+                        "type": "object",
+                        "description": "Solo per le risorse con parametri nel path (es. {\"codice\": \"ART01\"} per articoli/{codice}/allegati, {\"nome_archivio\": \"APP@archivio\"} per mydb). Vedi parametri_path in mexal_descrivi_risorsa.",
+                        "additionalProperties": {
+                            "type": [
+                                "string",
+                                "integer"
+                            ]
+                        }
+                    }
+                }
+            },
+            "outputSchema": {
+                "type": "object"
+            },
+            "annotations": {
+                "readOnlyHint": true,
+                "idempotentHint": true,
+                "openWorldHint": false
+            }
+        },
+        {
+            "name": "mexal_crea",
+            "title": "Crea un record",
+            "description": "POST di un nuovo record; restituisce la chiave assegnata (letta dall'header Location). Prima: mexal_descrivi_risorsa per i campi obbligatori, e per ogni campo con riferimento un valore esistente trovato con mexal_cerca (mai inventare codici). Documenti: righe come array per riga, id_riga 0 per le righe nuove, numero 0 per la numerazione automatica (dove ammessa). Date AAAAMMGG. Non è idempotente: non ripetere la chiamata se l'esito è incerto, verifica prima con mexal_cerca.",
+            "inputSchema": {
+                "type": "object",
+                "required": [
+                    "risorsa",
+                    "dati"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                    "risorsa": {
+                        "type": "string",
+                        "enum": [
+                            "dati-generali/categorie-statistiche-cli-for",
+                            "dati-generali/lingue-straniere",
+                            "dati-generali/tipi-lotti-matricole",
+                            "indirizzi-spedizione",
+                            "referenti/clienti",
+                            "referenti/fornitori",
+                            "clienti",
+                            "fornitori",
+                            "conti",
+                            "articoli",
+                            "articoli/{codice_articolo}/abbinati",
+                            "documenti/ordini-clienti",
+                            "documenti/ordini-fornitori",
+                            "documenti/ordini-matrici",
+                            "documenti/preventivi",
+                            "documenti/movimenti-magazzino",
+                            "documenti/lavorazione/bolle",
+                            "documenti/lavorazione/impegni",
+                            "impegni",
+                            "prima-nota",
+                            "mydb/{nome_archivio}",
+                            "mydb/{nome_archivio}/{sigla_doc}",
+                            "distinte-base/fasi",
+                            "lotti",
+                            "ubicazioni",
+                            "liste-prelievo",
+                            "alias-articoli",
+                            "aziende",
+                            "anagrafica-unica",
+                            "anagrafica-contatti"
+                        ],
+                        "description": "Id della risorsa."
+                    },
+                    "dati": {
+                        "type": "object",
+                        "description": "Campi del record, con i nomi di mexal_descrivi_risorsa.",
+                        "minProperties": 1
+                    },
+                    "parametri_path": {
+                        "type": "object",
+                        "description": "Solo per le risorse con parametri nel path (es. {\"codice\": \"ART01\"} per articoli/{codice}/allegati, {\"nome_archivio\": \"APP@archivio\"} per mydb). Vedi parametri_path in mexal_descrivi_risorsa.",
+                        "additionalProperties": {
+                            "type": [
+                                "string",
+                                "integer"
+                            ]
+                        }
+                    },
+                    "sigla_trasformazione": {
+                        "type": "string",
+                        "pattern": "^[A-Z]{2}$",
+                        "description": "Solo documenti: trasforma i documenti di origine indicati nelle righe nella sigla data (es. \"FT\" da bolle BC). Richiede sigla_doc_orig, serie_doc_orig, numero_doc_orig, id_rif_testata e dt_ult_mod_orig per riga."
+                    }
+                }
+            },
+            "outputSchema": {
+                "type": "object",
+                "properties": {
+                    "location": {
+                        "type": "string"
+                    },
+                    "chiave": {
+                        "type": "string",
+                        "description": "Chiave del record creato, es. OC+1+541."
+                    }
+                }
+            },
+            "annotations": {
+                "readOnlyHint": false,
+                "destructiveHint": false,
+                "idempotentHint": false,
+                "openWorldHint": false
+            }
+        },
+        {
+            "name": "mexal_modifica",
+            "title": "Modifica un record",
+            "description": "PUT su un record esistente con i soli campi da cambiare, più data_ult_mod letto con mexal_leggi (controllo di modifica concorrente). Documenti: vanno indicati tutti gli id_riga e tp_riga esistenti, altrimenti le righe omesse vengono CANCELLATE; per cambiare solo la testata usa solo_testata=true.",
+            "inputSchema": {
+                "type": "object",
+                "required": [
+                    "risorsa",
+                    "chiave",
+                    "dati"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                    "risorsa": {
+                        "type": "string",
+                        "enum": [
+                            "dati-generali/categorie-statistiche-cli-for",
+                            "dati-generali/lingue-straniere",
+                            "dati-generali/tipi-lotti-matricole",
+                            "indirizzi-spedizione",
+                            "referenti/clienti",
+                            "referenti/fornitori",
+                            "clienti",
+                            "fornitori",
+                            "conti",
+                            "articoli",
+                            "articoli/{codice_articolo}/abbinati",
+                            "documenti/ordini-clienti",
+                            "documenti/ordini-fornitori",
+                            "documenti/ordini-matrici",
+                            "documenti/preventivi",
+                            "documenti/movimenti-magazzino",
+                            "documenti/lavorazione/bolle",
+                            "documenti/lavorazione/impegni",
+                            "impegni",
+                            "prima-nota",
+                            "mydb/{nome_archivio}",
+                            "mydb/{nome_archivio}/{sigla_doc}",
+                            "distinte-base/fasi",
+                            "lotti",
+                            "ubicazioni",
+                            "liste-prelievo",
+                            "alias-articoli",
+                            "anagrafica-unica",
+                            "anagrafica-contatti"
+                        ],
+                        "description": "Id della risorsa."
+                    },
+                    "chiave": {
+                        "type": "object",
+                        "description": "Parti della chiave per nome, nell'ordine di formato_chiave restituito da mexal_descrivi_risorsa. Es. {\"codice\": \"501.00001\"} per clienti, {\"sigla\": \"OC\", \"serie\": 1, \"numero\": 15} per documenti/ordini-clienti. Passare i codici come appaiono nel gestionale: la codifica esadecimale dei codici con / o \\ è automatica.",
+                        "additionalProperties": {
+                            "type": [
+                                "string",
+                                "integer"
+                            ]
+                        },
+                        "minProperties": 1
+                    },
+                    "dati": {
+                        "type": "object",
+                        "minProperties": 1,
+                        "description": "Campi da modificare."
+                    },
+                    "solo_testata": {
+                        "type": "boolean",
+                        "default": false,
+                        "description": "Solo documenti: modifica la testata preservando le righe."
+                    },
+                    "parametri_path": {
+                        "type": "object",
+                        "description": "Solo per le risorse con parametri nel path (es. {\"codice\": \"ART01\"} per articoli/{codice}/allegati, {\"nome_archivio\": \"APP@archivio\"} per mydb). Vedi parametri_path in mexal_descrivi_risorsa.",
+                        "additionalProperties": {
+                            "type": [
+                                "string",
+                                "integer"
+                            ]
+                        }
+                    }
+                }
+            },
+            "annotations": {
+                "readOnlyHint": false,
+                "destructiveHint": true,
+                "idempotentHint": true,
+                "openWorldHint": false
+            }
+        },
+        {
+            "name": "mexal_elimina",
+            "title": "Elimina un record",
+            "description": "DELETE di un record. Irreversibile: chiedi conferma all'utente prima di usarlo, indicando quale record verrà eliminato.",
+            "inputSchema": {
+                "type": "object",
+                "required": [
+                    "risorsa",
+                    "chiave"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                    "risorsa": {
+                        "type": "string",
+                        "enum": [
+                            "dati-generali/categorie-statistiche-cli-for",
+                            "dati-generali/lingue-straniere",
+                            "dati-generali/tipi-lotti-matricole",
+                            "referenti/clienti",
+                            "referenti/fornitori",
+                            "clienti",
+                            "fornitori",
+                            "conti",
+                            "articoli",
+                            "articoli/{codice_articolo}/abbinati",
+                            "documenti/ordini-clienti",
+                            "documenti/ordini-fornitori",
+                            "documenti/ordini-matrici",
+                            "documenti/preventivi",
+                            "documenti/movimenti-magazzino",
+                            "documenti/lavorazione/bolle",
+                            "documenti/lavorazione/impegni",
+                            "impegni",
+                            "prima-nota",
+                            "mydb/{nome_archivio}",
+                            "mydb/{nome_archivio}/{sigla_doc}",
+                            "distinte-base/fasi",
+                            "lotti",
+                            "ubicazioni",
+                            "liste-prelievo",
+                            "alias-articoli",
+                            "anagrafica-unica",
+                            "anagrafica-contatti"
+                        ],
+                        "description": "Id della risorsa."
+                    },
+                    "chiave": {
+                        "type": "object",
+                        "description": "Parti della chiave per nome, nell'ordine di formato_chiave restituito da mexal_descrivi_risorsa. Es. {\"codice\": \"501.00001\"} per clienti, {\"sigla\": \"OC\", \"serie\": 1, \"numero\": 15} per documenti/ordini-clienti. Passare i codici come appaiono nel gestionale: la codifica esadecimale dei codici con / o \\ è automatica.",
+                        "additionalProperties": {
+                            "type": [
+                                "string",
+                                "integer"
+                            ]
+                        },
+                        "minProperties": 1
+                    },
+                    "parametri_path": {
+                        "type": "object",
+                        "description": "Solo per le risorse con parametri nel path (es. {\"codice\": \"ART01\"} per articoli/{codice}/allegati, {\"nome_archivio\": \"APP@archivio\"} per mydb). Vedi parametri_path in mexal_descrivi_risorsa.",
+                        "additionalProperties": {
+                            "type": [
+                                "string",
+                                "integer"
+                            ]
+                        }
+                    },
+                    "parametri_query": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": [
+                                "string",
+                                "integer"
+                            ]
+                        },
+                        "description": "Parametri aggiuntivi documentati per la risorsa (es. liste-prelievo: sigla, serie, numero, id_riga, prog_riga per cancellare una sola riga)."
+                    }
+                }
+            },
+            "annotations": {
+                "readOnlyHint": false,
+                "destructiveHint": true,
+                "idempotentHint": true,
+                "openWorldHint": false
+            }
+        },
+        {
+            "name": "mexal_servizio",
+            "title": "Esegue un servizio del gestionale",
+            "description": "Canale /servizi per operazioni che non sono CRUD: calcoli (esposizione cliente, totali documento, condizioni di prezzo/sconto), stampe PDF, progressivi, CAP e zone, Docuvision, ecc. Lo schema di ciascun comando è nel catalogo (servizi.<cmd>.input_schema): i parametri vanno in dati, salvo quelli indicati accanto a cmd.",
+            "inputSchema": {
+                "type": "object",
+                "required": [
+                    "cmd"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                    "cmd": {
+                        "type": "string",
+                        "enum": [
+                            "esec_collage_server_remoto",
+                            "sviluppo_distinta_base",
+                            "avanzamento_produzione",
+                            "spezzariga_bl",
+                            "condizioni_documento",
+                            "calcolo_esposizione",
+                            "get_prog_ubicazioni",
+                            "totali_documento",
+                            "totali_riga_documento",
+                            "get_tabella_cap",
+                            "get_tabella_zone",
+                            "totali_nr_operazioni_contabili",
+                            "leggi_pratica_dr",
+                            "get_lista_pratiche_dr",
+                            "get_lista_deleghe",
+                            "cambia_stato_delega",
+                            "get_registro_operazioni_utente",
+                            "leggi_dichiarazione_iva_annuale",
+                            "leggi_comunicazioni_lipe",
+                            "stampa_ordine_cliente",
+                            "stampa_ordine_fornitore",
+                            "stampa_preventivo",
+                            "stampa_ordine_matrice",
+                            "stampa_movimento_magazzino",
+                            "ins_righe_ordine_cliente",
+                            "ins_righe_ordine_fornitore",
+                            "ins_righe_preventivo",
+                            "ins_righe_ordine_matrice",
+                            "ins_righe_movimento_magazzino",
+                            "lista_docdv",
+                            "get_allegato_archivio",
+                            "get_assoc_dv",
+                            "lista_strutture_mydb",
+                            "get_proprieta_numeratori",
+                            "verifica_autenticazione_mydb",
+                            "get_calendari_produzione",
+                            "get_multilotto",
+                            "cambia_iban_tipo_invio_delega",
+                            "inserisci_aggiorna_iban",
+                            "get_storico_ordine"
+                        ],
+                        "description": "Comando del servizio."
+                    },
+                    "dati": {
+                        "type": "object",
+                        "description": "Parametri del servizio."
+                    },
+                    "parametri_radice": {
+                        "type": "object",
+                        "description": "Parametri da mettere accanto a cmd invece che in dati (es. esec_collage_server_remoto, get_prog_ubicazioni)."
+                    }
+                }
+            },
+            "annotations": {
+                "readOnlyHint": false,
+                "destructiveHint": false,
+                "openWorldHint": false
+            }
+        }
+    ],
+    "_meta": {
+        "descrizione": "Definizioni dei tool nel formato della risposta MCP tools/list. L'implementazione di ogni tool legge mexal-catalogo.json per path, chiavi e campi e chiama le WebAPI (es. con simonelanini/php-mexal-api).",
+        "catalogo": "mexal-catalogo.json",
+        "guida": "AGENTE.md",
+        "gestionale": {
+            "codice_prodotto": "2.9.17",
+            "versione_prodotto": 88201
+        }
+    }
+}

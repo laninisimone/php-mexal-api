@@ -1,0 +1,23 @@
+{
+    "path": "/dati-generali/serie-documenti",
+    "origine": "info",
+    "forma": "dati",
+    "campi": [
+        {
+            "nome": "sigla_documento",
+            "descrizione": "Sigla documento",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "serie_massima",
+            "descrizione": "Serie massima documento",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "descrizione",
+            "descrizione": "Descrizioni serie documento",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "999"
+        }
+    ]
+}

@@ -1,0 +1,355 @@
+{
+    "path": "/conti",
+    "origine": "info",
+    "forma": "dati",
+    "campi": [
+        {
+            "nome": "codice",
+            "descrizione": "Codice",
+            "tipo": "Alfanumerico",
+            "chiave": true,
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "cod_alternativo",
+            "descrizione": "Codice alternativo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "ragione_sociale",
+            "descrizione": "Ragione sociale",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "nome_ricerca",
+            "descrizione": "Nome di ricerca / descrizione aggiuntiva",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_gior_cassa",
+            "descrizione": "Giornale di cassa",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_assogg_iva",
+            "descrizione": "Assogettamento Iva",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "perc_indetra",
+            "descrizione": "Percentuale Indetraibilita'",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "gest_auto_trasp",
+            "descrizione": "Automezzo trasportatore",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tp_manutenzione",
+            "descrizione": "Tipo manutenzione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "perc_manut",
+            "descrizione": "Percentuale manutenzione",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "cod_costo_k",
+            "descrizione": "Conto di costo -per K-",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_effet_z",
+            "descrizione": "Conto effettivo -per Z-",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_immob_v",
+            "descrizione": "Conto immobilizzazione -per V-",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_castel_iva",
+            "descrizione": "Escludi da apertura automatica castelletto iva su conti patrimoniali",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_clas_conto",
+            "descrizione": "Classe Conto (banca/cassa)",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "alq_comp",
+            "descrizione": "Aliquota di Compensazione",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "gest_rateo_risc",
+            "descrizione": "Gestione Rateo / Risconto",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tp_merce_rsm",
+            "descrizione": "Tipo merce aziende RSM",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "bil_34dir_ue_d",
+            "descrizione": "Codice 34 direttiva UE dare",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "bil_34dir_ue_a",
+            "descrizione": "Codice 34 direttiva UE avere",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "bil_ivdir_cee_d",
+            "descrizione": "Codice IV direttiva CEE dare pattrimoniale/economico",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "bil_ivdir_cee_a",
+            "descrizione": "Codice IV direttiva CEE avere patrimoniale",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "bil_xbrl_rsm_d",
+            "descrizione": "Codice Dare (Bilancio RSM in formato XBRL)",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "bil_xbrl_rsm_a",
+            "descrizione": "Codice Avere (Bilancio RSM in formato XBRL)",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_amm_odn",
+            "descrizione": "Conti automatici (tipo i) - Conto ammortamento ordinario",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_amm_ant",
+            "descrizione": "Conti automatici (tipo i) - Conto ammortamento anticipato",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_amm_no_ded",
+            "descrizione": "Conti automatici (tipo i) - Conto ammortamento non fiscalmente deducibile",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_fnd_odn",
+            "descrizione": "Conti automatici (tipo i) - Conto f.do ordinario",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_fnd_ant",
+            "descrizione": "Conti automatici (tipo i) - Conto f.do anticipato",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_fnd_no_ded",
+            "descrizione": "Conti automatici (tipo i) - Conto f.do non fisc.ded",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_plv",
+            "descrizione": "Conti automatici (tipo i) - Conto plusvalenze",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_plv_no_ded",
+            "descrizione": "Conti automatici (tipo i) - Conto plusvalenze non fiscalmente tassabile",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_mnv",
+            "descrizione": "Conti automatici (tipo i) - Conto minusvalenze",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_mnv_no_ded",
+            "descrizione": "Conti automatici (tipo i) - Conto minusvalenze non fiscalmente deducibili",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "id_banca",
+            "descrizione": "BANCA - Id banca",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "cod_abi",
+            "descrizione": "Cond.commerciali - Codice ABI",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "cod_cab",
+            "descrizione": "Cond.commerciali - Codice CAB",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "codice_cuc",
+            "descrizione": "Classificazione - Codice univoco CBI",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "codice_sia",
+            "descrizione": "Classificazione - Codice S.I.A",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "codice_soc_rid",
+            "descrizione": "Codice identificatore impresa RID",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "firma_societa",
+            "descrizione": "Classificazione - Firma Azienda",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "conto_corren_b",
+            "descrizione": "Anagrafica Banche - Numero conto corrente",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tp_conto_corren",
+            "descrizione": "Classificazione - Tipo conto corrente",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cin_bban",
+            "descrizione": "Cond.commerciali - Codice CIN su BBAN",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "intesta_iban_ban",
+            "descrizione": "Intestazione Iban",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "dt_inizio_rapp",
+            "descrizione": "Ulteriori dati banca - Data inizio rapporto",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "dt_fine_rapp",
+            "descrizione": "Ulteriori dati banca - Data fine rapporto",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "fido_scoperto",
+            "descrizione": "Ulteriori dati banca - Fido scoperto c/c",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "fido_castel_eff",
+            "descrizione": "Ulteriori dati banca - Fido castelletto effetti",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "dt_tasso_attivo",
+            "descrizione": "Ulteriori dati banca - Data tasso attivo",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "6"
+        },
+        {
+            "nome": "alq_tasso_att",
+            "descrizione": "Ulteriori dati banca - Aliquota tasso attivo",
+            "tipo": "Numerico con virgola",
+            "dimensione_array": "6"
+        },
+        {
+            "nome": "dt_tasso_pas",
+            "descrizione": "Ulteriori dati banca - Data tasso passivo",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "6"
+        },
+        {
+            "nome": "alq_tasso_pas",
+            "descrizione": "Ulteriori dati banca - Aliquota tasso passivo",
+            "tipo": "Numerico con virgola",
+            "dimensione_array": "6"
+        },
+        {
+            "nome": "rif_signor",
+            "descrizione": "Ulteriori dati banca - Riferimento Signor",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "rif_settore",
+            "descrizione": "Ulteriori dati banca - Riferimento Settore",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "rif_telefono",
+            "descrizione": "Ulteriori dati banca - Riferimento Telefono",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "rif_note",
+            "descrizione": "Ulteriori dati banca - Riferimento Note",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_sp_sanit_rg",
+            "descrizione": "Spese sanitarie - Tipo spesa raggruppamento",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_sp_sanit",
+            "descrizione": "Spese sanitarie - Tipo spesa aziendale",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_part_sanit",
+            "descrizione": "Spese sanitarie - Particolarità spesa aziendale",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "anag_dt_crea",
+            "descrizione": "Stato anagrafica - Data creazione conto",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "anag_dt_mod",
+            "descrizione": "Stato anagrafica - Data modifica conto",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "anag_mod",
+            "descrizione": "Stato anagrafica - Conto modificato S/N",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "stato_anag_att",
+            "descrizione": "Stato anagrafica attiva. Vedere mirroring (dbmirror)",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "12"
+        },
+        {
+            "nome": "stato_anag_var",
+            "descrizione": "Stato anagrafica variata. Vedere mirroring (dbmirror)",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "12"
+        },
+        {
+            "nome": "conto_precanc",
+            "descrizione": "Conto Precancellato",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "utente_ult_mod",
+            "descrizione": "Utente ultima modifica",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "data_ult_mod",
+            "descrizione": "Data ora ultima modifica",
+            "tipo": "Data e ora (formato AAAAMMGG HHMMSS)"
+        }
+    ]
+}

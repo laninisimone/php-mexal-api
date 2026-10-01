@@ -1,0 +1,179 @@
+{
+    "path": "/indirizzi-spedizione",
+    "origine": "info",
+    "forma": "dati",
+    "campi": [
+        {
+            "nome": "id",
+            "descrizione": "Codice indirizzo di spedizione",
+            "tipo": "Alfanumerico",
+            "chiave": true,
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "cod_conto",
+            "descrizione": "Codice Cliente / Fornitore",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "descrizione",
+            "descrizione": "Descrizione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "indirizzo",
+            "descrizione": "Indirizzo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cap",
+            "descrizione": "C.A.P.",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "localita",
+            "descrizione": "Localita'",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "provincia",
+            "descrizione": "Provincia",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tp_nazionalita",
+            "descrizione": "Nazionalita'",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_paese",
+            "descrizione": "Paese",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "telefono",
+            "descrizione": "Numero di telefono",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "fax",
+            "descrizione": "Numero di Fax",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "email",
+            "descrizione": "Indirizzo e-Mail",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "url",
+            "descrizione": "Indirizzo Internet",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "chiusura_sett",
+            "descrizione": "Chiusura settimanale o stringa libera",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "riferimento",
+            "descrizione": "Riferimento",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cell_rif",
+            "descrizione": "Numero di cellulare riferimento",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "nota",
+            "descrizione": "Note",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "data_validita",
+            "descrizione": "Data validita'",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "data_creazione",
+            "descrizione": "Data creazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "data_modifica",
+            "descrizione": "Data aggiornamento",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_conto_sost",
+            "descrizione": "Codice Cliente / Fornitore sostitutivo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "id_ind_sost",
+            "descrizione": "Codice indirizzo di spedizione sostitutivo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "annullato",
+            "descrizione": "Annullato",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_raggruppa",
+            "descrizione": "Raggruppa documenti S/N",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "codice_cig",
+            "descrizione": "Codice CIG",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "codice_cup",
+            "descrizione": "Codice CUP",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "rif_esterno_tp",
+            "descrizione": "Riferimenti esterni tipo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "rif_esterno_sgl",
+            "descrizione": "Riferimenti esterni sigla",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "rif_esterno_nr",
+            "descrizione": "Riferimenti esterni numero",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "rif_esterno_cod",
+            "descrizione": "Riferimenti esterni codice",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "rif_esterno_dt",
+            "descrizione": "Riferimenti esterni data",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tp_indirizzo",
+            "descrizione": "Tipo Indirizzo'",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "utente_ult_mod",
+            "descrizione": "Utente ultima modifica",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "data_ult_mod",
+            "descrizione": "Data ora ultima modifica",
+            "tipo": "Data e ora (formato AAAAMMGG HHMMSS)"
+        }
+    ]
+}

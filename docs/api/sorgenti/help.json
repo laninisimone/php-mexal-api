@@ -1,0 +1,4728 @@
+{
+    "generato_il": "2026-10-01T13:57:35+00:00",
+    "prodotto": {
+        "codice_prodotto": "2.9.17",
+        "versione_prodotto": 88201
+    },
+    "risorse": [
+        {
+            "dati-generali": [
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/dati-generali/aspetto-esteriore-beni/{0,1}$",
+                    "descrizione": "lista aspetto esteriore beni (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/dati-generali/centri-costo-ricavo/{0,1}$",
+                    "descrizione": "lista centri costo ricavo (resource)",
+                    "coordinate": true,
+                    "versione": "86500",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/dati-generali/centri-costo-ricavo/ricerca$",
+                    "descrizione": "ricerca centri costo ricavo(collection)",
+                    "coordinate": true,
+                    "versione": "86500",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/dati-generali/classi-docuvision/{0,1}$",
+                    "descrizione": "lista classi docuvision (resource)",
+                    "coordinate": true,
+                    "versione": "87700",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/dati-generali/correlazione-unita-misura/{0,1}$",
+                    "descrizione": "lista correlazioni unita misura (resource)",
+                    "coordinate": true,
+                    "versione": "87400",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/dati-generali/installazione/{0,1}$",
+                    "descrizione": "lettura dati installazione (resource)",
+                    "coordinate": false,
+                    "versione": "81500",
+                    "method": "GET",
+                    "max": false,
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/dati-generali/cartella-abbinamenti/{0,1}$",
+                    "descrizione": "lista cartelle abbinamenti (collection)",
+                    "coordinate": true,
+                    "versione": "84500",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/dati-generali/cartella-abbinamenti/ricerca$",
+                    "descrizione": "ricerca cartelle abbinamenti(collection)",
+                    "coordinate": true,
+                    "versione": "84500",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/dati-generali/utenti/{0,1}$",
+                    "descrizione": "lista utenti (collection)",
+                    "coordinate": false,
+                    "versione": "81500",
+                    "method": "GET",
+                    "max": false,
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/dati-generali/valute/{0,1}$",
+                    "descrizione": "lista valute (collection)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/dati-generali/valute/ricerca$",
+                    "descrizione": "ricerca valute (collection)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/dati-generali/posizione-referenti/{0,1}$",
+                    "descrizione": "lista posizioni referenti (collection)",
+                    "coordinate": true,
+                    "versione": "84300",
+                    "method": "GET",
+                    "max": false,
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/dati-generali/gruppi-mastri/{0,1}$",
+                    "descrizione": "lista gruppi mastri (collection)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/dati-generali/gruppi-mastri/ricerca$",
+                    "descrizione": "ricerca gruppi mastri (collection)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/dati-generali/fasi-lavorazione/{0,1}$",
+                    "descrizione": "lista fasi di lavorazione (collection)",
+                    "coordinate": true,
+                    "versione": "83000",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/dati-generali/categorie-statistiche-cli-for/{0,1}$",
+                    "descrizione": "inserimento categoria statistiche (resource)",
+                    "coordinate": true,
+                    "versione": "87300",
+                    "method": "POST",
+                    "max": false,
+                    "location": true,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/dati-generali/categorie-statistiche-cli-for/{0,1}$",
+                    "descrizione": "lista categorie statistiche (collection)",
+                    "coordinate": true,
+                    "versione": "84402",
+                    "method": "GET",
+                    "max": false,
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/dati-generali/categorie-statistiche-cli-for/(?<id>\\d+)$",
+                    "descrizione": "cancellazione categoria statistiche (resource)",
+                    "coordinate": true,
+                    "versione": "87300",
+                    "method": "DELETE",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "integer",
+                            "nome": "codice",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/dati-generali/categorie-statistiche-cli-for/(?<id>\\d+)$",
+                    "descrizione": "lettura categoria statistiche (resource)",
+                    "coordinate": true,
+                    "versione": "87300",
+                    "method": "GET",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "integer",
+                            "nome": "codice",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/dati-generali/categorie-statistiche-cli-for/(?<id>\\d+)$",
+                    "descrizione": "modifica categoria statistiche (resource)",
+                    "coordinate": true,
+                    "versione": "87300",
+                    "method": "PUT",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "integer",
+                            "nome": "codice",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/dati-generali/lingue-straniere/{0,1}$",
+                    "descrizione": "inserimento lingua straniera (resource)",
+                    "coordinate": true,
+                    "versione": "87300",
+                    "method": "POST",
+                    "max": false,
+                    "location": true,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/dati-generali/lingue-straniere/{0,1}$",
+                    "descrizione": "lista lingue straniere (collection)",
+                    "coordinate": true,
+                    "versione": "87300",
+                    "method": "GET",
+                    "max": false,
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/dati-generali/lingue-straniere/(?<id>\\d+)$",
+                    "descrizione": "cancellazione lingua straniera (resource)",
+                    "coordinate": true,
+                    "versione": "87300",
+                    "method": "DELETE",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "integer",
+                            "nome": "codice",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/dati-generali/lingue-straniere/(?<id>\\d+)$",
+                    "descrizione": "lettura lingua straniera (resource)",
+                    "coordinate": true,
+                    "versione": "87300",
+                    "method": "GET",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "integer",
+                            "nome": "codice",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/dati-generali/lingue-straniere/(?<id>\\d+)$",
+                    "descrizione": "modifica lingua straniera (resource)",
+                    "coordinate": true,
+                    "versione": "87300",
+                    "method": "PUT",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "integer",
+                            "nome": "codice",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/dati-generali/condizioni-generali-pagamenti/{0,1}$",
+                    "descrizione": "lista condizioni pagamenti (collection)",
+                    "coordinate": true,
+                    "versione": "84402",
+                    "method": "GET",
+                    "max": false,
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/dati-generali/categorie-provvigioni-articoli/{0,1}$",
+                    "descrizione": "lista categorie provvigioni articoli (collection)",
+                    "coordinate": true,
+                    "versione": "84402",
+                    "method": "GET",
+                    "max": false,
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/dati-generali/categorie-sconti-articoli/{0,1}$",
+                    "descrizione": "lista categorie sconti articoli (collection)",
+                    "coordinate": true,
+                    "versione": "84402",
+                    "method": "GET",
+                    "max": false,
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/dati-generali/fasi-lavorazione/ricerca$",
+                    "descrizione": "ricerca fasi di lavorazione (collection)",
+                    "coordinate": true,
+                    "versione": "83000",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/dati-generali/magazzini/{0,1}$",
+                    "descrizione": "lista magazzini (collection)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/dati-generali/magazzini/ricerca$",
+                    "descrizione": "ricerca magazzini (collection)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/dati-generali/sconti-listini/{0,1}$",
+                    "descrizione": "lista sconti listini (collection)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/dati-generali/sconti-listini/ricerca$",
+                    "descrizione": "ricerca sconti listini (collection)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/dati-generali/abbinamenti-colori/{0,1}$",
+                    "descrizione": "lista abbinamenti colori (collection)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/dati-generali/abbinamenti-colori/ricerca$",
+                    "descrizione": "ricerca abbinamenti colori (collection)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/dati-generali/taglie/{0,1}$",
+                    "descrizione": "lista taglie (collection)",
+                    "coordinate": true,
+                    "versione": "81600",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/dati-generali/taglie/ricerca$",
+                    "descrizione": "ricerca taglie (collection)",
+                    "coordinate": true,
+                    "versione": "81600",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/dati-generali/pagamenti/{0,1}$",
+                    "descrizione": "lista pagamenti (collection)",
+                    "coordinate": true,
+                    "versione": "81600",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/dati-generali/pagamenti/ricerca$",
+                    "descrizione": "ricerca pagamenti (collection)",
+                    "coordinate": true,
+                    "versione": "81600",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/dati-generali/tipi-lotti-matricole/{0,1}$",
+                    "descrizione": "inserimento tipo lotto matricola (resource)",
+                    "coordinate": true,
+                    "versione": "87500",
+                    "method": "POST",
+                    "max": false,
+                    "location": true,
+                    "fields": false
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/dati-generali/tipi-lotti-matricole/{0,1}$",
+                    "descrizione": "lista tipi lotti matricole (collection)",
+                    "coordinate": true,
+                    "versione": "83000",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/dati-generali/tipi-lotti-matricole/ricerca$",
+                    "descrizione": "ricerca tipi lotti matricole (collection)",
+                    "coordinate": true,
+                    "versione": "83000",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/dati-generali/tipi-lotti-matricole/(?<tipo>[\\x20-\\x2E\\x30-\\x7E]+)$",
+                    "descrizione": "cancellazione tipo lotto articolo (resource)",
+                    "coordinate": true,
+                    "versione": "87500",
+                    "method": "DELETE",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "tipo_lotto",
+                            "encodable": true
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/dati-generali/tipi-lotti-matricole/(?<tipo>[\\x20-\\x2E\\x30-\\x7E]+)$",
+                    "descrizione": "lettura tipo lotto articolo (resource)",
+                    "coordinate": true,
+                    "versione": "83000",
+                    "method": "GET",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "tipo_lotto",
+                            "encodable": true
+                        }
+                    ],
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/dati-generali/tipi-lotti-matricole/(?<tipo>[\\x20-\\x2E\\x30-\\x7E]+)$",
+                    "descrizione": "modifica tipo lotto articolo (resource)",
+                    "coordinate": true,
+                    "versione": "87500",
+                    "method": "PUT",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "tipo_lotto",
+                            "encodable": true
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/dati-generali/gruppi-merceologici/{0,1}$",
+                    "descrizione": "lista gruppi merceologici (collection)",
+                    "coordinate": true,
+                    "versione": "81600",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/dati-generali/gruppi-merceologici/ricerca$",
+                    "descrizione": "ricerca gruppi merceologici (collection)",
+                    "coordinate": true,
+                    "versione": "81600",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/dati-generali/esenzioni-iva/{0,1}$",
+                    "descrizione": "lista esenzioni iva (collection)",
+                    "coordinate": true,
+                    "versione": "81600",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/dati-generali/esenzioni-iva/ricerca$",
+                    "descrizione": "ricerca esenzioni iva (collection)",
+                    "coordinate": true,
+                    "versione": "81600",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/dati-generali/nature-articoli/{0,1}$",
+                    "descrizione": "lista nature articoli (collection)",
+                    "coordinate": true,
+                    "versione": "81600",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/dati-generali/nature-articoli/ricerca$",
+                    "descrizione": "lista nature articoli (collection)",
+                    "coordinate": true,
+                    "versione": "81600",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/dati-generali/strutture-articoli/{0,1}$",
+                    "descrizione": "lista strutture articoli (collection)",
+                    "coordinate": true,
+                    "versione": "81600",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/dati-generali/strutture-articoli/ricerca$",
+                    "descrizione": "lista strutture articoli (collection)",
+                    "coordinate": true,
+                    "versione": "81600",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/dati-generali/categorie-prezzi/{0,1}$",
+                    "descrizione": "lista categorie prezzi articoli (collection)",
+                    "coordinate": true,
+                    "versione": "84200",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/dati-generali/categorie-provvigioni/{0,1}$",
+                    "descrizione": "lista categorie proviggioni (collection)",
+                    "coordinate": true,
+                    "versione": "84200",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/dati-generali/categorie-sconti/{0,1}$",
+                    "descrizione": "lista categorie sconti clienti fornitori (collection)",
+                    "coordinate": true,
+                    "versione": "84200",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/dati-generali/categorie-statistiche-articoli/{0,1}$",
+                    "descrizione": "lista categorie statistiche articoli (collection)",
+                    "coordinate": true,
+                    "versione": "81600",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/dati-generali/categorie-statistiche-articoli/ricerca$",
+                    "descrizione": "lista categorie statistiche articoli (collection)",
+                    "coordinate": true,
+                    "versione": "81600",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/dati-generali/causali-movimenti/{0,1}$",
+                    "descrizione": "lista causali movimenti (collection)",
+                    "coordinate": true,
+                    "versione": "81600",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/dati-generali/causali-movimenti/ricerca$",
+                    "descrizione": "ricerca causali movimenti (collection)",
+                    "coordinate": true,
+                    "versione": "81600",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/dati-generali/omaggi-abbuoni/{0,1}$",
+                    "descrizione": "lista omaggi e abbuoni (collection)",
+                    "coordinate": true,
+                    "versione": "81600",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/dati-generali/omaggi-abbuoni/ricerca$",
+                    "descrizione": "ricerca omaggi e abbuoni (collection)",
+                    "coordinate": true,
+                    "versione": "81600",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/dati-generali/listini/{0,1}$",
+                    "descrizione": "listini (collection)",
+                    "coordinate": true,
+                    "versione": "81600",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/dati-generali/listini/ricerca$",
+                    "descrizione": "ricerca listini (collection)",
+                    "coordinate": true,
+                    "versione": "81600",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/dati-generali/provvigioni-listini/{0,1}$",
+                    "descrizione": "lista provvigioni listini (collection)",
+                    "coordinate": true,
+                    "versione": "81600",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/dati-generali/provvigioni-listini/ricerca$",
+                    "descrizione": "ricerca provvigioni listini (collection)",
+                    "coordinate": true,
+                    "versione": "81600",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/dati-generali/sconti-quantita/{0,1}$",
+                    "descrizione": "lista sconti quantità (collection)",
+                    "coordinate": true,
+                    "versione": "81600",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/dati-generali/sconti-quantita/ricerca$",
+                    "descrizione": "ricerca sconti quantità (collection)",
+                    "coordinate": true,
+                    "versione": "81600",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/dati-generali/serie-documenti/{0,1}$",
+                    "descrizione": "lista serie documenti (collection)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/dati-generali/serie-documenti/ricerca$",
+                    "descrizione": "ricerca serie documenti (collection)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/dati-generali/particolarita/{0,1}$",
+                    "descrizione": "lista particolarità (collection)",
+                    "coordinate": true,
+                    "versione": "81600",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/dati-generali/particolarita/ricerca$",
+                    "descrizione": "ricerca particolarità (collection)",
+                    "coordinate": true,
+                    "versione": "81600",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/dati-generali/imballi/{0,1}$",
+                    "descrizione": "lista imballi (collection)",
+                    "coordinate": true,
+                    "versione": "82400",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/dati-generali/imballi/ricerca$",
+                    "descrizione": "ricerca imballi (collection)",
+                    "coordinate": true,
+                    "versione": "82400",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/dati-generali/zone-clienti-fornitori/{0,1}$",
+                    "descrizione": "lista zone clienti fornitori (collection)",
+                    "coordinate": true,
+                    "versione": "82400",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/dati-generali/parametri-aziendali/{0,1}$",
+                    "descrizione": "lista parametri aziendali (collection)",
+                    "coordinate": true,
+                    "versione": "86000",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                }
+            ]
+        },
+        {
+            "banche": [
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/banche/{0,1}$",
+                    "descrizione": "lista banche (collection)",
+                    "coordinate": true,
+                    "versione": "84200",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/banche/ricerca$",
+                    "descrizione": "lista banche (collection)",
+                    "coordinate": true,
+                    "versione": "84200",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                }
+            ]
+        },
+        {
+            "indirizzi-spedizione": [
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/indirizzi-spedizione/{0,1}$",
+                    "descrizione": "inserimento indirizzo di spedizione (resource)",
+                    "coordinate": true,
+                    "versione": "81600",
+                    "method": "POST",
+                    "max": false,
+                    "location": true,
+                    "fields": false
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/indirizzi-spedizione/{0,1}$",
+                    "descrizione": "lista indirizzi di spedizione (collection)",
+                    "coordinate": true,
+                    "versione": "81600",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/indirizzi-spedizione/ricerca$",
+                    "descrizione": "ricerca indirizzi di spedizione (collection)",
+                    "coordinate": true,
+                    "versione": "81600",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/indirizzi-spedizione/(?<id>[\\x20-\\x2E\\x30-\\x7E]+)$",
+                    "descrizione": "lettura indirizzo di spedizione (resource)",
+                    "coordinate": true,
+                    "versione": "81600",
+                    "method": "GET",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "id",
+                            "encodable": true
+                        }
+                    ],
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/indirizzi-spedizione/(?<id>[\\x20-\\x2E\\x30-\\x7E]+)$",
+                    "descrizione": "modifica indirizzo di spedizione (resource)",
+                    "coordinate": true,
+                    "versione": "81600",
+                    "method": "PUT",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "id",
+                            "encodable": true
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                }
+            ]
+        },
+        {
+            "referenti": [
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/referenti/clienti/{0,1}$",
+                    "descrizione": "inserimento referente cliente (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "POST",
+                    "max": false,
+                    "location": true,
+                    "fields": false
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/referenti/clienti/{0,1}$",
+                    "descrizione": "lista referenti clienti (collection)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/referenti/clienti/(?<codice>[\\x20-\\x2E\\x30-\\x7E]+)\\+(?<ref>\\d+)$",
+                    "descrizione": "cancellazione referenti cliente (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "DELETE",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "codice_cli_for",
+                            "encodable": true
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "cod_referente",
+                            "encodable": true
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/referenti/clienti/(?<codice>[\\x20-\\x2E\\x30-\\x7E]+)\\+(?<ref>\\d+)$",
+                    "descrizione": "lettura referenti cliente (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "GET",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "codice_cli_for",
+                            "encodable": true
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "cod_referente",
+                            "encodable": true
+                        }
+                    ],
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/referenti/clienti/(?<codice>[\\x20-\\x2E\\x30-\\x7E]+)\\+(?<ref>\\d+)$",
+                    "descrizione": "modifica referenti cliente (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "PUT",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "codice_cli_for",
+                            "encodable": true
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "cod_referente",
+                            "encodable": true
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/referenti/clienti/ricerca$",
+                    "descrizione": "ricerca clienti (collection)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/referenti/fornitori/{0,1}$",
+                    "descrizione": "inserimento referente fornitore (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "POST",
+                    "max": false,
+                    "location": true,
+                    "fields": false
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/referenti/fornitori/{0,1}$",
+                    "descrizione": "lista referenti fornitore (collection)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/referenti/fornitori/(?<codice>[\\x20-\\x2E\\x30-\\x7E]+)\\+(?<ref>\\d+)$",
+                    "descrizione": "cancellazione referenti fornitore (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "DELETE",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "codice_cli_for",
+                            "encodable": true
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "cod_referente",
+                            "encodable": true
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/referenti/fornitori/(?<codice>[\\x20-\\x2E\\x30-\\x7E]+)\\+(?<ref>\\d+)$",
+                    "descrizione": "lettura referenti fornitore (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "GET",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "codice_cli_for",
+                            "encodable": true
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "cod_referente",
+                            "encodable": true
+                        }
+                    ],
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/referenti/fornitori/(?<codice>[\\x20-\\x2E\\x30-\\x7E]+)\\+(?<ref>\\d+)$",
+                    "descrizione": "modifica referenti fornitore (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "PUT",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "codice_cli_for",
+                            "encodable": true
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "cod_referente",
+                            "encodable": true
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/referenti/fornitori/ricerca$",
+                    "descrizione": "ricerca fornitori (collection)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                }
+            ]
+        },
+        {
+            "clienti": [
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/clienti/(?<codice>[\\x20-\\x2E\\x30-\\x7E]+)$",
+                    "descrizione": "cancellazione cliente (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "DELETE",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "codice",
+                            "encodable": true
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/clienti/(?<codice>[\\x20-\\x2E\\x30-\\x7E]+)$",
+                    "descrizione": "lettura cliente (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "GET",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "codice",
+                            "encodable": true
+                        }
+                    ],
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/clienti/(?<codice>[\\x20-\\x2E\\x30-\\x7E]+)$",
+                    "descrizione": "modifica cliente (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "PUT",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "codice",
+                            "encodable": true
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/clienti/{0,1}$",
+                    "descrizione": "inserimento cliente (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "POST",
+                    "max": false,
+                    "location": true,
+                    "fields": false
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/clienti/{0,1}$",
+                    "descrizione": "lista clienti (collection)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/clienti/ricerca$",
+                    "descrizione": "ricerca clienti (collection)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                }
+            ]
+        },
+        {
+            "fornitori": [
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/fornitori/(?<codice>[\\x20-\\x2E\\x30-\\x7E]+)$",
+                    "descrizione": "cancellazione fornitore (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "DELETE",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "codice",
+                            "encodable": true
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/fornitori/(?<codice>[\\x20-\\x2E\\x30-\\x7E]+)$",
+                    "descrizione": "lettura fornitore (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "GET",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "codice",
+                            "encodable": true
+                        }
+                    ],
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/fornitori/(?<codice>[\\x20-\\x2E\\x30-\\x7E]+)$",
+                    "descrizione": "modifica fornitore (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "PUT",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "codice",
+                            "encodable": true
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/fornitori/{0,1}$",
+                    "descrizione": "inserimento fornitore (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "POST",
+                    "max": false,
+                    "location": true,
+                    "fields": false
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/fornitori/{0,1}$",
+                    "descrizione": "lista fornitori (collection)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/fornitori/ricerca$",
+                    "descrizione": "ricerca fornitori (collection)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                }
+            ]
+        },
+        {
+            "conti": [
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/conti/(?<codice>[\\x20-\\x2E\\x30-\\x7E]+)$",
+                    "descrizione": "cancellazione conto (resource)",
+                    "coordinate": true,
+                    "versione": "81800",
+                    "method": "DELETE",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "codice",
+                            "encodable": true
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/conti/(?<codice>[\\x20-\\x2E\\x30-\\x7E]+)$",
+                    "descrizione": "lettura conto (resource)",
+                    "coordinate": true,
+                    "versione": "81800",
+                    "method": "GET",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "codice",
+                            "encodable": true
+                        }
+                    ],
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/conti/(?<codice>[\\x20-\\x2E\\x30-\\x7E]+)$",
+                    "descrizione": "modifica conto (resource)",
+                    "coordinate": true,
+                    "versione": "81800",
+                    "method": "PUT",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "codice",
+                            "encodable": true
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/conti/{0,1}$",
+                    "descrizione": "inserimento conto (resource)",
+                    "coordinate": true,
+                    "versione": "81800",
+                    "method": "POST",
+                    "max": false,
+                    "location": true,
+                    "fields": false
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/conti/{0,1}$",
+                    "descrizione": "lista conti (collection)",
+                    "coordinate": true,
+                    "versione": "81800",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/conti/ricerca$",
+                    "descrizione": "ricerca conti (collection)",
+                    "coordinate": true,
+                    "versione": "81800",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                }
+            ]
+        },
+        {
+            "articoli": [
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/articoli/(?<codice>[\\x20-\\x2E\\x30-\\x7E]+)$",
+                    "descrizione": "cancellazione articolo (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "DELETE",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "codice",
+                            "encodable": true
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/articoli/(?<codice>[\\x20-\\x2E\\x30-\\x7E]+)$",
+                    "descrizione": "lettura articolo (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "GET",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "codice",
+                            "encodable": true
+                        }
+                    ],
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/articoli/(?<codice>[\\x20-\\x2E\\x30-\\x7E]+)$",
+                    "descrizione": "modifica articolo (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "PUT",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "codice",
+                            "encodable": true
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/articoli/{0,1}$",
+                    "descrizione": "inserimento articolo (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "POST",
+                    "max": false,
+                    "location": true,
+                    "fields": false
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/articoli/{0,1}$",
+                    "descrizione": "lista articoli (collection)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/articoli/ricerca$",
+                    "descrizione": "ricerca articoli (collection)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/articoli/(?<codice>[\\x20-\\x2E\\x30-\\x7E]+)/allegati/(?<tipo>immagine|icona|immagine-catalogo)$",
+                    "descrizione": "lettura allegato articolo (resource)",
+                    "coordinate": true,
+                    "versione": "81600",
+                    "method": "GET",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "codice",
+                            "encodable": true
+                        },
+                        {
+                            "tipo": "string",
+                            "nome": "tipo",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/articoli/(?<codice>[\\x20-\\x2E\\x30-\\x7E]+)/progressivi$",
+                    "descrizione": "lista progressivi articolo (collection)",
+                    "coordinate": true,
+                    "versione": "82300",
+                    "method": "GET",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "cod_articolo",
+                            "encodable": true
+                        }
+                    ],
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/articoli/(?<codice>[\\x20-\\x2E\\x30-\\x7E]+)/abbinati/{0,1}$",
+                    "descrizione": "inserimento abbinato (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "POST",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "codice_articolo",
+                            "encodable": true
+                        }
+                    ],
+                    "location": true,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/articoli/(?<codice>[\\x20-\\x2E\\x30-\\x7E]+)/abbinati/(?<codabb>[\\x20-\\x2E\\x30-\\x7E]+)\\+(?<progabb>\\d+)$",
+                    "descrizione": "cancellazione abbinato articolo (resource)",
+                    "coordinate": true,
+                    "versione": "88000",
+                    "method": "DELETE",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "codice_articolo",
+                            "encodable": true
+                        },
+                        {
+                            "tipo": "string",
+                            "nome": "codice",
+                            "encodable": true
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "prog_abbinati",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/articoli/(?<codice>[\\x20-\\x2E\\x30-\\x7E]+)/abbinati/(?<codabb>[\\x20-\\x2E\\x30-\\x7E]+)\\+(?<progabb>\\d+)$",
+                    "descrizione": "lettura abbinato articolo (resource)",
+                    "coordinate": true,
+                    "versione": "88000",
+                    "method": "GET",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "codice_articolo",
+                            "encodable": true
+                        },
+                        {
+                            "tipo": "string",
+                            "nome": "codice",
+                            "encodable": true
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "prog_abbinati",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/articoli/(?<codice>[\\x20-\\x2E\\x30-\\x7E]+)/abbinati/(?<codabb>[\\x20-\\x2E\\x30-\\x7E]+)\\+(?<progabb>\\d+)$",
+                    "descrizione": "modifica abbinato articolo (resource)",
+                    "coordinate": true,
+                    "versione": "88000",
+                    "method": "PUT",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "codice_articolo",
+                            "encodable": true
+                        },
+                        {
+                            "tipo": "string",
+                            "nome": "codice",
+                            "encodable": true
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "prog_abbinati",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                }
+            ]
+        },
+        {
+            "articoli-abbinati": [
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/articoli-abbinati/{0,1}$",
+                    "descrizione": "lista abbinati articolo (collection)",
+                    "coordinate": true,
+                    "versione": "88000",
+                    "method": "GET",
+                    "max": false,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/articoli-abbinati/ricerca$",
+                    "descrizione": "ricerca abbinati articolo (collection)",
+                    "coordinate": true,
+                    "versione": "88000",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                }
+            ]
+        },
+        {
+            "progressivi-articoli": [
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/progressivi-articoli/{0,1}$",
+                    "descrizione": "lista progressivi di tutti gli articoli (collection)",
+                    "coordinate": true,
+                    "versione": "84002",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                }
+            ]
+        },
+        {
+            "dba": [
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/dba/{0,1}$",
+                    "descrizione": "lista dba articoli (collection)",
+                    "coordinate": true,
+                    "versione": "84300",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/dba/ricerca$",
+                    "descrizione": "ricerca lista dba articoli (collection)",
+                    "coordinate": true,
+                    "versione": "84300",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                }
+            ]
+        },
+        {
+            "documenti": [
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/documenti/moduli-stampa(/(?<sigla>[A-Z]*)){0,1}$",
+                    "descrizione": "lettura modulo stampa",
+                    "coordinate": true,
+                    "versione": "86500",
+                    "method": "GET",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "in_sigla_doc",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/documenti/ordini-clienti/{0,1}$",
+                    "descrizione": "inserimento ordine cliente (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "POST",
+                    "max": false,
+                    "location": true,
+                    "fields": false
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/documenti/ordini-clienti/{0,1}$",
+                    "descrizione": "lista ordini clienti (collection)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/documenti/ordini-clienti/ricerca$",
+                    "descrizione": "ricerca ordini clienti (collection)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/documenti/ordini-clienti/(?<sigla>OC|OX)\\+(?<serie>\\d+)\\+(?<numero>\\d+)$",
+                    "descrizione": "cancellazione ordine cliente (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "DELETE",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "sigla",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "serie",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "numero",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/documenti/ordini-clienti/(?<sigla>OC|OX)\\+(?<serie>\\d+)\\+(?<numero>\\d+)$",
+                    "descrizione": "lettura ordine cliente (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "GET",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "sigla",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "serie",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "numero",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/documenti/ordini-clienti/(?<sigla>OC|OX)\\+(?<serie>\\d+)\\+(?<numero>\\d+)$",
+                    "descrizione": "modifica ordine cliente (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "PUT",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "sigla",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "serie",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "numero",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/documenti/ordini-clienti/righe/{0,1}$",
+                    "descrizione": "lettura righe ordini clienti (collection)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/documenti/ordini-clienti/righe/ricerca$",
+                    "descrizione": "ricerca righe ordini clienti (collection)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/documenti/ordini-fornitori/{0,1}$",
+                    "descrizione": "inserimento ordine fornitore (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "POST",
+                    "max": false,
+                    "location": true,
+                    "fields": false
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/documenti/ordini-fornitori/{0,1}$",
+                    "descrizione": "lista ordini fornitori (collection)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/documenti/ordini-fornitori/ricerca$",
+                    "descrizione": "ricerca ordini fornitori (collection)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/documenti/ordini-fornitori/(?<sigla>OF)\\+(?<serie>\\d+)\\+(?<numero>\\d+)$",
+                    "descrizione": "cancellazione ordine fornitore (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "DELETE",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "sigla",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "serie",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "numero",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/documenti/ordini-fornitori/(?<sigla>OF)\\+(?<serie>\\d+)\\+(?<numero>\\d+)$",
+                    "descrizione": "lettura ordine fornitore (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "GET",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "sigla",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "serie",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "numero",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/documenti/ordini-fornitori/(?<sigla>OF)\\+(?<serie>\\d+)\\+(?<numero>\\d+)$",
+                    "descrizione": "modifica ordine fornitore (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "PUT",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "sigla",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "serie",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "numero",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/documenti/ordini-fornitori/righe/{0,1}$",
+                    "descrizione": "lettura righe ordini fornitori (collection)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/documenti/ordini-fornitori/righe/ricerca$",
+                    "descrizione": "ricerca righe ordini fornitori (collection)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/documenti/ordini-matrici/{0,1}$",
+                    "descrizione": "inserimento ordine matrice (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "POST",
+                    "max": false,
+                    "location": true,
+                    "fields": false
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/documenti/ordini-matrici/{0,1}$",
+                    "descrizione": "lista ordini matrici (collection)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/documenti/ordini-matrici/ricerca$",
+                    "descrizione": "ricerca ordini matrici (collection)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/documenti/ordini-matrici/(?<sigla>MA|MF|MX)\\+(?<serie>\\d+)\\+(?<numero>\\d+)$",
+                    "descrizione": "cancellazione ordine matrice (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "DELETE",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "sigla",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "serie",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "numero",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/documenti/ordini-matrici/(?<sigla>MA|MF|MX)\\+(?<serie>\\d+)\\+(?<numero>\\d+)$",
+                    "descrizione": "lettura ordine matrice (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "GET",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "sigla",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "serie",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "numero",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/documenti/ordini-matrici/(?<sigla>MA|MF|MX)\\+(?<serie>\\d+)\\+(?<numero>\\d+)$",
+                    "descrizione": "modifica ordine matrice (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "PUT",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "sigla",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "serie",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "numero",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/documenti/ordini-matrici/righe/{0,1}$",
+                    "descrizione": "lettura righe ordini matrici (collection)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/documenti/ordini-matrici/righe/ricerca$",
+                    "descrizione": "ricerca righe ordini matrici (collection)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/documenti/preventivi/{0,1}$",
+                    "descrizione": "inserimento preventivo (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "POST",
+                    "max": false,
+                    "location": true,
+                    "fields": false
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/documenti/preventivi/{0,1}$",
+                    "descrizione": "lista preventivi (collection)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/documenti/preventivi/ricerca$",
+                    "descrizione": "ricerca preventivi (collection)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/documenti/preventivi/(?<sigla>PC|PF|PR|PX)\\+(?<serie>\\d+)\\+(?<numero>\\d+)$",
+                    "descrizione": "cancellazione preventivo (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "DELETE",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "sigla",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "serie",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "numero",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/documenti/preventivi/(?<sigla>PC|PF|PR|PX)\\+(?<serie>\\d+)\\+(?<numero>\\d+)$",
+                    "descrizione": "lettura preventivo (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "GET",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "sigla",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "serie",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "numero",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/documenti/preventivi/(?<sigla>PC|PF|PR|PX)\\+(?<serie>\\d+)\\+(?<numero>\\d+)$",
+                    "descrizione": "modifica preventivo (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "PUT",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "sigla",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "serie",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "numero",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/documenti/preventivi/righe/{0,1}$",
+                    "descrizione": "lettura righe preventivi (collection)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/documenti/preventivi/righe/ricerca$",
+                    "descrizione": "ricerca righe preventivi (collection)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/documenti/movimenti-magazzino/{0,1}$",
+                    "descrizione": "inserimento movimento di magazzino (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "POST",
+                    "max": false,
+                    "location": true,
+                    "fields": false
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/documenti/movimenti-magazzino/{0,1}$",
+                    "descrizione": "lista movimenti di magazzino (collection)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/documenti/movimenti-magazzino/ricerca$",
+                    "descrizione": "ricerca movimento di magazzino (collection)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/documenti/movimenti-magazzino/(?<sigla>[A-Z]{2,2})\\+(?<serie>\\d+)\\+(?<numero>\\d+)(\\+(?<codconto>[\\x20-\\x2E\\x30-\\x7E]+)){0,1}$",
+                    "descrizione": "cancellazione movimento di magazzino (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "DELETE",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "sigla",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "serie",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "numero",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "string",
+                            "nome": "cod_conto",
+                            "encodable": true
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/documenti/movimenti-magazzino/(?<sigla>[A-Z]{2,2})\\+(?<serie>\\d+)\\+(?<numero>\\d+)(\\+(?<codconto>[\\x20-\\x2E\\x30-\\x7E]+)){0,1}$",
+                    "descrizione": "lettura movimento di magazzino (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "GET",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "sigla",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "serie",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "numero",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "string",
+                            "nome": "cod_conto",
+                            "encodable": true
+                        }
+                    ],
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/documenti/movimenti-magazzino/(?<sigla>[A-Z]{2,2})\\+(?<serie>\\d+)\\+(?<numero>\\d+)(\\+(?<codconto>[\\x20-\\x2E\\x30-\\x7E]+)){0,1}$",
+                    "descrizione": "modifica movimento di magazzino (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "PUT",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "sigla",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "serie",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "numero",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "string",
+                            "nome": "cod_conto",
+                            "encodable": true
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/documenti/movimenti-magazzino/righe/{0,1}$",
+                    "descrizione": "lettura righe movimenti di magazzino (collection)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/documenti/movimenti-magazzino/righe/ricerca$",
+                    "descrizione": "ricerca righe movimenti di magazzino (collection)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/documenti/lavorazione/prodotti/{0,1}$",
+                    "descrizione": "lista prodotti in lavorazione (collezione)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/documenti/lavorazione/prodotti/ricerca$",
+                    "descrizione": "ricerca prodotti in lavorazione (collection)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/documenti/lavorazione/bolle/{0,1}$",
+                    "descrizione": "inserimento bolla di lavorazione (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "POST",
+                    "max": false,
+                    "location": true,
+                    "fields": false
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/documenti/lavorazione/bolle/{0,1}$",
+                    "descrizione": "lista bolle di lavorazione (collection)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/documenti/lavorazione/bolle/(?<codice>\\d+)\\+(?<codsottobolla>\\d+)$",
+                    "descrizione": "cancellazione bolla di lavorazione (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "DELETE",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "integer",
+                            "nome": "codice",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "cod_sottobolla",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/documenti/lavorazione/bolle/(?<codice>\\d+)\\+(?<codsottobolla>\\d+)$",
+                    "descrizione": "lettura bolla di lavorazione (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "GET",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "integer",
+                            "nome": "codice",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "cod_sottobolla",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/documenti/lavorazione/bolle/(?<codice>\\d+)\\+(?<codsottobolla>\\d+)$",
+                    "descrizione": "modifica bolla di lavorazione (resource)",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "PUT",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "integer",
+                            "nome": "codice",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "cod_sottobolla",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/documenti/lavorazione/bolle/ricerca$",
+                    "descrizione": "ricerca bolle di lavorazione",
+                    "coordinate": true,
+                    "versione": "81500",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/documenti/lavorazione/impegni/(?<codice>\\d+)\\+(?<codsottobolla>\\d+)\\+(?<nrrifpf>\\d+)\\+(?<nrfase>\\d+)\\+(?<codmagazzino>\\d+)\\+(?<codarticolo>[\\x20-\\x2E\\x30-\\x7E]+)\\+(?<idubicazione>\\d+)\\+(?<progressivo>\\d+)$",
+                    "descrizione": "cancellazione impegno bolla di lavorazione (resource)",
+                    "coordinate": true,
+                    "versione": "87000",
+                    "method": "DELETE",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "integer",
+                            "nome": "codice",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "cod_sottobolla",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "nr_rif_pf",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "nr_fase",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "cod_magazzino",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "string",
+                            "nome": "cod_articolo",
+                            "encodable": true
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "id_ubicazione",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "progressivo",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/documenti/lavorazione/impegni/(?<codice>\\d+)\\+(?<codsottobolla>\\d+)\\+(?<nrrifpf>\\d+)\\+(?<nrfase>\\d+)\\+(?<codmagazzino>\\d+)\\+(?<codarticolo>[\\x20-\\x2E\\x30-\\x7E]+)\\+(?<idubicazione>\\d+)\\+(?<progressivo>\\d+)$",
+                    "descrizione": "lettura impegno bolla di lavorazione (resource)",
+                    "coordinate": true,
+                    "versione": "87000",
+                    "method": "GET",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "integer",
+                            "nome": "codice",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "cod_sottobolla",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "nr_rif_pf",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "nr_fase",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "cod_magazzino",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "string",
+                            "nome": "cod_articolo",
+                            "encodable": true
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "id_ubicazione",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "progressivo",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/documenti/lavorazione/impegni/(?<codice>\\d+)\\+(?<codsottobolla>\\d+)\\+(?<nrrifpf>\\d+)\\+(?<nrfase>\\d+)\\+(?<codmagazzino>\\d+)\\+(?<codarticolo>[\\x20-\\x2E\\x30-\\x7E]+)\\+(?<idubicazione>\\d+)\\+(?<progressivo>\\d+)$",
+                    "descrizione": "modifica impegno bolla di lavorazione (resource)",
+                    "coordinate": true,
+                    "versione": "87000",
+                    "method": "PUT",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "integer",
+                            "nome": "codice",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "cod_sottobolla",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "nr_rif_pf",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "nr_fase",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "cod_magazzino",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "string",
+                            "nome": "cod_articolo",
+                            "encodable": true
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "id_ubicazione",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "progressivo",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/documenti/lavorazione/impegni/{0,1}$",
+                    "descrizione": "inserimento impegno bolla di lavorazione (resource)",
+                    "coordinate": true,
+                    "versione": "87000",
+                    "method": "POST",
+                    "max": false,
+                    "location": true,
+                    "fields": false
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/documenti/lavorazione/impegni/{0,1}$",
+                    "descrizione": "lista impegni bolle di lavorazione (collection)",
+                    "coordinate": true,
+                    "versione": "87000",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/documenti/lavorazione/impegni/ricerca$",
+                    "descrizione": "ricerca impegni bolle di lavorazione (collection)",
+                    "coordinate": true,
+                    "versione": "87000",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                }
+            ]
+        },
+        {
+            "impegni": [
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/impegni/(?<codice>\\d+)\\+(?<codsottobolla>\\d+)\\+(?<nrrifpf>\\d+)\\+(?<nrfase>\\d+)\\+(?<codmagazzino>\\d+)\\+(?<codarticolo>[\\x20-\\x2E\\x30-\\x7E]+)\\+(?<idubicazione>\\d+)$",
+                    "descrizione": "cancellazione impegno bolla di lavorazione (resource)",
+                    "coordinate": true,
+                    "versione": "81800",
+                    "method": "DELETE",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "integer",
+                            "nome": "codice",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "cod_sottobolla",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "nr_rif_pf",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "nr_fase",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "cod_magazzino",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "string",
+                            "nome": "cod_articolo",
+                            "encodable": true
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "id_ubicazione",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/impegni/(?<codice>\\d+)\\+(?<codsottobolla>\\d+)\\+(?<nrrifpf>\\d+)\\+(?<nrfase>\\d+)\\+(?<codmagazzino>\\d+)\\+(?<codarticolo>[\\x20-\\x2E\\x30-\\x7E]+)\\+(?<idubicazione>\\d+)$",
+                    "descrizione": "lettura impegno bolla di lavorazione (resource)",
+                    "coordinate": true,
+                    "versione": "81800",
+                    "method": "GET",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "integer",
+                            "nome": "codice",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "cod_sottobolla",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "nr_rif_pf",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "nr_fase",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "cod_magazzino",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "string",
+                            "nome": "cod_articolo",
+                            "encodable": true
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "id_ubicazione",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/impegni/(?<codice>\\d+)\\+(?<codsottobolla>\\d+)\\+(?<nrrifpf>\\d+)\\+(?<nrfase>\\d+)\\+(?<codmagazzino>\\d+)\\+(?<codarticolo>[\\x20-\\x2E\\x30-\\x7E]+)\\+(?<idubicazione>\\d+)$",
+                    "descrizione": "modifica impegno bolla di lavorazione (resource)",
+                    "coordinate": true,
+                    "versione": "81800",
+                    "method": "PUT",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "integer",
+                            "nome": "codice",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "cod_sottobolla",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "nr_rif_pf",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "nr_fase",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "cod_magazzino",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "string",
+                            "nome": "cod_articolo",
+                            "encodable": true
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "id_ubicazione",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/impegni/{0,1}$",
+                    "descrizione": "inserimento impegno bolla di lavorazione (resource)",
+                    "coordinate": true,
+                    "versione": "81800",
+                    "method": "POST",
+                    "max": false,
+                    "location": true,
+                    "fields": false
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/impegni/{0,1}$",
+                    "descrizione": "lista impegni bolle di lavorazione (collection)",
+                    "coordinate": true,
+                    "versione": "81800",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/impegni/ricerca$",
+                    "descrizione": "ricerca impegni bolle di lavorazione (collection)",
+                    "coordinate": true,
+                    "versione": "81800",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                }
+            ]
+        },
+        {
+            "prima-nota": [
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/prima-nota/(?<data>[0-9]{8})\\+(?<prog>\\d+)\\+(?<causale>[A-Z]{2})\\+(?<protreg>[A-Z]+)\\+(?<protser>\\d+)\\+(?<protnum>\\d+)\\+(?<docnum>\\d+)\\+(?<docdata>[0-9]{8})$",
+                    "descrizione": "cancellazione prima nota (resource)",
+                    "coordinate": true,
+                    "versione": "85000",
+                    "method": "DELETE",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "in_data_registr",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "in_progressivo",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "string",
+                            "nome": "in_cau_contabile",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "string",
+                            "nome": "in_rstro_prot_iva",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "in_serie_prot",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "in_nr_protocollo",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "in_nr_documento",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "string",
+                            "nome": "in_data_documento",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/prima-nota/(?<data>[0-9]{8})\\+(?<prog>\\d+)\\+(?<causale>[A-Z]{2})\\+(?<protreg>[A-Z]+)\\+(?<protser>\\d+)\\+(?<protnum>\\d+)\\+(?<docnum>\\d+)\\+(?<docdata>[0-9]{8})$",
+                    "descrizione": "lettura prima nota (resource)",
+                    "coordinate": true,
+                    "versione": "85000",
+                    "method": "GET",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "in_data_registr",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "in_progressivo",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "string",
+                            "nome": "in_cau_contabile",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "string",
+                            "nome": "in_rstro_prot_iva",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "in_serie_prot",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "in_nr_protocollo",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "in_nr_documento",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "string",
+                            "nome": "in_data_documento",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/prima-nota/(?<data>[0-9]{8})\\+(?<prog>\\d+)\\+(?<causale>[A-Z]{2})\\+(?<protreg>[A-Z]+)\\+(?<protser>\\d+)\\+(?<protnum>\\d+)\\+(?<docnum>\\d+)\\+(?<docdata>[0-9]{8})$",
+                    "descrizione": "modifica prima nota (resource)",
+                    "coordinate": true,
+                    "versione": "85000",
+                    "method": "PUT",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "in_data_registr",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "in_progressivo",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "string",
+                            "nome": "in_cau_contabile",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "string",
+                            "nome": "in_rstro_prot_iva",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "in_serie_prot",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "in_nr_protocollo",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "in_nr_documento",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "string",
+                            "nome": "in_data_documento",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/prima-nota/(?<data>[0-9]{8})\\+(?<prog>\\d+)$",
+                    "descrizione": "cancellazione prima nota progressivo (resource)",
+                    "coordinate": true,
+                    "versione": "85000",
+                    "method": "DELETE",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "in_data_registr",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "in_progressivo",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/prima-nota/(?<data>[0-9]{8})\\+(?<prog>\\d+)$",
+                    "descrizione": "lettura prima nota progressivo (resource)",
+                    "coordinate": true,
+                    "versione": "85000",
+                    "method": "GET",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "in_data_registr",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "in_progressivo",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/prima-nota/(?<data>[0-9]{8})\\+(?<prog>\\d+)$",
+                    "descrizione": "modifica prima nota progressivo (resource)",
+                    "coordinate": true,
+                    "versione": "85000",
+                    "method": "PUT",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "in_data_registr",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "in_progressivo",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/prima-nota/{0,1}$",
+                    "descrizione": "inserimento primanota (resource)",
+                    "coordinate": true,
+                    "versione": "85000",
+                    "method": "POST",
+                    "max": false,
+                    "location": true,
+                    "fields": false
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/prima-nota/{0,1}$",
+                    "descrizione": "lista prima nota (collection)",
+                    "coordinate": true,
+                    "versione": "85000",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/prima-nota/ricerca$",
+                    "descrizione": "ricerca primanota (collection)",
+                    "coordinate": true,
+                    "versione": "85000",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/prima-nota/righe/{0,1}$",
+                    "descrizione": "lista righe primanota (collection)",
+                    "coordinate": true,
+                    "versione": "85000",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/prima-nota/righe/ricerca$",
+                    "descrizione": "ricerca righe prima nota (collection)",
+                    "coordinate": true,
+                    "versione": "85000",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                }
+            ]
+        },
+        {
+            "mydb": [
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/mydb/(?<nomearchivio>[a-zA-Z0-9]+@[a-zA-Z0-9]+)(?<sigladoc>)$",
+                    "descrizione": "inserimento record in archivio mydb",
+                    "coordinate": true,
+                    "versione": "81800",
+                    "method": "POST",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "nome_archivio",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "string",
+                            "nome": "sigla_doc",
+                            "encodable": false
+                        }
+                    ],
+                    "location": true,
+                    "fields": false
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/mydb/(?<nomearchivio>[a-zA-Z0-9]+@[a-zA-Z0-9]+)(?<sigladoc>)$",
+                    "descrizione": "lista records archivio mydb",
+                    "coordinate": true,
+                    "versione": "81800",
+                    "method": "GET",
+                    "max": true,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "nome_archivio",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "string",
+                            "nome": "sigla_doc",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/mydb/(?<nomearchivio>[a-zA-Z0-9]+@[a-zA-Z0-9]+)/(?<id>\\d+)(?<sigladoc>)$",
+                    "descrizione": "cancellazione record archivio mydb",
+                    "coordinate": true,
+                    "versione": "81800",
+                    "method": "DELETE",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "nome_archivio",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "id",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "string",
+                            "nome": "sigla_doc",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/mydb/(?<nomearchivio>[a-zA-Z0-9]+@[a-zA-Z0-9]+)/(?<id>\\d+)(?<sigladoc>)$",
+                    "descrizione": "lettura record archivio mydb",
+                    "coordinate": true,
+                    "versione": "81800",
+                    "method": "GET",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "nome_archivio",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "id",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "string",
+                            "nome": "sigla_doc",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/mydb/(?<nomearchivio>[a-zA-Z0-9]+@[a-zA-Z0-9]+)/(?<id>\\d+)(?<sigladoc>)$",
+                    "descrizione": "modifica record in archivio mydb",
+                    "coordinate": true,
+                    "versione": "81800",
+                    "method": "PUT",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "nome_archivio",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "id",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "string",
+                            "nome": "sigla_doc",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/mydb/(?<nomearchivio>[a-zA-Z0-9]+@[a-zA-Z0-9]+)/ricerca(?<sigladoc>)$",
+                    "descrizione": "ricerca records in archivio mydb",
+                    "coordinate": true,
+                    "versione": "81800",
+                    "method": "POST",
+                    "max": true,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "nome_archivio",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "string",
+                            "nome": "sigla_doc",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/mydb/(?<nomearchivio>[a-zA-Z0-9]+@[a-zA-Z0-9]+)/(?<sigladoc>[A-Z]{2,2})$",
+                    "descrizione": "inserimento record in archivio mydb",
+                    "coordinate": true,
+                    "versione": "81800",
+                    "method": "POST",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "nome_archivio",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "string",
+                            "nome": "sigla_doc",
+                            "encodable": false
+                        }
+                    ],
+                    "location": true,
+                    "fields": false
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/mydb/(?<nomearchivio>[a-zA-Z0-9]+@[a-zA-Z0-9]+)/(?<sigladoc>[A-Z]{2,2})$",
+                    "descrizione": "lista records archivio mydb",
+                    "coordinate": true,
+                    "versione": "81800",
+                    "method": "GET",
+                    "max": true,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "nome_archivio",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "string",
+                            "nome": "sigla_doc",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/mydb/(?<nomearchivio>[a-zA-Z0-9]+@[a-zA-Z0-9]+)/(?<sigladoc>[A-Z]{2,2})/(?<id>\\d+)$",
+                    "descrizione": "cancellazione record archivio mydb",
+                    "coordinate": true,
+                    "versione": "81800",
+                    "method": "DELETE",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "nome_archivio",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "id",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "string",
+                            "nome": "sigla_doc",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/mydb/(?<nomearchivio>[a-zA-Z0-9]+@[a-zA-Z0-9]+)/(?<sigladoc>[A-Z]{2,2})/(?<id>\\d+)$",
+                    "descrizione": "lettura record archivio mydb",
+                    "coordinate": true,
+                    "versione": "81800",
+                    "method": "GET",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "nome_archivio",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "id",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "string",
+                            "nome": "sigla_doc",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/mydb/(?<nomearchivio>[a-zA-Z0-9]+@[a-zA-Z0-9]+)/(?<sigladoc>[A-Z]{2,2})/(?<id>\\d+)$",
+                    "descrizione": "modifica record in archivio mydb",
+                    "coordinate": true,
+                    "versione": "81800",
+                    "method": "PUT",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "nome_archivio",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "id",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "string",
+                            "nome": "sigla_doc",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/mydb/(?<nomearchivio>[a-zA-Z0-9]+@[a-zA-Z0-9]+)/(?<sigladoc>[A-Z]{2,2})/ricerca$",
+                    "descrizione": "ricerca records in archivio mydb",
+                    "coordinate": true,
+                    "versione": "81800",
+                    "method": "POST",
+                    "max": true,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "nome_archivio",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "string",
+                            "nome": "sigla_doc",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": true
+                }
+            ]
+        },
+        {
+            "distinte-base": [
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/distinte-base/fasi/(?<codice>[\\x20-\\x2E\\x30-\\x7E]+)\\+(?<nrfase>\\d+)$",
+                    "descrizione": "cancellazione fase distinta base (resource)",
+                    "coordinate": true,
+                    "versione": "81800",
+                    "method": "DELETE",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "codice",
+                            "encodable": true
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "nr_fase",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/distinte-base/fasi/(?<codice>[\\x20-\\x2E\\x30-\\x7E]+)\\+(?<nrfase>\\d+)$",
+                    "descrizione": "lettura fase distinta base (resource)",
+                    "coordinate": true,
+                    "versione": "81800",
+                    "method": "GET",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "codice",
+                            "encodable": true
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "nr_fase",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/distinte-base/fasi/(?<codice>[\\x20-\\x2E\\x30-\\x7E]+)\\+(?<nrfase>\\d+)$",
+                    "descrizione": "modifica fase distinta base (resource)",
+                    "coordinate": true,
+                    "versione": "81800",
+                    "method": "PUT",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "codice",
+                            "encodable": true
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "nr_fase",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/distinte-base/fasi/{0,1}$",
+                    "descrizione": "inserimento fase distinta base (resource)",
+                    "coordinate": true,
+                    "versione": "81800",
+                    "method": "POST",
+                    "max": false,
+                    "location": true,
+                    "fields": false
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/distinte-base/fasi/{0,1}$",
+                    "descrizione": "lista fasi distinte base (collection)",
+                    "coordinate": true,
+                    "versione": "81800",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/distinte-base/fasi/ricerca$",
+                    "descrizione": "ricerca fasi distinte base (collection)",
+                    "coordinate": true,
+                    "versione": "81800",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/distinte-base/componenti/{0,1}$",
+                    "descrizione": "lista componenti distinte base (collection)",
+                    "coordinate": true,
+                    "versione": "81800",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/distinte-base/componenti/ricerca$",
+                    "descrizione": "ricerca componenti distinte base (collection)",
+                    "coordinate": true,
+                    "versione": "81800",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                }
+            ]
+        },
+        {
+            "lotti": [
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/lotti/(?<id>\\d+)$",
+                    "descrizione": "cancellazione lotto (resource)",
+                    "coordinate": true,
+                    "versione": "82001",
+                    "method": "DELETE",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "integer",
+                            "nome": "id",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/lotti/(?<id>\\d+)$",
+                    "descrizione": "lettura lotto (resource)",
+                    "coordinate": true,
+                    "versione": "82001",
+                    "method": "GET",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "integer",
+                            "nome": "id",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/lotti/(?<id>\\d+)$",
+                    "descrizione": "modifica lotto (resource)",
+                    "coordinate": true,
+                    "versione": "82001",
+                    "method": "PUT",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "integer",
+                            "nome": "id",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/lotti/{0,1}$",
+                    "descrizione": "inserimento lotto (resource)",
+                    "coordinate": true,
+                    "versione": "82001",
+                    "method": "POST",
+                    "max": false,
+                    "location": true,
+                    "fields": false
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/lotti/{0,1}$",
+                    "descrizione": "lista lotti (collection)",
+                    "coordinate": true,
+                    "versione": "82001",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/lotti/ricerca$",
+                    "descrizione": "ricerca lotti (collection)",
+                    "coordinate": true,
+                    "versione": "82001",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                }
+            ]
+        },
+        {
+            "ubicazioni": [
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/ubicazioni/(?<id>\\d+)$",
+                    "descrizione": "cancellazione ubicazione (resource)",
+                    "coordinate": true,
+                    "versione": "82001",
+                    "method": "DELETE",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "integer",
+                            "nome": "id",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/ubicazioni/(?<id>\\d+)$",
+                    "descrizione": "lettura ubicazione (resource)",
+                    "coordinate": true,
+                    "versione": "82001",
+                    "method": "GET",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "integer",
+                            "nome": "id",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/ubicazioni/(?<id>\\d+)$",
+                    "descrizione": "modifica ubicazione (resource)",
+                    "coordinate": true,
+                    "versione": "82001",
+                    "method": "PUT",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "integer",
+                            "nome": "id",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/ubicazioni/{0,1}$",
+                    "descrizione": "inserimento ubicazioni (resource)",
+                    "coordinate": true,
+                    "versione": "82001",
+                    "method": "POST",
+                    "max": false,
+                    "location": true,
+                    "fields": false
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/ubicazioni/{0,1}$",
+                    "descrizione": "lista ubicazioni (collection)",
+                    "coordinate": true,
+                    "versione": "82001",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/ubicazioni/ricerca$",
+                    "descrizione": "ricerca ubicazioni (collection)",
+                    "coordinate": true,
+                    "versione": "82001",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                }
+            ]
+        },
+        {
+            "scadenzario": [
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/scadenzario/{0,1}$",
+                    "descrizione": "lista scadenzario (resource)",
+                    "coordinate": true,
+                    "versione": "85000",
+                    "method": "GET",
+                    "max": false,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/scadenzario/ricerca$",
+                    "descrizione": "ricerca scadenzario (collection)",
+                    "coordinate": true,
+                    "versione": "85000",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                }
+            ]
+        },
+        {
+            "liste-prelievo": [
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/liste-prelievo/(?<id>\\d+)$",
+                    "descrizione": "cancellazione prelievo (resource)",
+                    "coordinate": true,
+                    "versione": "82300",
+                    "method": "DELETE",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "integer",
+                            "nome": "id",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/liste-prelievo/(?<id>\\d+)$",
+                    "descrizione": "lettura prelievo (resource)",
+                    "coordinate": true,
+                    "versione": "82300",
+                    "method": "GET",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "integer",
+                            "nome": "id",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/liste-prelievo/(?<id>\\d+)$",
+                    "descrizione": "modifica prelievo (resource)",
+                    "coordinate": true,
+                    "versione": "82300",
+                    "method": "PUT",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "integer",
+                            "nome": "id",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/liste-prelievo/{0,1}$",
+                    "descrizione": "inserimento prelievo (resource)",
+                    "coordinate": true,
+                    "versione": "82300",
+                    "method": "POST",
+                    "max": false,
+                    "location": true,
+                    "fields": false
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/liste-prelievo/{0,1}$",
+                    "descrizione": "lista prelievi - testate (collection)",
+                    "coordinate": true,
+                    "versione": "82300",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/liste-prelievo/ricerca$",
+                    "descrizione": "ricerca prelievi - testate (collection)",
+                    "coordinate": true,
+                    "versione": "82300",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/liste-prelievo/righe/{0,1}$",
+                    "descrizione": "lista prelievi - righe (collection)",
+                    "coordinate": true,
+                    "versione": "82300",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/liste-prelievo/righe/ricerca$",
+                    "descrizione": "ricerca prelievi - righe (collection)",
+                    "coordinate": true,
+                    "versione": "82300",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                }
+            ]
+        },
+        {
+            "alias-articoli": [
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/alias-articoli/(?<cod>[\\x20-\\x2E\\x30-\\x7E]+)\\+(?<prog>\\d+)\\+(?<codarticolo>[\\x20-\\x2E\\x30-\\x7E]+)$",
+                    "descrizione": "cancellazione alias articolo (resource)",
+                    "coordinate": true,
+                    "versione": "83000",
+                    "method": "DELETE",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "cod_alias",
+                            "encodable": true
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "prog_alias",
+                            "encodable": true
+                        },
+                        {
+                            "tipo": "string",
+                            "nome": "cod_articolo",
+                            "encodable": true
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/alias-articoli/(?<cod>[\\x20-\\x2E\\x30-\\x7E]+)\\+(?<prog>\\d+)\\+(?<codarticolo>[\\x20-\\x2E\\x30-\\x7E]+)$",
+                    "descrizione": "lettura alias articolo (resource)",
+                    "coordinate": true,
+                    "versione": "82400",
+                    "method": "GET",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "cod_alias",
+                            "encodable": true
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "prog_alias",
+                            "encodable": true
+                        },
+                        {
+                            "tipo": "string",
+                            "nome": "cod_articolo",
+                            "encodable": true
+                        }
+                    ],
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/alias-articoli/(?<cod>[\\x20-\\x2E\\x30-\\x7E]+)\\+(?<prog>\\d+)\\+(?<codarticolo>[\\x20-\\x2E\\x30-\\x7E]+)$",
+                    "descrizione": "modifica alias articolo (resource)",
+                    "coordinate": true,
+                    "versione": "83000",
+                    "method": "PUT",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "string",
+                            "nome": "cod_alias",
+                            "encodable": true
+                        },
+                        {
+                            "tipo": "integer",
+                            "nome": "prog_alias",
+                            "encodable": true
+                        },
+                        {
+                            "tipo": "string",
+                            "nome": "cod_articolo",
+                            "encodable": true
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/alias-articoli/{0,1}$",
+                    "descrizione": "inserimento alias articolo (resource)",
+                    "coordinate": true,
+                    "versione": "83000",
+                    "method": "POST",
+                    "max": false,
+                    "location": true,
+                    "fields": false
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/alias-articoli/{0,1}$",
+                    "descrizione": "lista alias articoli (collection)",
+                    "coordinate": true,
+                    "versione": "82400",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/alias-articoli/ricerca$",
+                    "descrizione": "ricerca alias articoli (collection)",
+                    "coordinate": true,
+                    "versione": "82400",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                }
+            ]
+        },
+        {
+            "mappa-articoli": [
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/mappa-articoli/{0,1}$",
+                    "descrizione": "ubicazione articoli (collection)",
+                    "coordinate": true,
+                    "versione": "83000",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/mappa-articoli/ricerca$",
+                    "descrizione": "ricerca ubicazione articoli (collection)",
+                    "coordinate": true,
+                    "versione": "83000",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                }
+            ]
+        },
+        {
+            "aziende": [
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/aziende/{0,1}$",
+                    "descrizione": "creazione azienda",
+                    "coordinate": false,
+                    "versione": "86000",
+                    "method": "POST",
+                    "max": false,
+                    "location": true,
+                    "fields": false
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/aziende/{0,1}$",
+                    "descrizione": "lista aziende (collection)",
+                    "coordinate": false,
+                    "versione": "85000",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                }
+            ]
+        },
+        {
+            "anagrafica-unica": [
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/anagrafica-unica/{0,1}$",
+                    "descrizione": "inserimento anagrafica unica (resource)",
+                    "coordinate": false,
+                    "versione": "85000",
+                    "method": "POST",
+                    "max": false,
+                    "location": true,
+                    "fields": false
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/anagrafica-unica/{0,1}$",
+                    "descrizione": "lista anagrafiche uniche (collection)",
+                    "coordinate": false,
+                    "versione": "85000",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/anagrafica-unica/ricerca$",
+                    "descrizione": "ricerca anagrafica unica (collection)",
+                    "coordinate": false,
+                    "versione": "85000",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/anagrafica-unica/(?<id>\\d+)(\\+(?<data>[0-9]{8})){0,1}$",
+                    "descrizione": "cancellazione anagrafica unica (resource)",
+                    "coordinate": false,
+                    "versione": "85000",
+                    "method": "DELETE",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "integer",
+                            "nome": "id_anagrafica",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "string",
+                            "nome": "data_fine_valid",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/anagrafica-unica/(?<id>\\d+)(\\+(?<data>[0-9]{8})){0,1}$",
+                    "descrizione": "lettura anagrafica unica (resource)",
+                    "coordinate": false,
+                    "versione": "85000",
+                    "method": "GET",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "integer",
+                            "nome": "id_anagrafica",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "string",
+                            "nome": "data_fine_valid",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/anagrafica-unica/(?<id>\\d+)(\\+(?<data>[0-9]{8})){0,1}$",
+                    "descrizione": "modifica anagrafica unica (resource)",
+                    "coordinate": false,
+                    "versione": "85000",
+                    "method": "PUT",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "integer",
+                            "nome": "id_anagrafica",
+                            "encodable": false
+                        },
+                        {
+                            "tipo": "string",
+                            "nome": "data_fine_valid",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/anagrafica-unica/storico/{0,1}$",
+                    "descrizione": "lista anagrafiche uniche (collection)",
+                    "coordinate": false,
+                    "versione": "85100",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/anagrafica-unica/storico/ricerca$",
+                    "descrizione": "ricerca storico anagrafica unica (collection)",
+                    "coordinate": false,
+                    "versione": "85100",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                }
+            ]
+        },
+        {
+            "anagrafica-contatti": [
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/anagrafica-contatti/{0,1}$",
+                    "descrizione": "inserimento anagrafica contatti (resource)",
+                    "coordinate": true,
+                    "versione": "87100",
+                    "method": "POST",
+                    "max": false,
+                    "location": true,
+                    "fields": false
+                },
+                {
+                    "next": true,
+                    "filter": false,
+                    "regexp": "^/anagrafica-contatti/{0,1}$",
+                    "descrizione": "lista anagrafica contatti (collection)",
+                    "coordinate": true,
+                    "versione": "87100",
+                    "method": "GET",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": true,
+                    "filter": true,
+                    "regexp": "^/anagrafica-contatti/ricerca$",
+                    "descrizione": "ricerca anagrafica contatti (collection)",
+                    "coordinate": true,
+                    "versione": "87100",
+                    "method": "POST",
+                    "max": true,
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/anagrafica-contatti/(?<id>\\d+)$",
+                    "descrizione": "cancellazione anagrafica contatti (resource)",
+                    "coordinate": true,
+                    "versione": "87100",
+                    "method": "DELETE",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "integer",
+                            "nome": "codice",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/anagrafica-contatti/(?<id>\\d+)$",
+                    "descrizione": "lettura anagrafica contatti (resource)",
+                    "coordinate": true,
+                    "versione": "87100",
+                    "method": "GET",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "integer",
+                            "nome": "codice",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": true
+                },
+                {
+                    "next": false,
+                    "filter": false,
+                    "regexp": "^/anagrafica-contatti/(?<id>\\d+)$",
+                    "descrizione": "modifica anagrafica contatti (resource)",
+                    "coordinate": true,
+                    "versione": "87100",
+                    "method": "PUT",
+                    "max": false,
+                    "chiavi": [
+                        {
+                            "tipo": "integer",
+                            "nome": "codice",
+                            "encodable": false
+                        }
+                    ],
+                    "location": false,
+                    "fields": false
+                }
+            ]
+        }
+    ]
+}

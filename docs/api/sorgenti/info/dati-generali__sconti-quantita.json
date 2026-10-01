@@ -1,0 +1,37 @@
+{
+    "path": "/dati-generali/sconti-quantita",
+    "origine": "info",
+    "forma": "dati",
+    "campi": [
+        {
+            "nome": "cod_cat_art",
+            "descrizione": "Categoria articolo",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "prog_sconto",
+            "descrizione": "Numero quantita'",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "cod_cat_cli",
+            "descrizione": "Categoria cliente",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "fino_a",
+            "descrizione": "Quantita'",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "sconto",
+            "descrizione": "Sconto",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "sconto_esteso",
+            "descrizione": "Sconto",
+            "tipo": "Alfanumerico"
+        }
+    ]
+}

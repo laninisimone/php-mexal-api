@@ -1,0 +1,121 @@
+{
+    "path": "/dati-generali/pagamenti",
+    "origine": "info",
+    "forma": "dati",
+    "campi": [
+        {
+            "nome": "id",
+            "descrizione": "Numero pagamento",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "descrizione",
+            "descrizione": "Descrizione pagamento",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tp_sconto",
+            "descrizione": "Tipo sconto",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "sconto_perc",
+            "descrizione": "Sconto",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "gest_spese_inc",
+            "descrizione": "Gestione spese incasso",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_spese_bol",
+            "descrizione": "Gestione spese bolli",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_inizio_sca",
+            "descrizione": "Gestione inizio scadenze",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "scadenza_fissa",
+            "descrizione": "Scadenza fissa",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "giorni_proroga",
+            "descrizione": "Giorni proroga sommati al fine mese",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "gest_rate_perc",
+            "descrizione": "Rate a percentuale",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "descr_pnota",
+            "descrizione": "Riporta descrizione in testata Primanota",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "paga_tot_doc",
+            "descrizione": "Paga totale documento",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cos_ric_pg_ab",
+            "descrizione": "Centro C/R in pagamento/abbuono",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "causale_pg",
+            "descrizione": "Causale per pagamento",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "causale_ab",
+            "descrizione": "Causale abbuono",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "conto_ab_pas",
+            "descrizione": "Conto per abbuono passivo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "conto_ab_att",
+            "descrizione": "Conto per abbuono attivo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "conto_pagamento",
+            "descrizione": "Conto per pagamento",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tp_pagamento",
+            "descrizione": "Tipo pagamento",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "250"
+        },
+        {
+            "nome": "giorni_scadenza",
+            "descrizione": "Giorni scadenza rata",
+            "tipo": "Numerico",
+            "dimensione_array": "250"
+        },
+        {
+            "nome": "tp_rata_iva",
+            "descrizione": "Tipo rata IVA",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "250"
+        },
+        {
+            "nome": "percentuale",
+            "descrizione": "Percentuale",
+            "tipo": "Numerico con virgola",
+            "dimensione_array": "250"
+        }
+    ]
+}

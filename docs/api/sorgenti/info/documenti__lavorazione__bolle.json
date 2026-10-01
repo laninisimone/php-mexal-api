@@ -1,0 +1,5 @@
+{
+    "path": "/documenti/lavorazione/bolle",
+    "origine": "errore",
+    "errore": "6001 - errore gestionale [cmd lista_bolle_lavorazione disponibile solo per aziende di livello produzione o superiore]"
+}

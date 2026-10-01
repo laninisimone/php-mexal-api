@@ -1,0 +1,421 @@
+{
+    "path": "/documenti/movimenti-magazzino",
+    "origine": "info",
+    "forma": "dati",
+    "campi": [
+        {
+            "nome": "sigla",
+            "descrizione": "Sigla Documento",
+            "tipo": "Alfanumerico",
+            "chiave": true,
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "serie",
+            "descrizione": "Serie documento",
+            "tipo": "Numerico",
+            "chiave": true,
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "numero",
+            "descrizione": "Numero documento (0 = AUTO)",
+            "tipo": "Numerico",
+            "chiave": true,
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "cod_conto",
+            "descrizione": "Codice cliente/fornitore",
+            "tipo": "Alfanumerico",
+            "chiave": true,
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "data_documento",
+            "descrizione": "Data documento",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_modulo",
+            "descrizione": "Tipo modulo di stampa",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "id_causale",
+            "descrizione": "Causale movimento",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "id_magazzino",
+            "descrizione": "Numero magazzino",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "id_magazzino_a",
+            "descrizione": "A Magazzino (se 0 solo scarico \"id_magazzino\")",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "id_costo_ricavo",
+            "descrizione": "Centro di costo/ricavo",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "id_catsta_conto",
+            "descrizione": "Cat.stat. cliente/forn.",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "id_zona_conto",
+            "descrizione": "Zona cliente/forn.",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "gest_bollo_virt",
+            "descrizione": "Gestione bollo virtuale nel documento S/N",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "codice_agente",
+            "descrizione": "Codice agente - Tipo F/P",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "id_cond_agente",
+            "descrizione": "Numero condizione agente",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "nota",
+            "descrizione": "Nota",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "stato_doc_att",
+            "descrizione": "Stato doc. attivo S/N",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "12"
+        },
+        {
+            "nome": "stato_doc_var",
+            "descrizione": "Stato doc. variato S/N; sola lettura",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "12"
+        },
+        {
+            "nome": "id_sito_passweb",
+            "descrizione": "Numero sito Passweb",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "id_valuta",
+            "descrizione": "Valuta documento",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "cambio_vlt_euro",
+            "descrizione": "Cambio valuta Documento->Euro",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "tp_cambio_vlt",
+            "descrizione": "Flag cambio valuta Documento->Euro (S/N)",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cambio_euro_vlt",
+            "descrizione": "Cambio Euro->valuta Gest.",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "tp_cambio_euro",
+            "descrizione": "Flag cambio Euro->valuta Gest. (S/N)",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_mydb_testa",
+            "descrizione": "Dati MyDB collegati alla testata del documento (S/N)",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "data_creazione",
+            "descrizione": "Data creazione documento",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "ora_creazione",
+            "descrizione": "Ora creazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "utente_crea",
+            "descrizione": "Utente creazione documento",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "menu_creazione",
+            "descrizione": "Menu creazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "dt_var_sistema",
+            "descrizione": "Data ultima variazione documento;solo tecnologia BP",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "ora_var_sistema",
+            "descrizione": "Ora variazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "utente_modifica",
+            "descrizione": "Utente modifica documento",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "menu_modifica",
+            "descrizione": "Menu modifica",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "anno_int",
+            "descrizione": "Anno ricevimento lettera d'intento",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "prog_int",
+            "descrizione": "Progressivo lettera d'intento",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "rif_nr_bl",
+            "descrizione": "Numero di riferimento bolla di lavoro",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "rif_nr_sbl",
+            "descrizione": "Numero di riferimento sottobolla di lavoro",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "rif_nr_fs_lav",
+            "descrizione": "Numero di riferimento fase di lavorazione",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "sigla_ordine",
+            "descrizione": "Sigla documento ordine",
+            "tipo": "Alfanumerico",
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "serie_ordine",
+            "descrizione": "Serie documento ordine",
+            "tipo": "Numerico",
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "numero_ordine",
+            "descrizione": "Numero documento ordine",
+            "tipo": "Numerico",
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "data_ordine",
+            "descrizione": "Data documento ordine",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "sigla_doc_orig",
+            "descrizione": "Sigla documento origine movimento di magazzino",
+            "tipo": "Alfanumerico",
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "serie_doc_orig",
+            "descrizione": "Serie documento origine movimento di magazzino",
+            "tipo": "Numerico",
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "numero_doc_orig",
+            "descrizione": "Numero documento origine movimento di magazzino",
+            "tipo": "Numerico",
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "data_doc_orig",
+            "descrizione": "Data documento origine movimento di magazzino",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "rif_sgl_attuale",
+            "descrizione": "Rif.Doc.Est. - Sigla doc.attuale",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "3"
+        },
+        {
+            "nome": "rif_nr_attuale",
+            "descrizione": "Rif.Doc.Est. - Numero doc.attuale",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "3"
+        },
+        {
+            "nome": "rif_dt_attuale",
+            "descrizione": "Rif.Doc.Est. - Data doc.attuale",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "3"
+        },
+        {
+            "nome": "rt_nr_chiusura",
+            "descrizione": "num chiusura giornaliera documento di riferimento",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "rt_nr_doc_rif",
+            "descrizione": "numero del documento di riferimento",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "rt_data_doc_rif",
+            "descrizione": "data del documento di riferimento",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "rt_matr_doc_rif",
+            "descrizione": "matricola Registratore Telematico",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "id_ind_sped",
+            "descrizione": "Codice indirizzo di spedizione (PC)",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_anag_sped",
+            "descrizione": "Codice da anagrafica indirizzi di spedizione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tp_trasporto",
+            "descrizione": "Trasporto a mezzo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_vettore",
+            "descrizione": "Codice vettore",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tp_porto",
+            "descrizione": "Tipo porto",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "descr_porto",
+            "descrizione": "Ulteriore descrizione porto",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "nr_tracking",
+            "descrizione": "Tracking number",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tp_spese_sped",
+            "descrizione": "Tipo spese di spedizione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "val_spese_sped",
+            "descrizione": "Valore spese di spedizione",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "nr_colli_sped",
+            "descrizione": "Totale colli",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "peso_spedizione",
+            "descrizione": "Totale peso",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "asp_est_beni",
+            "descrizione": "Tabella aspetto esteriore beni - solo movimento",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "dt_spedizione",
+            "descrizione": "Data inizio trasporto",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "ora_spedizione",
+            "descrizione": "Ora inizio trasporto",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "codice_cig",
+            "descrizione": "Codice CIG",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "codice_cup",
+            "descrizione": "Codice CUP",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "id_pagamento",
+            "descrizione": "Codice pagamento",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "nr_banca_appo",
+            "descrizione": "Numero banca di appoggio",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "cod_banca",
+            "descrizione": "Codice conto banca azienda",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "acconto_pagato",
+            "descrizione": "Acconto/pagato",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "abbuono",
+            "descrizione": "Abbuono",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "spese_banca",
+            "descrizione": "Valore spese banca",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "spese_bolli",
+            "descrizione": "Valore spese bolli",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "data_ult_mod",
+            "descrizione": "Data e ora ultima modifica",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "utente_ult_mod",
+            "descrizione": "Utente ultima modifica",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "data_ult_mod",
+            "descrizione": "Data ora ultima modifica",
+            "tipo": "Data e ora (formato AAAAMMGG HHMMSS)"
+        }
+    ]
+}

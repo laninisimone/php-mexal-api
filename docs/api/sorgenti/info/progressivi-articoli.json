@@ -1,0 +1,132 @@
+{
+    "path": "/progressivi-articoli",
+    "origine": "campione",
+    "forma": "colonnare",
+    "campi": [
+        {
+            "nome": "cod_articolo",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "0"
+        },
+        {
+            "nome": "descr_articolo",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "0"
+        },
+        {
+            "nome": "id_magazzino",
+            "tipo": "Numerico",
+            "dimensione_array": "0"
+        },
+        {
+            "nome": "id_ubicazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "id_lotto",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "um_principale",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "0"
+        },
+        {
+            "nome": "um_secondaria",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "qta_inventario",
+            "tipo": "Numerico con virgola",
+            "dimensione_array": "0"
+        },
+        {
+            "nome": "qta_inventa_tg",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tara_inventa",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "colli_inventa",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "qta_carico",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "qta_carico_tg",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tara_carico",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "colli_carico",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "qta_scarico",
+            "tipo": "Numerico con virgola",
+            "dimensione_array": "0"
+        },
+        {
+            "nome": "qta_scarico_tg",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tara_scarico",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "colli_scarico",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "qta_ord_for",
+            "tipo": "Numerico con virgola",
+            "dimensione_array": "0"
+        },
+        {
+            "nome": "qta_ord_for_tg",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "qta_ord_imp",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "qta_ord_imp_tg",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "qta_ord_dimp",
+            "tipo": "Numerico con virgola",
+            "dimensione_array": "0"
+        },
+        {
+            "nome": "qta_ord_dimp_tg",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "qta_ord_auto",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "qta_ord_auto_tg",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "dt_mod_ult_doc",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "0"
+        },
+        {
+            "nome": "num_prog_art",
+            "tipo": "Numerico"
+        }
+    ]
+}

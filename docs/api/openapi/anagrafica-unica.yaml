@@ -1,0 +1,1677 @@
+openapi: "3.1.0"
+info:
+  title: Passepartout WebAPI - Anagrafica unica
+  version: "88201"
+  description: |-
+    Generato da `tools/api-docs/genera.php` a partire dall'help in linea (`GET /risorse/help?extended=true`)
+    e da `?info=true` di un'installazione Mexal/Passcom 2.9.17 (versione gestionale 88201), integrato con il manuale WebAPI v3.1.
+    Endpoint e campi dipendono da versione e moduli installati: la fonte di verità resta `?info=true`.
+
+    **Convenzioni**
+
+    - Autenticazione: `Authorization: Passepartout <base64(utente:password)>`; sul cloud si aggiunge ` Dominio=<DOMINIO>`.
+    - Contesto aziendale: header `Coordinate-Gestionale: Azienda=XXX Anno=AAAA` (opzionali `SottoAzienda=`, `Magazzino=`).
+    - Date `AAAAMMGG`, date-ora `AAAAMMGG HHMMSS`, decimali con il punto.
+    - Gli array sono liste di coppie `[[indice, valore], ...]`, non liste semplici.
+    - Chiavi composte unite da `+` nel path (es. `OC+1+15`). Codici con `/` o `\` vanno in esadecimale con `?encoding=hex`.
+    - Paginazione: `max` limita i record, il token `next` della risposta va ripassato così com'è e subito.
+    - Ricerca: `POST .../ricerca` con `filtri`; i filtri sono in AND, i valori di uno stesso filtro in OR.
+    - Revisione (PUT): rimandare `data_ult_mod` letto dalla GET per il controllo di modifica concorrente.
+    - Limiti: 5 richieste simultanee per utente WebAPI (oltre si riceve 503).
+servers:
+  - url: "https://{host}:{porta}/webapi/risorse"
+    description: Installazione locale (certificato spesso self-signed)
+    variables:
+      host:
+        default: localhost
+      porta:
+        default: "9004"
+  - url: "https://services.passepartout.cloud/webapi/risorse"
+    description: "Passepartout Live (cloud): aggiungere Dominio=<DOMINIO> all'header Authorization"
+security:
+  - passepartout: []
+tags:
+  - name: anagrafica-unica
+    description: "Rubrica unica: anagrafiche condivise fra aziende, con storicizzazione delle variazioni. Non richiede l'header Coordinate-Gestionale."
+  - name: anagrafica-unica/storico
+    description: Versioni storicizzate delle anagrafiche della rubrica unica. Non richiede l'header Coordinate-Gestionale.
+paths:
+  "/anagrafica-unica":
+    get:
+      tags:
+        - anagrafica-unica
+      operationId: anagrafica_unica_lista
+      summary: Lista anagrafiche uniche
+      description: |-
+        Paginata: il server pagina oltre 30 secondi o 50 MB anche senza `max`; seguire `next` fino a esaurimento.
+
+        NON richiede Coordinate-Gestionale (archivio sovraziendale)
+
+        Restituisce solo le anagrafiche con versione attiva (non scadute)
+
+        Supporta paginazione tramite max e next
+      parameters:
+        - name: fields
+          in: query
+          description: "Campi da restituire, separati da virgola. Riduce il payload: usarlo sempre sulle liste."
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/AnagraficaUnicaCampo"
+        - $ref: "#/components/parameters/Max"
+        - $ref: "#/components/parameters/Next"
+      responses:
+        "200":
+          description: Record trovati
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/AnagraficaUnicaLista"
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "85000"
+    post:
+      tags:
+        - anagrafica-unica
+      operationId: anagrafica_unica_crea
+      summary: Inserimento anagrafica unica
+      description: |-
+        Risponde 201 senza body: il codice assegnato è nell'header `Location`.
+
+        NON richiede Coordinate-Gestionale (archivio sovraziendale)
+
+        Il tag Location nella response restituisce l’id per referenziare la risorsa creata
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/AnagraficaUnicaInserimento"
+      responses:
+        "201":
+          description: "Creato. Nessun body: il path della nuova risorsa è nell'header Location."
+          headers:
+            Location:
+              description: "Path della risorsa creata (es. /webapi/risorse/anagrafica-unica/...). Può contenere ?encoding=hex."
+              schema:
+                type: string
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "85000"
+  "/anagrafica-unica/ricerca":
+    post:
+      tags:
+        - anagrafica-unica
+      operationId: anagrafica_unica_cerca
+      summary: Ricerca anagrafica unica
+      description: |-
+        Filtri in AND fra loro; un `valore` array mette i valori in OR. Condizioni: `=`, `<>`, `>`, `<`, `>=`, `<=`, `contiene`, `inizia_per`.
+
+        Se data_fine_valid viene omessa nella chiave, viene utilizzata la data di apertura della sessione WebAPI (data odierna per l’anno corrente). In questo caso le Coordinate-Gestionale devono essere presenti nell’header per determinare l’anno
+
+        Per leggere un dato storicizzato ad una certa data, passare la data effettiva di storicizzazione
+      parameters:
+        - name: fields
+          in: query
+          description: "Campi da restituire, separati da virgola. Riduce il payload: usarlo sempre sulle liste."
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/AnagraficaUnicaCampo"
+        - $ref: "#/components/parameters/Max"
+        - $ref: "#/components/parameters/Next"
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/AnagraficaUnicaRicerca"
+      responses:
+        "200":
+          description: Record trovati
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/AnagraficaUnicaLista"
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "85000"
+  "/anagrafica-unica/{id_anagrafica}":
+    get:
+      tags:
+        - anagrafica-unica
+      operationId: anagrafica_unica_leggi
+      summary: Lettura anagrafica unica
+      parameters:
+        - name: id_anagrafica
+          in: path
+          required: true
+          description: "Parte di chiave `id_anagrafica`."
+          schema:
+            type: integer
+            minimum: 0
+        - name: fields
+          in: query
+          description: "Campi da restituire, separati da virgola. Riduce il payload: usarlo sempre sulle liste."
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/AnagraficaUnicaCampo"
+      responses:
+        "200":
+          description: Record richiesto
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/AnagraficaUnica"
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "404":
+          $ref: "#/components/responses/NonTrovato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "85000"
+    put:
+      tags:
+        - anagrafica-unica
+      operationId: anagrafica_unica_modifica
+      summary: Modifica anagrafica unica
+      description: "Inviare solo i campi da modificare, più `data_ult_mod` letto dalla GET se il controllo di modifica concorrente è attivo."
+      parameters:
+        - name: id_anagrafica
+          in: path
+          required: true
+          description: "Parte di chiave `id_anagrafica`."
+          schema:
+            type: integer
+            minimum: 0
+        - name: storicizza
+          in: query
+          description: Modalità storicizzazione (S o R)
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/AnagraficaUnicaModifica"
+      responses:
+        "204":
+          description: Operazione eseguita, nessun body.
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "404":
+          $ref: "#/components/responses/NonTrovato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "85000"
+    delete:
+      tags:
+        - anagrafica-unica
+      operationId: anagrafica_unica_elimina
+      summary: Cancellazione anagrafica unica
+      parameters:
+        - name: id_anagrafica
+          in: path
+          required: true
+          description: "Parte di chiave `id_anagrafica`."
+          schema:
+            type: integer
+            minimum: 0
+      responses:
+        "204":
+          description: Operazione eseguita, nessun body.
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "404":
+          $ref: "#/components/responses/NonTrovato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "85000"
+  "/anagrafica-unica/{id_anagrafica}+{data_fine_valid}":
+    get:
+      tags:
+        - anagrafica-unica
+      operationId: anagrafica_unica_leggi_2
+      summary: Lettura anagrafica unica
+      parameters:
+        - name: id_anagrafica
+          in: path
+          required: true
+          description: "Parte di chiave `id_anagrafica`."
+          schema:
+            type: integer
+            minimum: 0
+        - name: data_fine_valid
+          in: path
+          required: true
+          description: "Parte di chiave `data_fine_valid`."
+          schema:
+            type: string
+            pattern: "^[0-9]{8}$"
+            description: Data AAAAMMGG
+        - name: fields
+          in: query
+          description: "Campi da restituire, separati da virgola. Riduce il payload: usarlo sempre sulle liste."
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/AnagraficaUnicaCampo"
+      responses:
+        "200":
+          description: Record richiesto
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/AnagraficaUnica"
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "404":
+          $ref: "#/components/responses/NonTrovato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "85000"
+    put:
+      tags:
+        - anagrafica-unica
+      operationId: anagrafica_unica_modifica_2
+      summary: Modifica anagrafica unica
+      description: "Inviare solo i campi da modificare, più `data_ult_mod` letto dalla GET se il controllo di modifica concorrente è attivo."
+      parameters:
+        - name: id_anagrafica
+          in: path
+          required: true
+          description: "Parte di chiave `id_anagrafica`."
+          schema:
+            type: integer
+            minimum: 0
+        - name: data_fine_valid
+          in: path
+          required: true
+          description: "Parte di chiave `data_fine_valid`."
+          schema:
+            type: string
+            pattern: "^[0-9]{8}$"
+            description: Data AAAAMMGG
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/AnagraficaUnicaModifica"
+      responses:
+        "204":
+          description: Operazione eseguita, nessun body.
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "404":
+          $ref: "#/components/responses/NonTrovato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "85000"
+    delete:
+      tags:
+        - anagrafica-unica
+      operationId: anagrafica_unica_elimina_2
+      summary: Cancellazione anagrafica unica
+      description: "La DELETE elimina un’intera storicizzazione alla data: se più blocchi di informazioni hanno la stessa data di storicizzazione verranno eliminati tutti"
+      parameters:
+        - name: id_anagrafica
+          in: path
+          required: true
+          description: "Parte di chiave `id_anagrafica`."
+          schema:
+            type: integer
+            minimum: 0
+        - name: data_fine_valid
+          in: path
+          required: true
+          description: "Parte di chiave `data_fine_valid`."
+          schema:
+            type: string
+            pattern: "^[0-9]{8}$"
+            description: Data AAAAMMGG
+      responses:
+        "204":
+          description: Operazione eseguita, nessun body.
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "404":
+          $ref: "#/components/responses/NonTrovato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "85000"
+  "/anagrafica-unica/storico":
+    get:
+      tags:
+        - anagrafica-unica/storico
+      operationId: anagrafica_unica_storico_lista
+      summary: Lista anagrafiche uniche
+      description: |-
+        Paginata: il server pagina oltre 30 secondi o 50 MB anche senza `max`; seguire `next` fino a esaurimento.
+
+        Include anche le versioni con data_fine_valid nel passato
+
+        Lo storico include campi aggiuntivi: data_iniz_valid, tp_dati, sottotp_dati, xxx_stor_iniz, xxx_stor_data
+      parameters:
+        - name: fields
+          in: query
+          description: "Campi da restituire, separati da virgola. Riduce il payload: usarlo sempre sulle liste."
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/AnagraficaUnicaStoricoCampo"
+        - $ref: "#/components/parameters/Max"
+        - $ref: "#/components/parameters/Next"
+      responses:
+        "200":
+          description: Record trovati
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/AnagraficaUnicaStoricoLista"
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "85100"
+  "/anagrafica-unica/storico/ricerca":
+    post:
+      tags:
+        - anagrafica-unica/storico
+      operationId: anagrafica_unica_storico_cerca
+      summary: Ricerca storico anagrafica unica
+      description: |-
+        Filtri in AND fra loro; un `valore` array mette i valori in OR. Condizioni: `=`, `<>`, `>`, `<`, `>=`, `<=`, `contiene`, `inizia_per`.
+
+        Permette di cercare in tutte le versioni storiche dell’anagrafica
+      parameters:
+        - name: fields
+          in: query
+          description: "Campi da restituire, separati da virgola. Riduce il payload: usarlo sempre sulle liste."
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/AnagraficaUnicaStoricoCampo"
+        - $ref: "#/components/parameters/Max"
+        - $ref: "#/components/parameters/Next"
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/AnagraficaUnicaStoricoRicerca"
+      responses:
+        "200":
+          description: Record trovati
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/AnagraficaUnicaStoricoLista"
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "85100"
+components:
+  securitySchemes:
+    passepartout:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: "Formato `Passepartout <base64(utente:password)>`. Sul cloud: `Passepartout <base64> Dominio=<DOMINIO>`. Con login di sistema operativo attivo (login=1) si aggiunge un secondo blocco `<base64(utente_so:password_so)>`."
+  parameters:
+    CoordinateGestionale:
+      name: Coordinate-Gestionale
+      in: header
+      required: true
+      description: Azienda e anno di lavoro, più sotto-azienda e magazzino di default facoltativi (magazzino 1 se omesso).
+      schema:
+        type: string
+        pattern: "^Azienda=\\S+( SottoAzienda=\\S+)? Anno=\\d{4}( Magazzino=\\d+)?$"
+        examples:
+          - "Azienda=DEM Anno=2026 Magazzino=1"
+    Max:
+      name: max
+      in: query
+      description: Numero massimo di record per pagina. Il server può restituirne meno (limiti di 30 s e 50 MB).
+      schema:
+        type: integer
+        minimum: 1
+    Next:
+      name: next
+      in: query
+      description: "Token di pagina restituito dalla risposta precedente: opaco, da usare subito e così com'è."
+      schema:
+        type: string
+    Encoding:
+      name: encoding
+      in: query
+      description: "Codifica delle parti di chiave nel path. Obbligatoria quando un codice contiene `/` o `\\`: il codice va inviato in esadecimale (es. `ARTI/S` -> `415254492f53`)."
+      schema:
+        type: string
+        enum:
+          - hex
+          - base32
+  responses:
+    ErroreRichiesta:
+      description: "Richiesta non valida: parametri o campi errati, errore gestionale (6001), coordinate mancanti."
+      content:
+        "application/json":
+          schema:
+            $ref: "#/components/schemas/Errore"
+    NonAutorizzato:
+      description: "Credenziali assenti o errate. Attenzione: tentativi ripetuti bloccano l'utente WebAPI."
+      content:
+        "application/json":
+          schema:
+            $ref: "#/components/schemas/Errore"
+    NonTrovato:
+      description: Risorsa inesistente o path non valido (nessun body).
+    PoolEsaurito:
+      description: "Pool di 5 servizi dell'utente WebAPI esaurito: riprovare più tardi, senza retry aggressivi."
+      content:
+        "application/json":
+          schema:
+            $ref: "#/components/schemas/Errore"
+  schemas:
+    AnagraficaUnica:
+      type: object
+      properties:
+        id_anagrafica:
+          type: integer
+          description: "Codice anagrafico — ID anagrafica."
+          x-mexal-tipo: Numerico
+        annullato:
+          type: string
+          description: annullata logicamente.
+          x-mexal-tipo: Alfanumerico
+        anag_tipo_sogg:
+          type: string
+          description: "Anagrafica: tipo soggetto — Tipo soggetto (M/F/P/C/E)."
+          x-mexal-tipo: Alfanumerico
+        anag_cod_fis:
+          type: string
+          description: "Anagrafica: codice fiscale."
+          x-mexal-tipo: Alfanumerico
+        anag_piva:
+          type: string
+          description: "Anagrafica: partita iva."
+          x-mexal-tipo: Alfanumerico
+        anag_cognome:
+          type: string
+          description: "Anagrafica: cognome."
+          x-mexal-tipo: Alfanumerico
+        anag_nome:
+          type: string
+          description: "Anagrafica: nome."
+          x-mexal-tipo: Alfanumerico
+        anag_rag_soc:
+          type: string
+          description: "Anagrafica: ragione sociale."
+          x-mexal-tipo: Alfanumerico
+        anag_desc:
+          type: string
+          description: "Anagrafica: descrizione."
+          x-mexal-tipo: Alfanumerico
+        anag_denom:
+          type: string
+          description: "Anagrafica: denominazione."
+          x-mexal-tipo: Alfanumerico
+        anag_stor_nota:
+          type: string
+          description: "Anagrafica: nota storicizzazione."
+          x-mexal-tipo: Alfanumerico
+        nasc_data:
+          type: string
+          description: "Nascita: data."
+          x-mexal-tipo: Alfanumerico
+        nasc_comune:
+          type: string
+          description: "Nascita: comune."
+          x-mexal-tipo: Alfanumerico
+        nasc_cap:
+          type: string
+          description: "Nascita: cap."
+          x-mexal-tipo: Alfanumerico
+        nasc_prov:
+          type: string
+          description: "Nascita: provincia."
+          x-mexal-tipo: Alfanumerico
+        nasc_irpef:
+          type: string
+          description: "Nascita: codice irpef."
+          x-mexal-tipo: Alfanumerico
+        res_indir:
+          type: string
+          description: "Residenza: indirizzo — Indirizzo residenza."
+          x-mexal-tipo: Alfanumerico
+        res_cap:
+          type: string
+          description: "Residenza: cap — CAP residenza."
+          x-mexal-tipo: Alfanumerico
+        res_comune:
+          type: string
+          description: "Residenza: comune — Comune residenza."
+          x-mexal-tipo: Alfanumerico
+        res_prov:
+          type: string
+          description: "Residenza: provincia — Provincia residenza."
+          x-mexal-tipo: Alfanumerico
+        res_nazione:
+          type: string
+          description: "Residenza: nazione."
+          x-mexal-tipo: Alfanumerico
+        res_localita:
+          type: string
+          description: "Residenza: localita'."
+          x-mexal-tipo: Alfanumerico
+        res_irpef:
+          type: string
+          description: "Residenza: codice irpef."
+          x-mexal-tipo: Alfanumerico
+        res_stesso_dom:
+          type: string
+          description: "Residenza: uguale a sede legale."
+          x-mexal-tipo: Alfanumerico
+        res_stor_nota:
+          type: string
+          description: "Residenza: nota storicizzazione."
+          x-mexal-tipo: Alfanumerico
+        dom_indir:
+          type: string
+          description: "Domicilio fiscale: indirizzo."
+          x-mexal-tipo: Alfanumerico
+        dom_cap:
+          type: string
+          description: "Domicilio fiscale: cap."
+          x-mexal-tipo: Alfanumerico
+        dom_comune:
+          type: string
+          description: "Domicilio fiscale: comune."
+          x-mexal-tipo: Alfanumerico
+        dom_prov:
+          type: string
+          description: "Domicilio fiscale: provincia."
+          x-mexal-tipo: Alfanumerico
+        dom_nazione:
+          type: string
+          description: "Domicilio fiscale: nazione."
+          x-mexal-tipo: Alfanumerico
+        dom_localita:
+          type: string
+          description: "Domicilio fiscale: localita'."
+          x-mexal-tipo: Alfanumerico
+        dom_irpef:
+          type: string
+          description: "Domicilio fiscale: codice irpef."
+          x-mexal-tipo: Alfanumerico
+        dom_stor_nota:
+          type: string
+          description: "Domicilio fiscale: nota storicizzazione."
+          x-mexal-tipo: Alfanumerico
+        est_cod_fiscale:
+          type: string
+          description: "Residenza estera: codice fiscale."
+          x-mexal-tipo: Alfanumerico
+        est_cod_stato:
+          type: string
+          description: "Residenza estera: codice stato."
+          x-mexal-tipo: Alfanumerico
+        est_nazione:
+          type: string
+          description: "Residenza estera: stato."
+          x-mexal-tipo: Alfanumerico
+        est_stato_fed:
+          type: string
+          description: "Residenza estera: stato federato."
+          x-mexal-tipo: Alfanumerico
+        est_localita:
+          type: string
+          description: "Residenza estera: localita'."
+          x-mexal-tipo: Alfanumerico
+        est_indir:
+          type: string
+          description: "Residenza estera: indirizzo."
+          x-mexal-tipo: Alfanumerico
+        est_stor_nota:
+          type: string
+          description: "Residenza estera: nota storicizzazione."
+          x-mexal-tipo: Alfanumerico
+        telefono:
+          type: string
+          description: "Contatti: numero telefono."
+          x-mexal-tipo: Alfanumerico
+        telefono2:
+          type: string
+          description: "Contatti: numero telefono 2."
+          x-mexal-tipo: Alfanumerico
+        telefono3:
+          type: string
+          description: "Contatti: numero telefono 3."
+          x-mexal-tipo: Alfanumerico
+        cellulare:
+          type: string
+          description: "Contatti: numero cellulare."
+          x-mexal-tipo: Alfanumerico
+        fax:
+          type: string
+          description: "Contatti: numero fax."
+          x-mexal-tipo: Alfanumerico
+        email:
+          type: string
+          description: "Contatti: indirizzo email."
+          x-mexal-tipo: Alfanumerico
+        email2:
+          type: string
+          description: "Contatti: indirizzo email 2."
+          x-mexal-tipo: Alfanumerico
+        pec:
+          type: string
+          description: "Contatti: indirizzo email pec."
+          x-mexal-tipo: Alfanumerico
+        pec2:
+          type: string
+          description: "Contatti: indirizzo email pec2."
+          x-mexal-tipo: Alfanumerico
+        internet:
+          type: string
+          description: "Contatti: sito internet."
+          x-mexal-tipo: Alfanumerico
+        nota_telefono:
+          type: string
+          description: "Contatti: nota numero telefono."
+          x-mexal-tipo: Alfanumerico
+        nota_telefono2:
+          type: string
+          description: "Contatti: nota numero telefono 2."
+          x-mexal-tipo: Alfanumerico
+        nota_telefono3:
+          type: string
+          description: "Contatti: nota numero telefono 3."
+          x-mexal-tipo: Alfanumerico
+        nota_cellulare:
+          type: string
+          description: "Contatti: nota numero cellulare."
+          x-mexal-tipo: Alfanumerico
+        nota_fax:
+          type: string
+          description: "Contatti: nota numero fax."
+          x-mexal-tipo: Alfanumerico
+        nota_email:
+          type: string
+          description: "Contatti: nota indirizzo email."
+          x-mexal-tipo: Alfanumerico
+        nota_email2:
+          type: string
+          description: "Contatti: nota indirizzo email 2."
+          x-mexal-tipo: Alfanumerico
+        leg_id_anag:
+          type: integer
+          description: "Legale rappr.: codice id."
+          x-mexal-tipo: Numerico
+        leg_cod_fiscale:
+          type: string
+          description: "Legale rappr.: codice fiscale."
+          x-mexal-tipo: Alfanumerico
+        leg_sesso:
+          type: string
+          description: "Legale rappr.: sesso."
+          x-mexal-tipo: Alfanumerico
+        leg_cognome:
+          type: string
+          description: "Legale rappr.: cognome."
+          x-mexal-tipo: Alfanumerico
+        leg_nome:
+          type: string
+          description: "Legale rappr.: nome."
+          x-mexal-tipo: Alfanumerico
+        leg_cod_carica:
+          type: string
+          description: "Legale rappr.: codice carica."
+          x-mexal-tipo: Alfanumerico
+        leg_data_decor:
+          type: string
+          description: "Legale rappr.: data decorrenza."
+          x-mexal-tipo: Alfanumerico
+        leg_nasc_data:
+          type: string
+          description: "Legale rappr.nascita: data."
+          x-mexal-tipo: Alfanumerico
+        leg_nasc_comune:
+          type: string
+          description: "Legale rappr.nascita: comune."
+          x-mexal-tipo: Alfanumerico
+        leg_nasc_prov:
+          type: string
+          description: "Legale rappr.nascita: provincia."
+          x-mexal-tipo: Alfanumerico
+        leg_dom_indir:
+          type: string
+          description: "Legale rappr.domicilio: indirizzo."
+          x-mexal-tipo: Alfanumerico
+        leg_dom_cap:
+          type: string
+          description: "Legale rappr.domicilio: cap."
+          x-mexal-tipo: Alfanumerico
+        leg_dom_comune:
+          type: string
+          description: "Legale rappr.domicilio: comune."
+          x-mexal-tipo: Alfanumerico
+        leg_dom_prov:
+          type: string
+          description: "Legale rappr.domicilio: provincia."
+          x-mexal-tipo: Alfanumerico
+        leg_telefono:
+          type: string
+          description: "Legale rappr.domicilio: telefono."
+          x-mexal-tipo: Alfanumerico
+        leg_soc_id_anag:
+          type: integer
+          description: "Legale rappr.soc.: codice id."
+          x-mexal-tipo: Numerico
+        leg_soc_cod_fis:
+          type: string
+          description: "Legale rappr.soc.: codice fiscale."
+          x-mexal-tipo: Alfanumerico
+        leg_soc_rag_soc:
+          type: string
+          description: "Legale rappr.soc.: ragione sociale."
+          x-mexal-tipo: Alfanumerico
+        leg_stor_nota:
+          type: string
+          description: "Legale rappr.: nota storicizzazione."
+          x-mexal-tipo: Alfanumerico
+        docum_tipo:
+          type: string
+          description: "Documento: tipo."
+          x-mexal-tipo: Alfanumerico
+        docum_numero:
+          type: string
+          description: "Documento: numero."
+          x-mexal-tipo: Alfanumerico
+        docum_aut_ril:
+          type: string
+          description: "Documento: autorita' di rilascio."
+          x-mexal-tipo: Alfanumerico
+        docum_data_ril:
+          type: string
+          description: "Documento: data rilascio."
+          x-mexal-tipo: Alfanumerico
+        docum_data_scad:
+          type: string
+          description: "Documento: data scadenza."
+          x-mexal-tipo: Alfanumerico
+        docum_stor_nota:
+          type: string
+          description: "Documento: nota storicizzazione."
+          x-mexal-tipo: Alfanumerico
+        pf_stato_civ:
+          type: string
+          description: "Persona fisica: stato civile."
+          x-mexal-tipo: Alfanumerico
+        pf_tit_studio:
+          type: string
+          description: "Persona fisica: titolo di studio."
+          x-mexal-tipo: Alfanumerico
+        pf_nazione:
+          type: string
+          description: "Persona fisica: nazionalita'."
+          x-mexal-tipo: Alfanumerico
+        pf_qualif:
+          type: string
+          description: "Persona fisica: professione/qualifica."
+          x-mexal-tipo: Alfanumerico
+        pf_titolo:
+          type: integer
+          description: "Persona fisica: titolo."
+          x-mexal-tipo: Numerico
+        pf_stor_nota:
+          type: string
+          description: "Persona fisica: nota storicizzazione."
+          x-mexal-tipo: Alfanumerico
+        pg_nat_giurid:
+          type: integer
+          description: "Persona giuridica: natura giuridica."
+          x-mexal-tipo: Numerico
+        pg_stato_soc:
+          type: string
+          description: "Persona giuridica: stato della societa'."
+          x-mexal-tipo: Alfanumerico
+        pg_sit_societa:
+          type: string
+          description: "Persona giuridica: situazione societa'."
+          x-mexal-tipo: Alfanumerico
+        pg_stor_nota:
+          type: string
+          description: "Persona giuridica: nota storicizzazione."
+          x-mexal-tipo: Alfanumerico
+        nota:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 5
+              - type: string
+            minItems: 2
+            maxItems: 2
+          maxItems: 5
+          description: "Nota anagrafica. Array indicizzato [[indice, valore], ...] con indice da 1 a 5."
+          x-mexal-tipo: Alfanumerico
+        nota_stor_nota:
+          type: string
+          description: "Nota anagrafica: nota storicizzazione."
+          x-mexal-tipo: Alfanumerico
+        data_creaz:
+          type: string
+          description: Data creazione. Data in formato AAAAMMGG.
+          x-mexal-tipo: Alfanumerico
+        data_modif:
+          type: string
+          description: Data modifica. Data in formato AAAAMMGG.
+          x-mexal-tipo: Alfanumerico
+        utente_ult_mod:
+          type: string
+          description: Utente ultima modifica.
+          x-mexal-tipo: Alfanumerico
+        data_ult_mod:
+          type: string
+          pattern: "^(\\d{8} \\d{6})?$"
+          description: Data ora ultima modifica. Formato AAAAMMGG HHMMSS.
+          x-mexal-tipo: Data e ora
+      x-mexal-origine-campi: info
+    AnagraficaUnicaCampo:
+      type: string
+      enum:
+        - id_anagrafica
+        - annullato
+        - anag_tipo_sogg
+        - anag_cod_fis
+        - anag_piva
+        - anag_cognome
+        - anag_nome
+        - anag_rag_soc
+        - anag_desc
+        - anag_denom
+        - anag_stor_nota
+        - nasc_data
+        - nasc_comune
+        - nasc_cap
+        - nasc_prov
+        - nasc_irpef
+        - res_indir
+        - res_cap
+        - res_comune
+        - res_prov
+        - res_nazione
+        - res_localita
+        - res_irpef
+        - res_stesso_dom
+        - res_stor_nota
+        - dom_indir
+        - dom_cap
+        - dom_comune
+        - dom_prov
+        - dom_nazione
+        - dom_localita
+        - dom_irpef
+        - dom_stor_nota
+        - est_cod_fiscale
+        - est_cod_stato
+        - est_nazione
+        - est_stato_fed
+        - est_localita
+        - est_indir
+        - est_stor_nota
+        - telefono
+        - telefono2
+        - telefono3
+        - cellulare
+        - fax
+        - email
+        - email2
+        - pec
+        - pec2
+        - internet
+        - nota_telefono
+        - nota_telefono2
+        - nota_telefono3
+        - nota_cellulare
+        - nota_fax
+        - nota_email
+        - nota_email2
+        - leg_id_anag
+        - leg_cod_fiscale
+        - leg_sesso
+        - leg_cognome
+        - leg_nome
+        - leg_cod_carica
+        - leg_data_decor
+        - leg_nasc_data
+        - leg_nasc_comune
+        - leg_nasc_prov
+        - leg_dom_indir
+        - leg_dom_cap
+        - leg_dom_comune
+        - leg_dom_prov
+        - leg_telefono
+        - leg_soc_id_anag
+        - leg_soc_cod_fis
+        - leg_soc_rag_soc
+        - leg_stor_nota
+        - docum_tipo
+        - docum_numero
+        - docum_aut_ril
+        - docum_data_ril
+        - docum_data_scad
+        - docum_stor_nota
+        - pf_stato_civ
+        - pf_tit_studio
+        - pf_nazione
+        - pf_qualif
+        - pf_titolo
+        - pf_stor_nota
+        - pg_nat_giurid
+        - pg_stato_soc
+        - pg_sit_societa
+        - pg_stor_nota
+        - nota
+        - nota_stor_nota
+        - data_creaz
+        - data_modif
+        - utente_ult_mod
+        - data_ult_mod
+      description: Campi di anagrafica-unica.
+    AnagraficaUnicaLista:
+      type: object
+      required:
+        - dati
+      properties:
+        dati:
+          type: array
+          items:
+            $ref: "#/components/schemas/AnagraficaUnica"
+        data_ric_elab:
+          type: string
+          description: Timestamp di elaborazione, AAAAMMGG HHMMSS.
+        next:
+          type: string
+          description: "Presente solo se ci sono altre pagine: da passare così com'è nel parametro next."
+    AnagraficaUnicaRicerca:
+      type: object
+      required:
+        - filtri
+      properties:
+        filtri:
+          type: array
+          minItems: 1
+          items:
+            allOf:
+              - $ref: "#/components/schemas/Filtro"
+              - properties:
+                  campo:
+                    $ref: "#/components/schemas/AnagraficaUnicaCampo"
+    AnagraficaUnicaInserimento:
+      allOf:
+        - $ref: "#/components/schemas/AnagraficaUnica"
+      required:
+        - anag_cod_fis
+        - anag_rag_soc
+        - anag_piva
+      description: "Body di inserimento. Obbligatori secondo il manuale: anag_cod_fis, anag_rag_soc, anag_piva."
+    AnagraficaUnicaModifica:
+      allOf:
+        - $ref: "#/components/schemas/AnagraficaUnica"
+      description: "Body di revisione: solo i campi da modificare."
+      x-mexal-obbligatori-put: []
+    AnagraficaUnicaStorico:
+      type: object
+      properties:
+        id_anagrafica:
+          type: integer
+          description: Codice anagrafico. Campo chiave.
+          x-mexal-tipo: Numerico
+        data_iniz_valid:
+          type: string
+          description: data inizio validita'. Data in formato AAAAMMGG.
+          x-mexal-tipo: Alfanumerico
+        data_fine_valid:
+          type: string
+          description: data fine validita'. Data in formato AAAAMMGG.
+          x-mexal-tipo: Alfanumerico
+        annullato:
+          type: string
+          description: annullata logicamente.
+          x-mexal-tipo: Alfanumerico
+        tp_dati:
+          type: string
+          description: tipo dato.
+          x-mexal-tipo: Alfanumerico
+        sottotp_dati:
+          type: integer
+          description: sottotipo dato.
+          x-mexal-tipo: Numerico
+        anag_tipo_sogg:
+          type: string
+          description: "Anagrafica: tipo soggetto."
+          x-mexal-tipo: Alfanumerico
+        anag_cod_fis:
+          type: string
+          description: "Anagrafica: codice fiscale."
+          x-mexal-tipo: Alfanumerico
+        anag_piva:
+          type: string
+          description: "Anagrafica: partita iva."
+          x-mexal-tipo: Alfanumerico
+        anag_cognome:
+          type: string
+          description: "Anagrafica: cognome."
+          x-mexal-tipo: Alfanumerico
+        anag_nome:
+          type: string
+          description: "Anagrafica: nome."
+          x-mexal-tipo: Alfanumerico
+        anag_rag_soc:
+          type: string
+          description: "Anagrafica: ragione sociale."
+          x-mexal-tipo: Alfanumerico
+        anag_desc:
+          type: string
+          description: "Anagrafica: descrizione."
+          x-mexal-tipo: Alfanumerico
+        anag_denom:
+          type: string
+          description: "Anagrafica: denominazione."
+          x-mexal-tipo: Alfanumerico
+        anag_stor_iniz:
+          type: string
+          description: "Anagrafica: data inizio validita' storicizzazione."
+          x-mexal-tipo: Alfanumerico
+        anag_stor_data:
+          type: string
+          description: "Anagrafica: data fine validita' storicizzazione."
+          x-mexal-tipo: Alfanumerico
+        anag_stor_nota:
+          type: string
+          description: "Anagrafica: nota storicizzazione."
+          x-mexal-tipo: Alfanumerico
+        res_indir:
+          type: string
+          description: "Residenza: indirizzo."
+          x-mexal-tipo: Alfanumerico
+        res_cap:
+          type: string
+          description: "Residenza: cap."
+          x-mexal-tipo: Alfanumerico
+        res_comune:
+          type: string
+          description: "Residenza: comune."
+          x-mexal-tipo: Alfanumerico
+        res_prov:
+          type: string
+          description: "Residenza: provincia."
+          x-mexal-tipo: Alfanumerico
+        res_nazione:
+          type: string
+          description: "Residenza: nazione."
+          x-mexal-tipo: Alfanumerico
+        res_localita:
+          type: string
+          description: "Residenza: localita'."
+          x-mexal-tipo: Alfanumerico
+        res_irpef:
+          type: string
+          description: "Residenza: codice irpef."
+          x-mexal-tipo: Alfanumerico
+        res_stesso_dom:
+          type: string
+          description: "Residenza: uguale a sede legale."
+          x-mexal-tipo: Alfanumerico
+        res_stor_iniz:
+          type: string
+          description: "Residenza: data inizio validita' storicizzazione."
+          x-mexal-tipo: Alfanumerico
+        res_stor_data:
+          type: string
+          description: "Residenza: data fine validita' storicizzazione."
+          x-mexal-tipo: Alfanumerico
+        res_stor_nota:
+          type: string
+          description: "Residenza: nota storicizzazione."
+          x-mexal-tipo: Alfanumerico
+        dom_indir:
+          type: string
+          description: "Domicilio fiscale: indirizzo."
+          x-mexal-tipo: Alfanumerico
+        dom_cap:
+          type: string
+          description: "Domicilio fiscale: cap."
+          x-mexal-tipo: Alfanumerico
+        dom_comune:
+          type: string
+          description: "Domicilio fiscale: comune."
+          x-mexal-tipo: Alfanumerico
+        dom_prov:
+          type: string
+          description: "Domicilio fiscale: provincia."
+          x-mexal-tipo: Alfanumerico
+        dom_nazione:
+          type: string
+          description: "Domicilio fiscale: nazione."
+          x-mexal-tipo: Alfanumerico
+        dom_localita:
+          type: string
+          description: "Domicilio fiscale: localita'."
+          x-mexal-tipo: Alfanumerico
+        dom_irpef:
+          type: string
+          description: "Domicilio fiscale: codice irpef."
+          x-mexal-tipo: Alfanumerico
+        dom_stor_iniz:
+          type: string
+          description: "Domicilio fiscale: data inizio validita' storicizzazione."
+          x-mexal-tipo: Alfanumerico
+        dom_stor_data:
+          type: string
+          description: "Domicilio fiscale: data fine validita' storicizzazione."
+          x-mexal-tipo: Alfanumerico
+        dom_stor_nota:
+          type: string
+          description: "Domicilio fiscale: nota storicizzazione."
+          x-mexal-tipo: Alfanumerico
+        est_indir:
+          type: string
+          description: "Residenza estera: indirizzo."
+          x-mexal-tipo: Alfanumerico
+        est_localita:
+          type: string
+          description: "Residenza estera: localita'."
+          x-mexal-tipo: Alfanumerico
+        est_cod_fiscale:
+          type: string
+          description: "Residenza estera: codice fiscale."
+          x-mexal-tipo: Alfanumerico
+        est_cod_stato:
+          type: string
+          description: "Residenza estera: codice stato."
+          x-mexal-tipo: Alfanumerico
+        est_nazione:
+          type: string
+          description: "Residenza estera: stato."
+          x-mexal-tipo: Alfanumerico
+        est_stato_fed:
+          type: string
+          description: "Residenza estera: stato federato."
+          x-mexal-tipo: Alfanumerico
+        est_stor_iniz:
+          type: string
+          description: "Residenza estera: data inizio validita' storicizzazione."
+          x-mexal-tipo: Alfanumerico
+        est_stor_data:
+          type: string
+          description: "Residenza estera: data fine validita' storicizzazione."
+          x-mexal-tipo: Alfanumerico
+        est_stor_nota:
+          type: string
+          description: "Residenza estera: nota storicizzazione."
+          x-mexal-tipo: Alfanumerico
+        leg_id_anag:
+          type: integer
+          description: "Legale rappr.: codice id."
+          x-mexal-tipo: Numerico
+        leg_cod_fiscale:
+          type: string
+          description: "Legale rappr.: codice fiscale."
+          x-mexal-tipo: Alfanumerico
+        leg_sesso:
+          type: string
+          description: "Legale rappr.: sesso."
+          x-mexal-tipo: Alfanumerico
+        leg_cognome:
+          type: string
+          description: "Legale rappr.: cognome."
+          x-mexal-tipo: Alfanumerico
+        leg_nome:
+          type: string
+          description: "Legale rappr.: nome."
+          x-mexal-tipo: Alfanumerico
+        leg_cod_carica:
+          type: string
+          description: "Legale rappr.: codice carica."
+          x-mexal-tipo: Alfanumerico
+        leg_data_decor:
+          type: string
+          description: "Legale rappr.: data decorrenza."
+          x-mexal-tipo: Alfanumerico
+        leg_nasc_data:
+          type: string
+          description: "Legale rappr.nascita: data."
+          x-mexal-tipo: Alfanumerico
+        leg_nasc_comune:
+          type: string
+          description: "Legale rappr.nascita: comune."
+          x-mexal-tipo: Alfanumerico
+        leg_nasc_prov:
+          type: string
+          description: "Legale rappr.nascita: provincia."
+          x-mexal-tipo: Alfanumerico
+        leg_dom_indir:
+          type: string
+          description: "Legale rappr.domicilio: indirizzo."
+          x-mexal-tipo: Alfanumerico
+        leg_dom_cap:
+          type: string
+          description: "Legale rappr.domicilio: cap."
+          x-mexal-tipo: Alfanumerico
+        leg_dom_comune:
+          type: string
+          description: "Legale rappr.domicilio: comune."
+          x-mexal-tipo: Alfanumerico
+        leg_dom_prov:
+          type: string
+          description: "Legale rappr.domicilio: provincia."
+          x-mexal-tipo: Alfanumerico
+        leg_telefono:
+          type: string
+          description: "Legale rappr.domicilio: telefono."
+          x-mexal-tipo: Alfanumerico
+        leg_soc_id_anag:
+          type: integer
+          description: "Legale rappr.soc.: codice id."
+          x-mexal-tipo: Numerico
+        leg_soc_cod_fis:
+          type: string
+          description: "Legale rappr.soc.: codice fiscale."
+          x-mexal-tipo: Alfanumerico
+        leg_soc_rag_soc:
+          type: string
+          description: "Legale rappr.soc.: ragione sociale."
+          x-mexal-tipo: Alfanumerico
+        leg_stor_iniz:
+          type: string
+          description: "Legale rappr.: data inizio validita' storicizzazione."
+          x-mexal-tipo: Alfanumerico
+        leg_stor_data:
+          type: string
+          description: "Legale rappr.: data fine validita' storicizzazione."
+          x-mexal-tipo: Alfanumerico
+        leg_stor_nota:
+          type: string
+          description: "Legale rappr.: nota storicizzazione."
+          x-mexal-tipo: Alfanumerico
+        docum_tipo:
+          type: string
+          description: "Documento: tipo."
+          x-mexal-tipo: Alfanumerico
+        docum_numero:
+          type: string
+          description: "Documento: numero."
+          x-mexal-tipo: Alfanumerico
+        docum_aut_ril:
+          type: string
+          description: "Documento: autorita' di rilascio."
+          x-mexal-tipo: Alfanumerico
+        docum_data_ril:
+          type: string
+          description: "Documento: data rilascio."
+          x-mexal-tipo: Alfanumerico
+        docum_data_scad:
+          type: string
+          description: "Documento: data scadenza."
+          x-mexal-tipo: Alfanumerico
+        docum_stor_iniz:
+          type: string
+          description: "Documento: data inizio validita' storicizzazione."
+          x-mexal-tipo: Alfanumerico
+        docum_stor_data:
+          type: string
+          description: "Documento: data fine validita' storicizzazione."
+          x-mexal-tipo: Alfanumerico
+        docum_stor_nota:
+          type: string
+          description: "Documento: nota storicizzazione."
+          x-mexal-tipo: Alfanumerico
+        pf_stato_civ:
+          type: string
+          description: "Persona fisica: stato civile."
+          x-mexal-tipo: Alfanumerico
+        pf_tit_studio:
+          type: string
+          description: "Persona fisica: titolo di studio."
+          x-mexal-tipo: Alfanumerico
+        pf_nazione:
+          type: string
+          description: "Persona fisica: nazionalita'."
+          x-mexal-tipo: Alfanumerico
+        pf_qualif:
+          type: string
+          description: "Persona fisica: professione/qualifica."
+          x-mexal-tipo: Alfanumerico
+        pf_titolo:
+          type: integer
+          description: "Persona fisica: titolo."
+          x-mexal-tipo: Numerico
+        pf_stor_iniz:
+          type: string
+          description: "Persona fisica: data inizio validita' storicizzazione."
+          x-mexal-tipo: Alfanumerico
+        pf_stor_data:
+          type: string
+          description: "Persona fisica: data fine validita' storicizzazione."
+          x-mexal-tipo: Alfanumerico
+        pf_stor_nota:
+          type: string
+          description: "Persona fisica: nota storicizzazione."
+          x-mexal-tipo: Alfanumerico
+        pg_nat_giurid:
+          type: integer
+          description: "Persona giuridica: natura giuridica."
+          x-mexal-tipo: Numerico
+        pg_stato_soc:
+          type: string
+          description: "Persona giuridica: stato della societa'."
+          x-mexal-tipo: Alfanumerico
+        pg_sit_societa:
+          type: string
+          description: "Persona giuridica: situazione societa'."
+          x-mexal-tipo: Alfanumerico
+        pg_stor_iniz:
+          type: string
+          description: "Persona giuridica: data inizio validita' storicizzazione."
+          x-mexal-tipo: Alfanumerico
+        pg_stor_data:
+          type: string
+          description: "Persona giuridica: data fine validita' storicizzazione."
+          x-mexal-tipo: Alfanumerico
+        pg_stor_nota:
+          type: string
+          description: "Persona giuridica: nota storicizzazione."
+          x-mexal-tipo: Alfanumerico
+        nota:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 5
+              - type: string
+            minItems: 2
+            maxItems: 2
+          maxItems: 5
+          description: "Nota anagrafica. Array indicizzato [[indice, valore], ...] con indice da 1 a 5."
+          x-mexal-tipo: Alfanumerico
+        nota_stor_iniz:
+          type: string
+          description: "Nota anagrafica: data inizio validita' storicizzazione."
+          x-mexal-tipo: Alfanumerico
+        nota_stor_data:
+          type: string
+          description: "Nota anagrafica: data fine validita' storicizzazione."
+          x-mexal-tipo: Alfanumerico
+        nota_stor_nota:
+          type: string
+          description: "Nota anagrafica: nota storicizzazione."
+          x-mexal-tipo: Alfanumerico
+        data_creaz:
+          type: string
+          description: Data creazione. Data in formato AAAAMMGG.
+          x-mexal-tipo: Alfanumerico
+        data_modif:
+          type: string
+          description: Data modifica. Data in formato AAAAMMGG.
+          x-mexal-tipo: Alfanumerico
+        utente_ult_mod:
+          type: string
+          description: Utente ultima modifica.
+          x-mexal-tipo: Alfanumerico
+        data_ult_mod:
+          type: string
+          pattern: "^(\\d{8} \\d{6})?$"
+          description: Data ora ultima modifica. Formato AAAAMMGG HHMMSS.
+          x-mexal-tipo: Data e ora
+      x-mexal-origine-campi: info
+    AnagraficaUnicaStoricoCampo:
+      type: string
+      enum:
+        - id_anagrafica
+        - data_iniz_valid
+        - data_fine_valid
+        - annullato
+        - tp_dati
+        - sottotp_dati
+        - anag_tipo_sogg
+        - anag_cod_fis
+        - anag_piva
+        - anag_cognome
+        - anag_nome
+        - anag_rag_soc
+        - anag_desc
+        - anag_denom
+        - anag_stor_iniz
+        - anag_stor_data
+        - anag_stor_nota
+        - res_indir
+        - res_cap
+        - res_comune
+        - res_prov
+        - res_nazione
+        - res_localita
+        - res_irpef
+        - res_stesso_dom
+        - res_stor_iniz
+        - res_stor_data
+        - res_stor_nota
+        - dom_indir
+        - dom_cap
+        - dom_comune
+        - dom_prov
+        - dom_nazione
+        - dom_localita
+        - dom_irpef
+        - dom_stor_iniz
+        - dom_stor_data
+        - dom_stor_nota
+        - est_indir
+        - est_localita
+        - est_cod_fiscale
+        - est_cod_stato
+        - est_nazione
+        - est_stato_fed
+        - est_stor_iniz
+        - est_stor_data
+        - est_stor_nota
+        - leg_id_anag
+        - leg_cod_fiscale
+        - leg_sesso
+        - leg_cognome
+        - leg_nome
+        - leg_cod_carica
+        - leg_data_decor
+        - leg_nasc_data
+        - leg_nasc_comune
+        - leg_nasc_prov
+        - leg_dom_indir
+        - leg_dom_cap
+        - leg_dom_comune
+        - leg_dom_prov
+        - leg_telefono
+        - leg_soc_id_anag
+        - leg_soc_cod_fis
+        - leg_soc_rag_soc
+        - leg_stor_iniz
+        - leg_stor_data
+        - leg_stor_nota
+        - docum_tipo
+        - docum_numero
+        - docum_aut_ril
+        - docum_data_ril
+        - docum_data_scad
+        - docum_stor_iniz
+        - docum_stor_data
+        - docum_stor_nota
+        - pf_stato_civ
+        - pf_tit_studio
+        - pf_nazione
+        - pf_qualif
+        - pf_titolo
+        - pf_stor_iniz
+        - pf_stor_data
+        - pf_stor_nota
+        - pg_nat_giurid
+        - pg_stato_soc
+        - pg_sit_societa
+        - pg_stor_iniz
+        - pg_stor_data
+        - pg_stor_nota
+        - nota
+        - nota_stor_iniz
+        - nota_stor_data
+        - nota_stor_nota
+        - data_creaz
+        - data_modif
+        - utente_ult_mod
+        - data_ult_mod
+      description: Campi di anagrafica-unica/storico.
+    AnagraficaUnicaStoricoLista:
+      type: object
+      required:
+        - dati
+      properties:
+        dati:
+          type: array
+          items:
+            $ref: "#/components/schemas/AnagraficaUnicaStorico"
+        data_ric_elab:
+          type: string
+          description: Timestamp di elaborazione, AAAAMMGG HHMMSS.
+        next:
+          type: string
+          description: "Presente solo se ci sono altre pagine: da passare così com'è nel parametro next."
+    AnagraficaUnicaStoricoRicerca:
+      type: object
+      required:
+        - filtri
+      properties:
+        filtri:
+          type: array
+          minItems: 1
+          items:
+            allOf:
+              - $ref: "#/components/schemas/Filtro"
+              - properties:
+                  campo:
+                    $ref: "#/components/schemas/AnagraficaUnicaStoricoCampo"
+    Filtro:
+      type: object
+      required:
+        - campo
+        - condizione
+        - valore
+      properties:
+        campo:
+          type: string
+          description: Nome del campo su cui filtrare.
+        indice1:
+          type: integer
+          minimum: 1
+          description: Indice del primo livello, per i campi array.
+        indice2:
+          type: integer
+          minimum: 1
+          description: Indice del secondo livello, per gli array a due livelli.
+        condizione:
+          type: string
+          enum:
+            - "="
+            - "<>"
+            - ">"
+            - "<"
+            - ">="
+            - "<="
+            - contiene
+            - inizia_per
+        case_insensitive:
+          type: boolean
+          default: false
+          description: Solo per i confronti fra stringhe.
+        valore:
+          description: "Valore da confrontare; un array mette i valori in OR. Date come AAAAMMGG."
+          anyOf:
+            - type: string
+            - type: number
+            - type: array
+              minItems: 1
+              items:
+                type:
+                  - string
+                  - number
+    Errore:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            response-code:
+              type: integer
+            response-detail:
+              type: string
+              description: "Codice numerico + messaggio: \"<codice> - <messaggio> [<dettaglio>]\". 6001 = errore gestionale."
+            response-message:
+              type: string
+            request-uri:
+              type: string
+            request-method:
+              type: string
+            request-id:
+              type: string
+              description: UUID da citare al supporto.
+            warsion:
+              type: string
+            remote:
+              type: string
+            timestamp:
+              type: string

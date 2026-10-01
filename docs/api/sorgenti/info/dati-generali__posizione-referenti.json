@@ -1,0 +1,15 @@
+{
+    "path": "/dati-generali/posizione-referenti",
+    "origine": "campione",
+    "forma": "dati",
+    "campi": [
+        {
+            "nome": "id",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "descrizione",
+            "tipo": "Alfanumerico"
+        }
+    ]
+}

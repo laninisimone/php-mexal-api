@@ -1,0 +1,649 @@
+{
+    "path": "/dati-generali/parametri-aziendali",
+    "origine": "campione",
+    "forma": "radice-oggetto:parametri_aziendali",
+    "campi": [
+        {
+            "nome": "parametri_contabili",
+            "tipo": "Oggetto",
+            "campi": [
+                {
+                    "nome": "giorno_inizio_anno_contabile",
+                    "tipo": "Numerico"
+                },
+                {
+                    "nome": "mese_inizio_anno_contabile",
+                    "tipo": "Numerico"
+                },
+                {
+                    "nome": "gest_multiattivita_iva_art_36",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_sottoaziende",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "tipo_gestione_fiscale",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_contabilita_per_cassa",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "valuta_aziendale",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_rubrica_unica_clienti_fornitori",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_allineamento_auto_cf_ru",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_estrattoconto_scadenzario_effetti",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_scadenzario_partite",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "visualizza_scadenzario_per_datascadenza_o_per_partite",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "numero_giorni_di_esposizione_cambiaria",
+                    "tipo": "Numerico"
+                },
+                {
+                    "nome": "numero_giorni_di_visualizzazione_rate_pagate",
+                    "tipo": "Numerico"
+                },
+                {
+                    "nome": "gest_numerazione_automatica_degli_effetti_clienti",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_distinte_automatiche",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_compensi_a_terzi",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_considera_pagati_gli_effetti_in_esposiz_provvigioni",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_multiagenti",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_enasarco",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_castelletto_iva_conti_patrimoniali",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_residuo_iva_esigibilita_differita",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_plafond_esportatore_abituale",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_dichiarazioni_intento_ricevute_esportatore_abituale",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "stampa_dichiarazioni_intento_ricevute",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "periodicita_presentazione_modello_intra_1_vendite",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "periodicita_presentazione_modello_intra_2_acquisti",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_costi_pluriennali",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_centri_costo_ricavo",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_ratei_risconti_competenze",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_apertura_automatica_rimanenze",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_codice_alternativo_nel_piano_dei_conti",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_creazione_nuovi_clienti_con_fattura_elettronica_b2b",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_import_xml_fatture_emesse_da_verificare",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_import_xml_fatture_ricevute_da_verificare",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_import_xml_corrispettivi_da_verificare",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "soggetto_spese_sanitarie",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_comunicazione_dati_per_spese_funebri",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_azienda_con_operazioni_legate_al_turismo",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_imposte_differite",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_trasparenza_fiscale",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_modulo_paghe",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "f24_modalita_invio_telematico",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_f24_stampa_modello_semplificato",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_f24_contabilizzazione_delega",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_primanota_facile",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_visualizza_identificativo_primanota",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_estesa_sezionali_iva",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "numero_registri_acquisti",
+                    "tipo": "Numerico"
+                },
+                {
+                    "nome": "numero_registri_vendite",
+                    "tipo": "Numerico"
+                },
+                {
+                    "nome": "numero_registri_corrispettivi",
+                    "tipo": "Numerico"
+                },
+                {
+                    "nome": "controllo_pagine_libro_giornale",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "controllo_pagine_registri_iva",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "controllo_pagine_registro_cespiti",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "controllo_pagine_registro_beni_usati",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "controllo_pagine_libro_inventari",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_iva_in_sospensione",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "data_inizio_nuova_gestione_san_marino",
+                    "tipo": "Alfanumerico"
+                }
+            ]
+        },
+        {
+            "nome": "parametri_magazzino",
+            "tipo": "Oggetto",
+            "campi": [
+                {
+                    "nome": "gest_codice_articolo_automatico",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "tipo_codice_articolo",
+                    "tipo": "Numerico"
+                },
+                {
+                    "nome": "dim_max_codice_articolo",
+                    "tipo": "Numerico"
+                },
+                {
+                    "nome": "dimensione_descrizione",
+                    "tipo": "Numerico"
+                },
+                {
+                    "nome": "gest_codice_alternativo",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_altre_unita_di_misura",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "tipo_codice_ricerca_abituale",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_ricerca_alias",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_ricerca_articoli_per_grp_merceologico",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "descrizioni_in_lingua_straniera",
+                    "tipo": "Numerico"
+                },
+                {
+                    "nome": "decimali_standard_in_quantita",
+                    "tipo": "Numerico"
+                },
+                {
+                    "nome": "decimali_in_prezzo",
+                    "tipo": "Numerico"
+                },
+                {
+                    "nome": "gest_aggiornamento_automatico_listini_da_carico",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_aggiornamento_auto_particolarita",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_taglie",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_imballi",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_pesolordo_tara_pesonetto",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_lotti_e_rintracciabilita",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_elenco_ricerca_lotti_sul_disponibile",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_ubicazioni",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_ubicazioni_controllo_volume",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_ubicazioni_controllo_qta_peso",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_ubicazioni_controllo_temperatura",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "riporta_dati_magazzino_ubicazione_lotto",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "nr_max_magazzini",
+                    "tipo": "Numerico"
+                },
+                {
+                    "nome": "gest_magazzino_riga",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "metodo_valorizzazione_inventario",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_valorizza_inventario_su_totale_magazzini",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_creazione_automatica_ordini_matrice",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_sostituzione_automatica_ordini_matrice",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_archivi_ordini_storici",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_archivi_ddt_storici",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_lotti_su_ordini_ddt_storici",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_storia_ordini",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_visualizza_quantita_ordinata",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_visualizza_righe_consegnate",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_modifica_ordini_consegna",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_ripristino_quantita_ordini_documento_succ",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_proponi_residuo",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "proponi_stato_riga_in_trasformazione_da_of",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_controllo_date_scadenze_righe_ordini",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_annotazioni_collegate_alla_riga",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_maggiorazione_prezzi",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_proposta_particolar_in_modifica_riga_doc",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_considera_esposizione_effetti_calcolo_fuori_fido",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_memorizza_data_e_ora_inizio_trasporto",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_ritenuta_acconto_nei_documenti_emessi",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_variazione_dba_nei_documenti_sl_cl",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_cessione_prodotti_agroalimentari",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_bonus_edilizio",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_evasione_parziale_in_trasformazione_movimenti",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "riporta_riferimenti_esterni_in_trasformazione_documenti",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "riporta_in_primanota_la_data_dei_riferimenti_esterni",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "visualizza_informazioni_articolo_sulla_riga_documento",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "trasf_bc_in_ft_consenti_raggrup_di_BC_di_mesi_diversi",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "richiesta_generazione_primanota_documenti_FFE_NFE",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "nr_max_taglie_gestibili",
+                    "tipo": "Numerico"
+                },
+                {
+                    "nome": "gest_riporta_dati_mag_ubi_lotto",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_lotti",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_descrizione_completa_ricerca_articoli",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_riporta_dati_da_grp_merceologico",
+                    "tipo": "Alfanumerico"
+                }
+            ]
+        },
+        {
+            "nome": "parametri_produzione",
+            "tipo": "Oggetto",
+            "campi": [
+                {
+                    "nome": "carico_costo_prodotto_finito",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "scarico_costo_materie_prime",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_aggiorna_prezzo_lotto_ubicazione_sml",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_escludi_particolarita_prezzi",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_considera_gg_approntamento_in_bl",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_cancella_sml_sospesi",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_cancella_sml_in_sottobolle",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "informazione_prodotto_finito_in_bl",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "creazione_sottobolle di lavorazione",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "prezzo_sml_automatico_di_calcolo",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_usa_destinatario_oc_per_le_dbvc",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_apertura_automatica_finestra_condizioni",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_finestra_note_in_documenti",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_residui_collegati_al_prodotto_finito",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_evasione_documenti_residui",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_modifica_quantita_di_riga",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_sml_automatico_memorizzati_negli_impegni",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_pianificazione_of_per_singola_riga",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_anteprima_elaborazione_dati_mrp",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "pianificazione_planning_usa_data_oc",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "planning_aggiorna_data",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_forme",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_impegno_automatico_pf",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_lotti_impegni",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_conto_lavoro_passivo",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_conto_lavoro_attivo",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_unita_bolle_prodotti_finiti",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_rilevamento_tempi",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_stato_righe_bolla_lavorazione",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "retrodatazione_della_produzione",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gestione_file_log_per_bl",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_file_log_per_pianificazione_fattibilita",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_impegni_multiriga",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "fissa_prezzi_bl",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_avanzamento_parziale_bl_collegate_oc",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_bl_visualizza_pf_per_cliente",
+                    "tipo": "Alfanumerico"
+                },
+                {
+                    "nome": "gest_escludi_da_odp",
+                    "tipo": "Alfanumerico"
+                }
+            ]
+        }
+    ]
+}

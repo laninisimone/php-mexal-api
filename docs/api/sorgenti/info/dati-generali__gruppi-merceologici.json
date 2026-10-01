@@ -1,0 +1,57 @@
+{
+    "path": "/dati-generali/gruppi-merceologici",
+    "origine": "info",
+    "forma": "dati",
+    "campi": [
+        {
+            "nome": "codice",
+            "descrizione": "Gruppo merceologico",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "stato",
+            "descrizione": "Stato",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "descrizione",
+            "descrizione": "Descrizione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "data_creazione",
+            "descrizione": "Data creazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "data_modifica",
+            "descrizione": "Data ultima modifica",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_grp_merc",
+            "descrizione": "Codice padre",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "um",
+            "descrizione": "Unita' di misura",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_ricavo",
+            "descrizione": "Conto ricavo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_costo",
+            "descrizione": "Conto costo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "codice_web",
+            "descrizione": "Codice web",
+            "tipo": "Alfanumerico"
+        }
+    ]
+}

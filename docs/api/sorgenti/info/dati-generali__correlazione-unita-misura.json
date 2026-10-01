@@ -1,0 +1,5 @@
+{
+    "path": "/dati-generali/correlazione-unita-misura",
+    "origine": "errore",
+    "errore": "6001 - errore gestionale [cmd get_tabella_um_schedulatore disponibile solo per aziende di livello produzione o superiore]"
+}

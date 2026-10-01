@@ -1,0 +1,37 @@
+{
+    "path": "/dati-generali/cartella-abbinamenti",
+    "origine": "info",
+    "forma": "dati",
+    "campi": [
+        {
+            "nome": "codice",
+            "descrizione": "Codice articolo cartella abbinamento",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "nr_elemento",
+            "descrizione": "Numero elemento",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "nr_riga",
+            "descrizione": "Numero riga",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "tipo_dato",
+            "descrizione": "Tipo dato",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "variante",
+            "descrizione": "Variante",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "descr_variante",
+            "descrizione": "Descrizione variante",
+            "tipo": "Alfanumerico"
+        }
+    ]
+}

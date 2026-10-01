@@ -1,0 +1,687 @@
+openapi: "3.1.0"
+info:
+  title: Passepartout WebAPI - Ubicazioni
+  version: "88201"
+  description: |-
+    Generato da `tools/api-docs/genera.php` a partire dall'help in linea (`GET /risorse/help?extended=true`)
+    e da `?info=true` di un'installazione Mexal/Passcom 2.9.17 (versione gestionale 88201), integrato con il manuale WebAPI v3.1.
+    Endpoint e campi dipendono da versione e moduli installati: la fonte di verità resta `?info=true`.
+
+    **Convenzioni**
+
+    - Autenticazione: `Authorization: Passepartout <base64(utente:password)>`; sul cloud si aggiunge ` Dominio=<DOMINIO>`.
+    - Contesto aziendale: header `Coordinate-Gestionale: Azienda=XXX Anno=AAAA` (opzionali `SottoAzienda=`, `Magazzino=`).
+    - Date `AAAAMMGG`, date-ora `AAAAMMGG HHMMSS`, decimali con il punto.
+    - Gli array sono liste di coppie `[[indice, valore], ...]`, non liste semplici.
+    - Chiavi composte unite da `+` nel path (es. `OC+1+15`). Codici con `/` o `\` vanno in esadecimale con `?encoding=hex`.
+    - Paginazione: `max` limita i record, il token `next` della risposta va ripassato così com'è e subito.
+    - Ricerca: `POST .../ricerca` con `filtri`; i filtri sono in AND, i valori di uno stesso filtro in OR.
+    - Revisione (PUT): rimandare `data_ult_mod` letto dalla GET per il controllo di modifica concorrente.
+    - Limiti: 5 richieste simultanee per utente WebAPI (oltre si riceve 503).
+servers:
+  - url: "https://{host}:{porta}/webapi/risorse"
+    description: Installazione locale (certificato spesso self-signed)
+    variables:
+      host:
+        default: localhost
+      porta:
+        default: "9004"
+  - url: "https://services.passepartout.cloud/webapi/risorse"
+    description: "Passepartout Live (cloud): aggiungere Dominio=<DOMINIO> all'header Authorization"
+security:
+  - passepartout: []
+tags:
+  - name: ubicazioni
+    description: Ubicazioni di magazzino (scaffali, posizioni) con vincoli su articolo, fornitore, gruppo merceologico e natura.
+paths:
+  "/ubicazioni":
+    get:
+      tags:
+        - ubicazioni
+      operationId: ubicazioni_lista
+      summary: Lista ubicazioni
+      description: |-
+        Paginata: il server pagina oltre 30 secondi o 50 MB anche senza `max`; seguire `next` fino a esaurimento.
+
+        Supporta paginazione tramite max e next (vedi Paginazione)
+
+        Supporta selezione campi tramite fields
+      parameters:
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - name: fields
+          in: query
+          description: "Campi da restituire, separati da virgola. Riduce il payload: usarlo sempre sulle liste."
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/UbicazioniCampo"
+        - $ref: "#/components/parameters/Max"
+        - $ref: "#/components/parameters/Next"
+      responses:
+        "200":
+          description: Record trovati
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/UbicazioniLista"
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "82001"
+    post:
+      tags:
+        - ubicazioni
+      operationId: ubicazioni_crea
+      summary: Inserimento ubicazioni
+      description: |-
+        Risponde 201 senza body: il codice assegnato è nell'header `Location`.
+
+        Il campo id viene assegnato automaticamente dal sistema
+      parameters:
+        - $ref: "#/components/parameters/CoordinateGestionale"
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/UbicazioniInserimento"
+      responses:
+        "201":
+          description: "Creato. Nessun body: il path della nuova risorsa è nell'header Location."
+          headers:
+            Location:
+              description: "Path della risorsa creata (es. /webapi/risorse/ubicazioni/...). Può contenere ?encoding=hex."
+              schema:
+                type: string
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "82001"
+  "/ubicazioni/ricerca":
+    post:
+      tags:
+        - ubicazioni
+      operationId: ubicazioni_cerca
+      summary: Ricerca ubicazioni
+      description: |-
+        Filtri in AND fra loro; un `valore` array mette i valori in OR. Condizioni: `=`, `<>`, `>`, `<`, `>=`, `<=`, `contiene`, `inizia_per`.
+
+        Supporta tutte le condizioni standard: =, <, <=, >, >=, <>, contiene, inizia_per
+      parameters:
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - name: fields
+          in: query
+          description: "Campi da restituire, separati da virgola. Riduce il payload: usarlo sempre sulle liste."
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/UbicazioniCampo"
+        - $ref: "#/components/parameters/Max"
+        - $ref: "#/components/parameters/Next"
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/UbicazioniRicerca"
+      responses:
+        "200":
+          description: Record trovati
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/UbicazioniLista"
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "82001"
+  "/ubicazioni/{id}":
+    get:
+      tags:
+        - ubicazioni
+      operationId: ubicazioni_leggi
+      summary: Lettura ubicazione
+      description: Supporta parametri aggiuntivi in query string per la gestione dei progressivi (vedi sezione
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: "Parte di chiave `id`."
+          schema:
+            type: integer
+            minimum: 0
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - name: fields
+          in: query
+          description: "Campi da restituire, separati da virgola. Riduce il payload: usarlo sempre sulle liste."
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/UbicazioniCampo"
+      responses:
+        "200":
+          description: Record richiesto
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/Ubicazioni"
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "404":
+          $ref: "#/components/responses/NonTrovato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "82001"
+    put:
+      tags:
+        - ubicazioni
+      operationId: ubicazioni_modifica
+      summary: Modifica ubicazione
+      description: |-
+        Inviare solo i campi da modificare, più `data_ult_mod` letto dalla GET se il controllo di modifica concorrente è attivo.
+
+        Il campo id è obbligatorio nel body della PUT
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: "Parte di chiave `id`."
+          schema:
+            type: integer
+            minimum: 0
+        - $ref: "#/components/parameters/CoordinateGestionale"
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/UbicazioniModifica"
+      responses:
+        "204":
+          description: Operazione eseguita, nessun body.
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "404":
+          $ref: "#/components/responses/NonTrovato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "82001"
+    delete:
+      tags:
+        - ubicazioni
+      operationId: ubicazioni_elimina
+      summary: Cancellazione ubicazione
+      description: |-
+        Il risultato dell’elaborazione dipende dalla logica implementata nel Collage Server Remoto.
+
+        Il servizio replica il funzionamento di WebShaker per l’esecuzione di logiche custom lato server.
+
+        Per articoli non a taglie, specificare la quantità come primo elemento dell’array quantita_taglie (es. [[1, 5]]).
+
+        L’array quantita_taglie accetta coppie [indice, quantità] con indice da 1 a 32.
+
+        Il campo tp_operazione accetta “S” per Scarico o “C” per Carico.
+
+        Il servizio crea automaticamente i documenti CL (carico) e SL (scarico) corrispondenti.
+
+        Per articoli non a taglie, la quantità va specificata come primo elemento dell’array qta (es.
+
+        Il magazzino deve essere impostato nell’header della request nella chiave Coordinate-
+
+        Se in_da_data_op e in_a_data_op sono vuote vengono restituite tutte le operazioni contabili.
+
+        Nell’array in_elenco_pratiche devono essere elencate le varie pratiche, e per ogni pratica nell’array in_elenco_deleghe devono essere elencati gli oggetti con i riferimenti per sbloccare la particolare delega (in_id_delega + in_numero_modulo).
+
+        In caso di richieste onerose possono essere restituiti risultati parziali e viene fornita la chiave next da cui partire per completare la lettura (paginazione).
+
+        Al momento è possibile richiedere solo i cancellati (in_tipo_operazione = “C”).
+
+        Se in_data_ric_elab viene omesso, vengono restituiti tutti i record cancellati per gli archivi specificati.
+
+        Se viene inserita la data_ric_elab ritornata dall’ultima richiesta effettuata, mostrerà solo i cancellati da quel momento in poi.
+
+        In caso di ripristino di dati aziendali verrà restituito un errore 400 indicando che il registro non è più consistente.
+
+        I campi in_da_data_versamento, in_a_data_versamento, in_da_data_fine_pratica e in_a_data_fine_pratica sono facoltativi:
+
+        I campi in_da_data_versamento, in_a_data_versamento e in_trimestre sono facoltativi:
+
+        Il campo cod_conto è obbligatorio solo per i movimenti di magazzino.
+
+        Il campo cod_modulo è facoltativo e permette di specificare un modulo di stampa personalizzato.
+
+        Il risultato è un PDF generato lato server.
+
+        Per i documenti di tipo ordine e preventivo i campi chiave sono solo sigla, serie e numero.
+
+        Per i documenti di tipo movimenti di magazzino bisogna fornire anche il codice del conto
+
+        Il parametro numerico in_classe deve essere sempre indicato.
+
+        Il parametro in_allegati è opzionale (default “T”):
+
+        La response è di tipo multipart/form-data con ogni allegato evidenziato con il proprio
+
+        I campi codice/classe e id possono essere usati in combinazione per restringere la ricerca.
+
+        Se codice è valorizzato, è obbligatorio specificare anche la relativa classe.
+
+        Nell’elemento campi possono essere indicati gli unici campi che si vogliono ottenere in risposta.
+
+        Nell’elemento filtri possono essere specificati dei filtri con le stesse condizioni usate per gli end-point REST.
+
+        Se info_campi=true viene mostrato l’help in linea di tutti i campi che compongono la struttura.
+
+        I campi in_cod_fornitore e in_tipo_documento_el sono necessari esclusivamente per documenti di tipo FF (fatture fornitore).
+
+        È possibile specificare il record specifico su cui fare il controllo tramite in_id: se viene omesso, il controllo viene fatto su tutti i record e restituisce esito positivo alla prima coppia di credenziali verificata.
+
+        Il servizio funziona esclusivamente per coppie di credenziali (login + password).
+
+        Il servizio è disponibile solo per aziende di livello produzione o superiore.
+
+        Non richiede parametri aggiuntivi nel campo dati.
+
+        in_tipo_lotto e in_cod_articolo sono mutuamente esclusivi. Se indicati entrambi viene considerato solo in_cod_articolo.
+
+        Il campo in_cod_utente è facoltativo e case sensitive.
+
+        in_nr_magazzino: 0 = tutti i magazzini, da 1 a 255 per selezionare un magazzino specifico.
+
+        Il servizio modifica solo le deleghe che non risultano definitive o bloccate.
+
+        È possibile modificare sia l’IBAN che il tipo invio nella stessa chiamata.
+
+        Per le deleghe contabili usare in_elenco_aziende, per le dichiarativi usare in_elenco_pratiche.
+
+        Il campo in_anno_inizio_ricerca indica l’anno in cui iniziare la ricerca per i documenti di magazzino derivati dall’ordine e deve essere sempre >= in_anno_ordine.
+
+        L’header Authorization è obbligatorio come per tutti gli altri servizi WebAPI.
+
+        L’header Coordinate-Gestionale è richiesto per identificare azienda e anno di esercizio.
+
+        Il parametro in_contesto_gestionale è sempre obbligatorio indipendentemente dal contesto.
+
+        A differenza degli altri servizi, l’URL è /webapi/uploads (non /webapi/servizi).
+
+        Il Content-Type deve essere multipart/form-data (non application/json).
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: "Parte di chiave `id`."
+          schema:
+            type: integer
+            minimum: 0
+        - $ref: "#/components/parameters/CoordinateGestionale"
+      responses:
+        "204":
+          description: Operazione eseguita, nessun body.
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "404":
+          $ref: "#/components/responses/NonTrovato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "82001"
+components:
+  securitySchemes:
+    passepartout:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: "Formato `Passepartout <base64(utente:password)>`. Sul cloud: `Passepartout <base64> Dominio=<DOMINIO>`. Con login di sistema operativo attivo (login=1) si aggiunge un secondo blocco `<base64(utente_so:password_so)>`."
+  parameters:
+    CoordinateGestionale:
+      name: Coordinate-Gestionale
+      in: header
+      required: true
+      description: Azienda e anno di lavoro, più sotto-azienda e magazzino di default facoltativi (magazzino 1 se omesso).
+      schema:
+        type: string
+        pattern: "^Azienda=\\S+( SottoAzienda=\\S+)? Anno=\\d{4}( Magazzino=\\d+)?$"
+        examples:
+          - "Azienda=DEM Anno=2026 Magazzino=1"
+    Max:
+      name: max
+      in: query
+      description: Numero massimo di record per pagina. Il server può restituirne meno (limiti di 30 s e 50 MB).
+      schema:
+        type: integer
+        minimum: 1
+    Next:
+      name: next
+      in: query
+      description: "Token di pagina restituito dalla risposta precedente: opaco, da usare subito e così com'è."
+      schema:
+        type: string
+    Encoding:
+      name: encoding
+      in: query
+      description: "Codifica delle parti di chiave nel path. Obbligatoria quando un codice contiene `/` o `\\`: il codice va inviato in esadecimale (es. `ARTI/S` -> `415254492f53`)."
+      schema:
+        type: string
+        enum:
+          - hex
+          - base32
+  responses:
+    ErroreRichiesta:
+      description: "Richiesta non valida: parametri o campi errati, errore gestionale (6001), coordinate mancanti."
+      content:
+        "application/json":
+          schema:
+            $ref: "#/components/schemas/Errore"
+    NonAutorizzato:
+      description: "Credenziali assenti o errate. Attenzione: tentativi ripetuti bloccano l'utente WebAPI."
+      content:
+        "application/json":
+          schema:
+            $ref: "#/components/schemas/Errore"
+    NonTrovato:
+      description: Risorsa inesistente o path non valido (nessun body).
+    PoolEsaurito:
+      description: "Pool di 5 servizi dell'utente WebAPI esaurito: riprovare più tardi, senza retry aggressivi."
+      content:
+        "application/json":
+          schema:
+            $ref: "#/components/schemas/Errore"
+  schemas:
+    Ubicazioni:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Identificatore ubicazione. Campo chiave.
+          x-mexal-tipo: Numerico
+        id_magazzino:
+          type: integer
+          description: Codice Magazzino. Valori da dati-generali/magazzini.id. Numero magazzino.
+          x-mexal-tipo: Numerico
+          x-mexal-riferimento:
+            risorsa: dati-generali/magazzini
+            campo: id
+            nota: Numero magazzino
+        codice_alt:
+          type: string
+          description: Codice alternativo ubicazione.
+          x-mexal-tipo: Alfanumerico
+        tipo:
+          type: string
+          description: "Tipo ubicazione (S = Standard, E = Servizio)."
+          x-mexal-tipo: Alfanumerico
+        descrizione:
+          type: string
+          description: Descrizione ubicazione.
+          x-mexal-tipo: Alfanumerico
+        codice:
+          type: string
+          description: Codice Ubicazione.
+          x-mexal-tipo: Alfanumerico
+        stato:
+          type: string
+          description: "Stato (T = Attiva, A = Annullata logicamente, B = Bloccata, U = Bloccata in uscita, I = Bloccata in ingresso) — Stato ubicazione (T, A, B, U, I)."
+          x-mexal-tipo: Alfanumerico
+        area:
+          type: string
+          description: "Area ubicazione (S = Stock, C = Carico, P = Picking, A = Scarico) — Area (S, C, P, A)."
+          x-mexal-tipo: Alfanumerico
+        quantita:
+          type: number
+          description: "Quantita — Quantità massima."
+          x-mexal-tipo: Numerico con virgola
+        larghezza:
+          type: number
+          description: Larghezza.
+          x-mexal-tipo: Numerico con virgola
+        altezza:
+          type: number
+          description: Altezza.
+          x-mexal-tipo: Numerico con virgola
+        profondita:
+          type: number
+          description: "Profondita' — Profondità."
+          x-mexal-tipo: Numerico con virgola
+        peso:
+          type: number
+          description: Peso in Kg.
+          x-mexal-tipo: Numerico con virgola
+        temperatura_min:
+          type: string
+          description: Temperatura minima.
+          x-mexal-tipo: Alfanumerico
+        temperatura_max:
+          type: string
+          description: Temperatura massima.
+          x-mexal-tipo: Alfanumerico
+        latitudine:
+          type: number
+          description: Latitudine.
+          x-mexal-tipo: Numerico con virgola
+        longitudine:
+          type: number
+          description: Longitudine.
+          x-mexal-tipo: Numerico con virgola
+        elevazione:
+          type: number
+          description: Elevazione.
+          x-mexal-tipo: Numerico con virgola
+        alt_dal_suolo:
+          type: number
+          description: Altezza dal suolo.
+          x-mexal-tipo: Numerico con virgola
+        stru_art_escl:
+          type: string
+          description: Struttura articoli esclusiva.
+          x-mexal-tipo: Alfanumerico
+        cod_art_escl:
+          type: string
+          description: Codice articolo esclusivo. Valori da articoli.codice.
+          x-mexal-tipo: Alfanumerico
+          x-mexal-riferimento:
+            risorsa: articoli
+            campo: codice
+        catsta_escl:
+          type: string
+          description: Categoria Statistica esclusiva.
+          x-mexal-tipo: Alfanumerico
+        grp_merc_escl:
+          type: string
+          description: Gruppo Merceologico esclusivo. Valori da dati-generali/gruppi-merceologici.codice.
+          x-mexal-tipo: Alfanumerico
+          x-mexal-riferimento:
+            risorsa: dati-generali/gruppi-merceologici
+            campo: codice
+        natura_escl:
+          type: string
+          description: Natura esclusiva. Valori da dati-generali/nature-articoli.codice.
+          x-mexal-tipo: Alfanumerico
+          x-mexal-riferimento:
+            risorsa: dati-generali/nature-articoli
+            campo: codice
+        cod_for_escl:
+          type: string
+          description: Codice fornitore esclusivo. Valori da fornitori.codice.
+          x-mexal-tipo: Alfanumerico
+          x-mexal-riferimento:
+            risorsa: fornitori
+            campo: codice
+        cod_percorso:
+          type: integer
+          description: Codice percorso utilizzato per creare un percorso all'interno del magazzino.
+          x-mexal-tipo: Numerico
+        utente_ult_mod:
+          type: string
+          description: Utente ultima modifica.
+          x-mexal-tipo: Alfanumerico
+        data_ult_mod:
+          type: string
+          pattern: "^(\\d{8} \\d{6})?$"
+          description: Data ora ultima modifica. Formato AAAAMMGG HHMMSS.
+          x-mexal-tipo: Data e ora
+      x-mexal-origine-campi: info
+    UbicazioniCampo:
+      type: string
+      enum:
+        - id
+        - id_magazzino
+        - codice_alt
+        - tipo
+        - descrizione
+        - codice
+        - stato
+        - area
+        - quantita
+        - larghezza
+        - altezza
+        - profondita
+        - peso
+        - temperatura_min
+        - temperatura_max
+        - latitudine
+        - longitudine
+        - elevazione
+        - alt_dal_suolo
+        - stru_art_escl
+        - cod_art_escl
+        - catsta_escl
+        - grp_merc_escl
+        - natura_escl
+        - cod_for_escl
+        - cod_percorso
+        - utente_ult_mod
+        - data_ult_mod
+      description: Campi di ubicazioni.
+    UbicazioniLista:
+      type: object
+      required:
+        - dati
+      properties:
+        dati:
+          type: array
+          items:
+            $ref: "#/components/schemas/Ubicazioni"
+        data_ric_elab:
+          type: string
+          description: Timestamp di elaborazione, AAAAMMGG HHMMSS.
+        next:
+          type: string
+          description: "Presente solo se ci sono altre pagine: da passare così com'è nel parametro next."
+    UbicazioniRicerca:
+      type: object
+      required:
+        - filtri
+      properties:
+        filtri:
+          type: array
+          minItems: 1
+          items:
+            allOf:
+              - $ref: "#/components/schemas/Filtro"
+              - properties:
+                  campo:
+                    $ref: "#/components/schemas/UbicazioniCampo"
+    UbicazioniInserimento:
+      allOf:
+        - $ref: "#/components/schemas/Ubicazioni"
+      required:
+        - id_magazzino
+        - codice
+        - descrizione
+      description: "Body di inserimento. Obbligatori secondo il manuale: id_magazzino, codice, descrizione."
+    UbicazioniModifica:
+      allOf:
+        - $ref: "#/components/schemas/Ubicazioni"
+      description: "Body di revisione: solo i campi da modificare. Campi da indicare sempre secondo ?info=true: id."
+      x-mexal-obbligatori-put:
+        - id
+    Filtro:
+      type: object
+      required:
+        - campo
+        - condizione
+        - valore
+      properties:
+        campo:
+          type: string
+          description: Nome del campo su cui filtrare.
+        indice1:
+          type: integer
+          minimum: 1
+          description: Indice del primo livello, per i campi array.
+        indice2:
+          type: integer
+          minimum: 1
+          description: Indice del secondo livello, per gli array a due livelli.
+        condizione:
+          type: string
+          enum:
+            - "="
+            - "<>"
+            - ">"
+            - "<"
+            - ">="
+            - "<="
+            - contiene
+            - inizia_per
+        case_insensitive:
+          type: boolean
+          default: false
+          description: Solo per i confronti fra stringhe.
+        valore:
+          description: "Valore da confrontare; un array mette i valori in OR. Date come AAAAMMGG."
+          anyOf:
+            - type: string
+            - type: number
+            - type: array
+              minItems: 1
+              items:
+                type:
+                  - string
+                  - number
+    Errore:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            response-code:
+              type: integer
+            response-detail:
+              type: string
+              description: "Codice numerico + messaggio: \"<codice> - <messaggio> [<dettaglio>]\". 6001 = errore gestionale."
+            response-message:
+              type: string
+            request-uri:
+              type: string
+            request-method:
+              type: string
+            request-id:
+              type: string
+              description: UUID da citare al supporto.
+            warsion:
+              type: string
+            remote:
+              type: string
+            timestamp:
+              type: string

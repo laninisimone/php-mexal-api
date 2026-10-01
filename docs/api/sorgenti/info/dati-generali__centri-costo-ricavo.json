@@ -1,0 +1,22 @@
+{
+    "path": "/dati-generali/centri-costo-ricavo",
+    "origine": "info",
+    "forma": "dati",
+    "campi": [
+        {
+            "nome": "id",
+            "descrizione": "Numero centro costo/ricavo",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "descrizione",
+            "descrizione": "Descrizione centro costo/ricavo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "nota",
+            "descrizione": "Nota centro costo/ricavo",
+            "tipo": "Alfanumerico"
+        }
+    ]
+}

@@ -1,0 +1,15 @@
+{
+    "path": "/documenti/moduli-stampa",
+    "origine": "campione",
+    "forma": "radice:elenco_moduli_stampa_disponibili",
+    "campi": [
+        {
+            "nome": "codice",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "descrizione",
+            "tipo": "Alfanumerico"
+        }
+    ]
+}

@@ -1,0 +1,2519 @@
+openapi: "3.1.0"
+info:
+  title: Passepartout WebAPI - Prima nota
+  version: "88201"
+  description: |-
+    Generato da `tools/api-docs/genera.php` a partire dall'help in linea (`GET /risorse/help?extended=true`)
+    e da `?info=true` di un'installazione Mexal/Passcom 2.9.17 (versione gestionale 88201), integrato con il manuale WebAPI v3.1.
+    Endpoint e campi dipendono da versione e moduli installati: la fonte di verità resta `?info=true`.
+
+    **Convenzioni**
+
+    - Autenticazione: `Authorization: Passepartout <base64(utente:password)>`; sul cloud si aggiunge ` Dominio=<DOMINIO>`.
+    - Contesto aziendale: header `Coordinate-Gestionale: Azienda=XXX Anno=AAAA` (opzionali `SottoAzienda=`, `Magazzino=`).
+    - Date `AAAAMMGG`, date-ora `AAAAMMGG HHMMSS`, decimali con il punto.
+    - Gli array sono liste di coppie `[[indice, valore], ...]`, non liste semplici.
+    - Chiavi composte unite da `+` nel path (es. `OC+1+15`). Codici con `/` o `\` vanno in esadecimale con `?encoding=hex`.
+    - Paginazione: `max` limita i record, il token `next` della risposta va ripassato così com'è e subito.
+    - Ricerca: `POST .../ricerca` con `filtri`; i filtri sono in AND, i valori di uno stesso filtro in OR.
+    - Revisione (PUT): rimandare `data_ult_mod` letto dalla GET per il controllo di modifica concorrente.
+    - Limiti: 5 richieste simultanee per utente WebAPI (oltre si riceve 503).
+servers:
+  - url: "https://{host}:{porta}/webapi/risorse"
+    description: Installazione locale (certificato spesso self-signed)
+    variables:
+      host:
+        default: localhost
+      porta:
+        default: "9004"
+  - url: "https://services.passepartout.cloud/webapi/risorse"
+    description: "Passepartout Live (cloud): aggiungere Dominio=<DOMINIO> all'header Authorization"
+security:
+  - passepartout: []
+tags:
+  - name: prima-nota
+    description: Registrazioni contabili di prima nota (testata + righe). La lettura del singolo record restituisce le righe come variabili array.
+  - name: prima-nota/righe
+    description: Vista trasversale delle righe contabili di tutte le registrazioni di prima nota.
+paths:
+  "/prima-nota":
+    get:
+      tags:
+        - prima-nota
+      operationId: prima_nota_lista
+      summary: Lista prima nota
+      description: "Paginata: il server pagina oltre 30 secondi o 50 MB anche senza `max`; seguire `next` fino a esaurimento."
+      parameters:
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - name: fields
+          in: query
+          description: "Campi da restituire, separati da virgola. Riduce il payload: usarlo sempre sulle liste."
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/PrimaNotaCampo"
+        - $ref: "#/components/parameters/Max"
+        - $ref: "#/components/parameters/Next"
+      responses:
+        "200":
+          description: Record trovati
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/PrimaNotaLista"
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "85000"
+    post:
+      tags:
+        - prima-nota
+      operationId: prima_nota_crea
+      summary: Inserimento primanota
+      description: |-
+        Risponde 201 senza body: il codice assegnato è nell'header `Location`.
+
+        Le righe devono essere bilanciate (dare = avere)
+      parameters:
+        - $ref: "#/components/parameters/CoordinateGestionale"
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/PrimaNotaInserimento"
+      responses:
+        "201":
+          description: "Creato. Nessun body: il path della nuova risorsa è nell'header Location."
+          headers:
+            Location:
+              description: "Path della risorsa creata (es. /webapi/risorse/prima-nota/...). Può contenere ?encoding=hex."
+              schema:
+                type: string
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "85000"
+  "/prima-nota/ricerca":
+    post:
+      tags:
+        - prima-nota
+      operationId: prima_nota_cerca
+      summary: Ricerca primanota
+      description: "Filtri in AND fra loro; un `valore` array mette i valori in OR. Condizioni: `=`, `<>`, `>`, `<`, `>=`, `<=`, `contiene`, `inizia_per`."
+      parameters:
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - name: fields
+          in: query
+          description: "Campi da restituire, separati da virgola. Riduce il payload: usarlo sempre sulle liste."
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/PrimaNotaCampo"
+        - $ref: "#/components/parameters/Max"
+        - $ref: "#/components/parameters/Next"
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/PrimaNotaRicerca"
+      responses:
+        "200":
+          description: Record trovati
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/PrimaNotaLista"
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "85000"
+  "/prima-nota/{in_data_registr}+{in_progressivo}+{in_cau_contabile}+{in_rstro_prot_iva}+{in_serie_prot}+{in_nr_protocollo}+{in_nr_documento}+{in_data_documento}":
+    get:
+      tags:
+        - prima-nota
+      operationId: prima_nota_leggi
+      summary: Lettura prima nota
+      parameters:
+        - name: in_data_registr
+          in: path
+          required: true
+          description: "Parte di chiave `in_data_registr`."
+          schema:
+            type: string
+            pattern: "^[0-9]{8}$"
+            description: Data AAAAMMGG
+        - name: in_progressivo
+          in: path
+          required: true
+          description: "Parte di chiave `in_progressivo`."
+          schema:
+            type: integer
+            minimum: 0
+        - name: in_cau_contabile
+          in: path
+          required: true
+          description: "Parte di chiave `in_cau_contabile`."
+          schema:
+            type: string
+            pattern: "^[A-Z]{2}$"
+        - name: in_rstro_prot_iva
+          in: path
+          required: true
+          description: "Parte di chiave `in_rstro_prot_iva`."
+          schema:
+            type: string
+            pattern: "^[A-Z]+$"
+        - name: in_serie_prot
+          in: path
+          required: true
+          description: "Parte di chiave `in_serie_prot`."
+          schema:
+            type: integer
+            minimum: 0
+        - name: in_nr_protocollo
+          in: path
+          required: true
+          description: "Parte di chiave `in_nr_protocollo`."
+          schema:
+            type: integer
+            minimum: 0
+        - name: in_nr_documento
+          in: path
+          required: true
+          description: "Parte di chiave `in_nr_documento`."
+          schema:
+            type: integer
+            minimum: 0
+        - name: in_data_documento
+          in: path
+          required: true
+          description: "Parte di chiave `in_data_documento`."
+          schema:
+            type: string
+            pattern: "^[0-9]{8}$"
+            description: Data AAAAMMGG
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - name: fields
+          in: query
+          description: "Campi da restituire, separati da virgola. Riduce il payload: usarlo sempre sulle liste."
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/PrimaNotaCampo"
+      responses:
+        "200":
+          description: Record richiesto
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/PrimaNotaDocumento"
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "404":
+          $ref: "#/components/responses/NonTrovato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "85000"
+    put:
+      tags:
+        - prima-nota
+      operationId: prima_nota_modifica
+      summary: Modifica prima nota
+      description: "Indicare sempre tutti gli `id_riga` e `tp_riga`, anche delle righe non modificate: le righe omesse vengono cancellate. Con `?solo_testata=true` le righe sono preservate."
+      parameters:
+        - name: in_data_registr
+          in: path
+          required: true
+          description: "Parte di chiave `in_data_registr`."
+          schema:
+            type: string
+            pattern: "^[0-9]{8}$"
+            description: Data AAAAMMGG
+        - name: in_progressivo
+          in: path
+          required: true
+          description: "Parte di chiave `in_progressivo`."
+          schema:
+            type: integer
+            minimum: 0
+        - name: in_cau_contabile
+          in: path
+          required: true
+          description: "Parte di chiave `in_cau_contabile`."
+          schema:
+            type: string
+            pattern: "^[A-Z]{2}$"
+        - name: in_rstro_prot_iva
+          in: path
+          required: true
+          description: "Parte di chiave `in_rstro_prot_iva`."
+          schema:
+            type: string
+            pattern: "^[A-Z]+$"
+        - name: in_serie_prot
+          in: path
+          required: true
+          description: "Parte di chiave `in_serie_prot`."
+          schema:
+            type: integer
+            minimum: 0
+        - name: in_nr_protocollo
+          in: path
+          required: true
+          description: "Parte di chiave `in_nr_protocollo`."
+          schema:
+            type: integer
+            minimum: 0
+        - name: in_nr_documento
+          in: path
+          required: true
+          description: "Parte di chiave `in_nr_documento`."
+          schema:
+            type: integer
+            minimum: 0
+        - name: in_data_documento
+          in: path
+          required: true
+          description: "Parte di chiave `in_data_documento`."
+          schema:
+            type: string
+            pattern: "^[0-9]{8}$"
+            description: Data AAAAMMGG
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - name: solo_testata
+          in: query
+          description: Se true modifica solo la testata e preserva le righe anche se omesse dal body.
+          schema:
+            type: boolean
+            default: false
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/PrimaNotaModifica"
+      responses:
+        "204":
+          description: Operazione eseguita, nessun body.
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "404":
+          $ref: "#/components/responses/NonTrovato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "85000"
+    delete:
+      tags:
+        - prima-nota
+      operationId: prima_nota_elimina
+      summary: Cancellazione prima nota
+      parameters:
+        - name: in_data_registr
+          in: path
+          required: true
+          description: "Parte di chiave `in_data_registr`."
+          schema:
+            type: string
+            pattern: "^[0-9]{8}$"
+            description: Data AAAAMMGG
+        - name: in_progressivo
+          in: path
+          required: true
+          description: "Parte di chiave `in_progressivo`."
+          schema:
+            type: integer
+            minimum: 0
+        - name: in_cau_contabile
+          in: path
+          required: true
+          description: "Parte di chiave `in_cau_contabile`."
+          schema:
+            type: string
+            pattern: "^[A-Z]{2}$"
+        - name: in_rstro_prot_iva
+          in: path
+          required: true
+          description: "Parte di chiave `in_rstro_prot_iva`."
+          schema:
+            type: string
+            pattern: "^[A-Z]+$"
+        - name: in_serie_prot
+          in: path
+          required: true
+          description: "Parte di chiave `in_serie_prot`."
+          schema:
+            type: integer
+            minimum: 0
+        - name: in_nr_protocollo
+          in: path
+          required: true
+          description: "Parte di chiave `in_nr_protocollo`."
+          schema:
+            type: integer
+            minimum: 0
+        - name: in_nr_documento
+          in: path
+          required: true
+          description: "Parte di chiave `in_nr_documento`."
+          schema:
+            type: integer
+            minimum: 0
+        - name: in_data_documento
+          in: path
+          required: true
+          description: "Parte di chiave `in_data_documento`."
+          schema:
+            type: string
+            pattern: "^[0-9]{8}$"
+            description: Data AAAAMMGG
+        - $ref: "#/components/parameters/CoordinateGestionale"
+      responses:
+        "204":
+          description: Operazione eseguita, nessun body.
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "404":
+          $ref: "#/components/responses/NonTrovato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "85000"
+  "/prima-nota/{in_data_registr}+{in_progressivo}":
+    get:
+      tags:
+        - prima-nota
+      operationId: prima_nota_leggi_2
+      summary: Lettura prima nota progressivo
+      description: Chiave semplificata a 2 soli segmenti
+      parameters:
+        - name: in_data_registr
+          in: path
+          required: true
+          description: "Parte di chiave `in_data_registr`."
+          schema:
+            type: string
+            pattern: "^[0-9]{8}$"
+            description: Data AAAAMMGG
+        - name: in_progressivo
+          in: path
+          required: true
+          description: "Parte di chiave `in_progressivo`."
+          schema:
+            type: integer
+            minimum: 0
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - name: fields
+          in: query
+          description: "Campi da restituire, separati da virgola. Riduce il payload: usarlo sempre sulle liste."
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/PrimaNotaCampo"
+      responses:
+        "200":
+          description: Record richiesto
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/PrimaNotaDocumento"
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "404":
+          $ref: "#/components/responses/NonTrovato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "85000"
+    put:
+      tags:
+        - prima-nota
+      operationId: prima_nota_modifica_2
+      summary: Modifica prima nota progressivo
+      description: "Indicare sempre tutti gli `id_riga` e `tp_riga`, anche delle righe non modificate: le righe omesse vengono cancellate. Con `?solo_testata=true` le righe sono preservate."
+      parameters:
+        - name: in_data_registr
+          in: path
+          required: true
+          description: "Parte di chiave `in_data_registr`."
+          schema:
+            type: string
+            pattern: "^[0-9]{8}$"
+            description: Data AAAAMMGG
+        - name: in_progressivo
+          in: path
+          required: true
+          description: "Parte di chiave `in_progressivo`."
+          schema:
+            type: integer
+            minimum: 0
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - name: solo_testata
+          in: query
+          description: Se true modifica solo la testata e preserva le righe anche se omesse dal body.
+          schema:
+            type: boolean
+            default: false
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/PrimaNotaModifica"
+      responses:
+        "204":
+          description: Operazione eseguita, nessun body.
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "404":
+          $ref: "#/components/responses/NonTrovato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "85000"
+    delete:
+      tags:
+        - prima-nota
+      operationId: prima_nota_elimina_2
+      summary: Cancellazione prima nota progressivo
+      parameters:
+        - name: in_data_registr
+          in: path
+          required: true
+          description: "Parte di chiave `in_data_registr`."
+          schema:
+            type: string
+            pattern: "^[0-9]{8}$"
+            description: Data AAAAMMGG
+        - name: in_progressivo
+          in: path
+          required: true
+          description: "Parte di chiave `in_progressivo`."
+          schema:
+            type: integer
+            minimum: 0
+        - $ref: "#/components/parameters/CoordinateGestionale"
+      responses:
+        "204":
+          description: Operazione eseguita, nessun body.
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "404":
+          $ref: "#/components/responses/NonTrovato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "85000"
+  "/prima-nota/righe":
+    get:
+      tags:
+        - prima-nota/righe
+      operationId: prima_nota_righe_lista
+      summary: Lista righe primanota
+      description: "Paginata: il server pagina oltre 30 secondi o 50 MB anche senza `max`; seguire `next` fino a esaurimento."
+      parameters:
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - name: fields
+          in: query
+          description: "Campi da restituire, separati da virgola. Riduce il payload: usarlo sempre sulle liste."
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/PrimaNotaRigheCampo"
+        - $ref: "#/components/parameters/Max"
+        - $ref: "#/components/parameters/Next"
+      responses:
+        "200":
+          description: Record trovati
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/PrimaNotaRigheLista"
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "85000"
+  "/prima-nota/righe/ricerca":
+    post:
+      tags:
+        - prima-nota/righe
+      operationId: prima_nota_righe_cerca
+      summary: Ricerca righe prima nota
+      description: |-
+        Filtri in AND fra loro; un `valore` array mette i valori in OR. Condizioni: `=`, `<>`, `>`, `<`, `>=`, `<=`, `contiene`, `inizia_per`.
+
+        Utile per estrarre tutti i movimenti di un conto
+
+        Importi positivi indicano dare, importi negativi indicano avere
+      parameters:
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - name: fields
+          in: query
+          description: "Campi da restituire, separati da virgola. Riduce il payload: usarlo sempre sulle liste."
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/PrimaNotaRigheCampo"
+        - $ref: "#/components/parameters/Max"
+        - $ref: "#/components/parameters/Next"
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/PrimaNotaRigheRicerca"
+      responses:
+        "200":
+          description: Record trovati
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/PrimaNotaRigheLista"
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "85000"
+components:
+  securitySchemes:
+    passepartout:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: "Formato `Passepartout <base64(utente:password)>`. Sul cloud: `Passepartout <base64> Dominio=<DOMINIO>`. Con login di sistema operativo attivo (login=1) si aggiunge un secondo blocco `<base64(utente_so:password_so)>`."
+  parameters:
+    CoordinateGestionale:
+      name: Coordinate-Gestionale
+      in: header
+      required: true
+      description: Azienda e anno di lavoro, più sotto-azienda e magazzino di default facoltativi (magazzino 1 se omesso).
+      schema:
+        type: string
+        pattern: "^Azienda=\\S+( SottoAzienda=\\S+)? Anno=\\d{4}( Magazzino=\\d+)?$"
+        examples:
+          - "Azienda=DEM Anno=2026 Magazzino=1"
+    Max:
+      name: max
+      in: query
+      description: Numero massimo di record per pagina. Il server può restituirne meno (limiti di 30 s e 50 MB).
+      schema:
+        type: integer
+        minimum: 1
+    Next:
+      name: next
+      in: query
+      description: "Token di pagina restituito dalla risposta precedente: opaco, da usare subito e così com'è."
+      schema:
+        type: string
+    Encoding:
+      name: encoding
+      in: query
+      description: "Codifica delle parti di chiave nel path. Obbligatoria quando un codice contiene `/` o `\\`: il codice va inviato in esadecimale (es. `ARTI/S` -> `415254492f53`)."
+      schema:
+        type: string
+        enum:
+          - hex
+          - base32
+  responses:
+    ErroreRichiesta:
+      description: "Richiesta non valida: parametri o campi errati, errore gestionale (6001), coordinate mancanti."
+      content:
+        "application/json":
+          schema:
+            $ref: "#/components/schemas/Errore"
+    NonAutorizzato:
+      description: "Credenziali assenti o errate. Attenzione: tentativi ripetuti bloccano l'utente WebAPI."
+      content:
+        "application/json":
+          schema:
+            $ref: "#/components/schemas/Errore"
+    NonTrovato:
+      description: Risorsa inesistente o path non valido (nessun body).
+    PoolEsaurito:
+      description: "Pool di 5 servizi dell'utente WebAPI esaurito: riprovare più tardi, senza retry aggressivi."
+      content:
+        "application/json":
+          schema:
+            $ref: "#/components/schemas/Errore"
+  schemas:
+    PrimaNota:
+      type: object
+      properties:
+        nr_operatore:
+          type: integer
+          description: "Numero operatore (0 = AUTO)."
+          x-mexal-tipo: Numerico
+        sottoazienda:
+          type: integer
+          description: Codice sottoazienda (solo lettura).
+          readOnly: true
+          x-mexal-tipo: Numerico
+        data_registr:
+          type: string
+          description: Data registrazione (YYYYMMDD).
+          x-mexal-tipo: Alfanumerico
+        progressivo:
+          type: integer
+          description: Numero progressivo (solo lettura).
+          readOnly: true
+          x-mexal-tipo: Numerico
+        cau_contabile:
+          type: string
+          description: Causale contabile (2 caratteri).
+          x-mexal-tipo: Alfanumerico
+        descrizione:
+          type: string
+          description: Descrizione di testata.
+          x-mexal-tipo: Alfanumerico
+        rstro_prot_iva:
+          type: string
+          description: Registro protocollo iva.
+          x-mexal-tipo: Alfanumerico
+        serie_prot:
+          type: integer
+          description: Numero serie protocollo.
+          x-mexal-tipo: Numerico
+        nr_protocollo:
+          type: string
+          description: "Numero protocollo (0 = AUTO)."
+          x-mexal-tipo: Alfanumerico
+        nr_documento:
+          type: integer
+          description: "Numero documento (0 = AUTO)."
+          x-mexal-tipo: Numerico
+        nr_doc_str:
+          type: string
+          description: Numero documento - alfanumerico.
+          x-mexal-tipo: Alfanumerico
+        data_documento:
+          type: string
+          description: Data documento (YYYYMMDD).
+          x-mexal-tipo: Alfanumerico
+        punto_vendita:
+          type: integer
+          description: Punto vendita.
+          x-mexal-tipo: Numerico
+        data_statistica:
+          type: string
+          description: Data statistica. Data in formato AAAAMMGG.
+          x-mexal-tipo: Alfanumerico
+        dt_rif_uff_trib:
+          type: string
+          description: Data riferimento vidimazione ufficio tributario Repubblica di San Marino. Data in formato AAAAMMGG.
+          x-mexal-tipo: Alfanumerico
+        valuta_doc:
+          type: integer
+          description: Valuta documento.
+          x-mexal-tipo: Numerico
+        cambio_vlt_euro:
+          type: number
+          description: Cambio valuta estera / euro.
+          x-mexal-tipo: Numerico con virgola
+        cambio_euro_vlt:
+          type: number
+          description: Cambio euro / valuta estera.
+          x-mexal-tipo: Numerico con virgola
+        divisa_vlt_euro:
+          type: string
+          description: Divisa valuta estera / euro.
+          x-mexal-tipo: Alfanumerico
+        divisa_euro_vlt:
+          type: string
+          description: Divisa euro / valuta contabile.
+          x-mexal-tipo: Alfanumerico
+        gest_escl_doc:
+          type: string
+          description: Gestione documento da escludere dalla presentazione della distinta RSM.
+          x-mexal-tipo: Alfanumerico
+        doc_dt_crea:
+          type: string
+          description: Proprieta' documento - data creazione (sola lettura).
+          readOnly: true
+          x-mexal-tipo: Alfanumerico
+        doc_ora_crea:
+          type: string
+          description: Proprieta' documento - ora creazione (sola lettura).
+          readOnly: true
+          x-mexal-tipo: Alfanumerico
+        doc_ute_crea:
+          type: integer
+          description: Proprieta' documento - utente creazione (sola lettura).
+          readOnly: true
+          x-mexal-tipo: Numerico
+        doc_menu_crea:
+          type: string
+          description: Proprieta' documento - menu' creazione (sola lettura).
+          readOnly: true
+          x-mexal-tipo: Alfanumerico
+        doc_dt_mod:
+          type: string
+          description: Proprieta' documento - data ultima modifica (sola lettura).
+          readOnly: true
+          x-mexal-tipo: Alfanumerico
+        doc_ora_mod:
+          type: string
+          description: Proprieta' documento - ora ultima modifica (sola lettura).
+          readOnly: true
+          x-mexal-tipo: Alfanumerico
+        doc_ute_mod:
+          type: integer
+          description: Proprieta' documento - utente ultima modifica (sola lettura).
+          readOnly: true
+          x-mexal-tipo: Numerico
+        doc_menu_mod:
+          type: string
+          description: Proprieta' documento - menu' ultima modifica (sola lettura).
+          readOnly: true
+          x-mexal-tipo: Alfanumerico
+        gest_pv_intra:
+          type: string
+          description: Protocollo vendite - Gestione Intra CEE. Tipologia di cliente (CEE oppure no).
+          x-mexal-tipo: Alfanumerico
+        pv_vlt_estera:
+          type: integer
+          description: Protocollo vendite - Codice valuta estera.
+          x-mexal-tipo: Numerico
+        pv_descr_valuta:
+          type: string
+          description: Protocollo vendite - Descrizione valuta.
+          x-mexal-tipo: Alfanumerico
+        pv_imp_valuta:
+          type: number
+          description: Protocollo vendite - Importo in valuta.
+          x-mexal-tipo: Numerico con virgola
+        variazione_nota:
+          type: string
+          description: Nota variazione anni precedenti.
+          x-mexal-tipo: Alfanumerico
+        cat_bilancio:
+          type: string
+          description: Categoria bilancio specializzato.
+          x-mexal-tipo: Alfanumerico
+        bklist_elenco:
+          type: string
+          description: Blacklist - Includi operazione nell'elenco.
+          x-mexal-tipo: Alfanumerico
+        bklist_nota_ac:
+          type: string
+          description: Blacklist - Nota di variazione operazioni dell'anno.
+          x-mexal-tipo: Alfanumerico
+        bklist_nota_ap:
+          type: string
+          description: Blacklist - Nota di variazione operazioni anni precedenti.
+          x-mexal-tipo: Alfanumerico
+        bklist_cod_cli:
+          type: string
+          description: Blacklist - Codice cliente.
+          x-mexal-tipo: Alfanumerico
+        bklist_escl_op:
+          type: string
+          description: Blacklist - Escludi operazioni blacklist.
+          x-mexal-tipo: Alfanumerico
+        split_payment:
+          type: string
+          description: Includi in liquidazione operazione Split Payment.
+          x-mexal-tipo: Alfanumerico
+        gest_pg_ts:
+          type: string
+          description: Spese sanitarie - Pagamento tracciato (elaborazione spese sanitarie).
+          x-mexal-tipo: Alfanumerico
+        oss_cod_paese:
+          type: string
+          description: IVA OSS - Codice paese gestione - se paese destinazione beni diverso da cliente in fatt.
+          x-mexal-tipo: Alfanumerico
+        oss_cod_iva:
+          type: string
+          description: IVA OSS - Codice iva per liquidazione/dichiarazione - calcolo plafond.
+          x-mexal-tipo: Alfanumerico
+        sf_gest_escl:
+          type: string
+          description: Spese funebri - Gestione esclusione dalla comunicazione.
+          x-mexal-tipo: Alfanumerico
+        sf_cod_fis:
+          type: string
+          description: Spese funebri - Codice fiscale del defunto.
+          x-mexal-tipo: Alfanumerico
+        utente_ult_mod:
+          type: string
+          description: Utente ultima modifica.
+          x-mexal-tipo: Alfanumerico
+        data_ult_mod:
+          type: string
+          pattern: "^(\\d{8} \\d{6})?$"
+          description: Data ora ultima modifica. Formato AAAAMMGG HHMMSS.
+          x-mexal-tipo: Data e ora
+      x-mexal-origine-campi: info
+    PrimaNotaCampo:
+      type: string
+      enum:
+        - nr_operatore
+        - sottoazienda
+        - data_registr
+        - progressivo
+        - cau_contabile
+        - descrizione
+        - rstro_prot_iva
+        - serie_prot
+        - nr_protocollo
+        - nr_documento
+        - nr_doc_str
+        - data_documento
+        - punto_vendita
+        - data_statistica
+        - dt_rif_uff_trib
+        - valuta_doc
+        - cambio_vlt_euro
+        - cambio_euro_vlt
+        - divisa_vlt_euro
+        - divisa_euro_vlt
+        - gest_escl_doc
+        - doc_dt_crea
+        - doc_ora_crea
+        - doc_ute_crea
+        - doc_menu_crea
+        - doc_dt_mod
+        - doc_ora_mod
+        - doc_ute_mod
+        - doc_menu_mod
+        - gest_pv_intra
+        - pv_vlt_estera
+        - pv_descr_valuta
+        - pv_imp_valuta
+        - variazione_nota
+        - cat_bilancio
+        - bklist_elenco
+        - bklist_nota_ac
+        - bklist_nota_ap
+        - bklist_cod_cli
+        - bklist_escl_op
+        - split_payment
+        - gest_pg_ts
+        - oss_cod_paese
+        - oss_cod_iva
+        - sf_gest_escl
+        - sf_cod_fis
+        - utente_ult_mod
+        - data_ult_mod
+      description: Campi di prima-nota.
+    PrimaNotaLista:
+      type: object
+      required:
+        - dati
+      properties:
+        dati:
+          type: array
+          items:
+            $ref: "#/components/schemas/PrimaNota"
+        data_ric_elab:
+          type: string
+          description: Timestamp di elaborazione, AAAAMMGG HHMMSS.
+        next:
+          type: string
+          description: "Presente solo se ci sono altre pagine: da passare così com'è nel parametro next."
+    PrimaNotaRicerca:
+      type: object
+      required:
+        - filtri
+      properties:
+        filtri:
+          type: array
+          minItems: 1
+          items:
+            allOf:
+              - $ref: "#/components/schemas/Filtro"
+              - properties:
+                  campo:
+                    $ref: "#/components/schemas/PrimaNotaCampo"
+    PrimaNotaDocumento:
+      type: object
+      properties:
+        nr_operatore:
+          type: integer
+          description: "Numero operatore (0 = AUTO)."
+          x-mexal-tipo: Numerico
+        sottoazienda:
+          type: integer
+          description: Codice sottoazienda (solo lettura).
+          readOnly: true
+          x-mexal-tipo: Numerico
+        data_registr:
+          type: string
+          description: Data registrazione (YYYYMMDD).
+          x-mexal-tipo: Alfanumerico
+        progressivo:
+          type: integer
+          description: Numero progressivo (solo lettura).
+          readOnly: true
+          x-mexal-tipo: Numerico
+        cau_contabile:
+          type: string
+          description: Causale contabile (2 caratteri).
+          x-mexal-tipo: Alfanumerico
+        descrizione:
+          type: string
+          description: Descrizione di testata.
+          x-mexal-tipo: Alfanumerico
+        rstro_prot_iva:
+          type: string
+          description: Registro protocollo iva.
+          x-mexal-tipo: Alfanumerico
+        serie_prot:
+          type: integer
+          description: Numero serie protocollo.
+          x-mexal-tipo: Numerico
+        nr_protocollo:
+          type: string
+          description: "Numero protocollo (0 = AUTO)."
+          x-mexal-tipo: Alfanumerico
+        nr_documento:
+          type: integer
+          description: "Numero documento (0 = AUTO)."
+          x-mexal-tipo: Numerico
+        nr_doc_str:
+          type: string
+          description: Numero documento - alfanumerico.
+          x-mexal-tipo: Alfanumerico
+        data_documento:
+          type: string
+          description: Data documento (YYYYMMDD).
+          x-mexal-tipo: Alfanumerico
+        punto_vendita:
+          type: integer
+          description: Punto vendita.
+          x-mexal-tipo: Numerico
+        data_statistica:
+          type: string
+          description: Data statistica. Data in formato AAAAMMGG.
+          x-mexal-tipo: Alfanumerico
+        dt_rif_uff_trib:
+          type: string
+          description: Data riferimento vidimazione ufficio tributario Repubblica di San Marino. Data in formato AAAAMMGG.
+          x-mexal-tipo: Alfanumerico
+        valuta_doc:
+          type: integer
+          description: Valuta documento.
+          x-mexal-tipo: Numerico
+        cambio_vlt_euro:
+          type: number
+          description: Cambio valuta estera / euro.
+          x-mexal-tipo: Numerico con virgola
+        cambio_euro_vlt:
+          type: number
+          description: Cambio euro / valuta estera.
+          x-mexal-tipo: Numerico con virgola
+        divisa_vlt_euro:
+          type: string
+          description: Divisa valuta estera / euro.
+          x-mexal-tipo: Alfanumerico
+        divisa_euro_vlt:
+          type: string
+          description: Divisa euro / valuta contabile.
+          x-mexal-tipo: Alfanumerico
+        gest_escl_doc:
+          type: string
+          description: Gestione documento da escludere dalla presentazione della distinta RSM.
+          x-mexal-tipo: Alfanumerico
+        doc_dt_crea:
+          type: string
+          description: Proprieta' documento - data creazione (sola lettura).
+          readOnly: true
+          x-mexal-tipo: Alfanumerico
+        doc_ora_crea:
+          type: string
+          description: Proprieta' documento - ora creazione (sola lettura).
+          readOnly: true
+          x-mexal-tipo: Alfanumerico
+        doc_ute_crea:
+          type: integer
+          description: Proprieta' documento - utente creazione (sola lettura).
+          readOnly: true
+          x-mexal-tipo: Numerico
+        doc_menu_crea:
+          type: string
+          description: Proprieta' documento - menu' creazione (sola lettura).
+          readOnly: true
+          x-mexal-tipo: Alfanumerico
+        doc_dt_mod:
+          type: string
+          description: Proprieta' documento - data ultima modifica (sola lettura).
+          readOnly: true
+          x-mexal-tipo: Alfanumerico
+        doc_ora_mod:
+          type: string
+          description: Proprieta' documento - ora ultima modifica (sola lettura).
+          readOnly: true
+          x-mexal-tipo: Alfanumerico
+        doc_ute_mod:
+          type: integer
+          description: Proprieta' documento - utente ultima modifica (sola lettura).
+          readOnly: true
+          x-mexal-tipo: Numerico
+        doc_menu_mod:
+          type: string
+          description: Proprieta' documento - menu' ultima modifica (sola lettura).
+          readOnly: true
+          x-mexal-tipo: Alfanumerico
+        gest_pv_intra:
+          type: string
+          description: Protocollo vendite - Gestione Intra CEE. Tipologia di cliente (CEE oppure no).
+          x-mexal-tipo: Alfanumerico
+        pv_vlt_estera:
+          type: integer
+          description: Protocollo vendite - Codice valuta estera.
+          x-mexal-tipo: Numerico
+        pv_descr_valuta:
+          type: string
+          description: Protocollo vendite - Descrizione valuta.
+          x-mexal-tipo: Alfanumerico
+        pv_imp_valuta:
+          type: number
+          description: Protocollo vendite - Importo in valuta.
+          x-mexal-tipo: Numerico con virgola
+        variazione_nota:
+          type: string
+          description: Nota variazione anni precedenti.
+          x-mexal-tipo: Alfanumerico
+        cat_bilancio:
+          type: string
+          description: Categoria bilancio specializzato.
+          x-mexal-tipo: Alfanumerico
+        bklist_elenco:
+          type: string
+          description: Blacklist - Includi operazione nell'elenco.
+          x-mexal-tipo: Alfanumerico
+        bklist_nota_ac:
+          type: string
+          description: Blacklist - Nota di variazione operazioni dell'anno.
+          x-mexal-tipo: Alfanumerico
+        bklist_nota_ap:
+          type: string
+          description: Blacklist - Nota di variazione operazioni anni precedenti.
+          x-mexal-tipo: Alfanumerico
+        bklist_cod_cli:
+          type: string
+          description: Blacklist - Codice cliente.
+          x-mexal-tipo: Alfanumerico
+        bklist_escl_op:
+          type: string
+          description: Blacklist - Escludi operazioni blacklist.
+          x-mexal-tipo: Alfanumerico
+        split_payment:
+          type: string
+          description: Includi in liquidazione operazione Split Payment.
+          x-mexal-tipo: Alfanumerico
+        gest_pg_ts:
+          type: string
+          description: Spese sanitarie - Pagamento tracciato (elaborazione spese sanitarie).
+          x-mexal-tipo: Alfanumerico
+        oss_cod_paese:
+          type: string
+          description: IVA OSS - Codice paese gestione - se paese destinazione beni diverso da cliente in fatt.
+          x-mexal-tipo: Alfanumerico
+        oss_cod_iva:
+          type: string
+          description: IVA OSS - Codice iva per liquidazione/dichiarazione - calcolo plafond.
+          x-mexal-tipo: Alfanumerico
+        sf_gest_escl:
+          type: string
+          description: Spese funebri - Gestione esclusione dalla comunicazione.
+          x-mexal-tipo: Alfanumerico
+        sf_cod_fis:
+          type: string
+          description: Spese funebri - Codice fiscale del defunto.
+          x-mexal-tipo: Alfanumerico
+        utente_ult_mod:
+          type: string
+          description: Utente ultima modifica.
+          x-mexal-tipo: Alfanumerico
+        data_ult_mod:
+          type: string
+          pattern: "^(\\d{8} \\d{6})?$"
+          description: Data ora ultima modifica. Formato AAAAMMGG HHMMSS.
+          x-mexal-tipo: Data e ora
+        codice_conto:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: string
+            minItems: 2
+            maxItems: 2
+          description: "Righe - Codice conto. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento. Valori da conti.codice. Conto del piano dei conti (formato mastro.conto)."
+          x-mexal-tipo: Alfanumerico
+          x-mexal-riferimento:
+            risorsa: conti
+            campo: codice
+            nota: Conto del piano dei conti (formato mastro.conto)
+        cos_ric_riga:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: integer
+            minItems: 2
+            maxItems: 2
+          description: "Righe - Centro costo/ricavo. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Numerico
+        descr_riga:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: string
+            minItems: 2
+            maxItems: 2
+          description: "Righe - Descrizione. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Alfanumerico
+        importo_riga:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: number
+            minItems: 2
+            maxItems: 2
+          description: "Righe - Importo contabile. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Numerico con virgola
+        nr_tipo_merce:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: integer
+            minItems: 2
+            maxItems: 2
+          description: "Righe - Numero tipo merce. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Numerico
+        imponibile_iva:
+          type: array
+          items:
+            type: array
+            minItems: 2
+            maxItems: 3
+            prefixItems:
+              - type: integer
+                minimum: 1
+          description: "Castelletto IVA - Imponibile IVA. Array indicizzato [[indice, valore], ...] con indice da 1 a 4. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Numerico con virgola
+        imposta_iva:
+          type: array
+          items:
+            type: array
+            minItems: 2
+            maxItems: 3
+            prefixItems:
+              - type: integer
+                minimum: 1
+          description: "Castelletto IVA - Imposta IVA. Array indicizzato [[indice, valore], ...] con indice da 1 a 4. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Numerico con virgola
+        aliquota_iva:
+          type: array
+          items:
+            type: array
+            minItems: 2
+            maxItems: 3
+            prefixItems:
+              - type: integer
+                minimum: 1
+          description: "Castelletto IVA - Aliquota IVA. Array indicizzato [[indice, valore], ...] con indice da 1 a 4. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Alfanumerico
+        alq_iva_differ:
+          type: array
+          items:
+            type: array
+            minItems: 2
+            maxItems: 3
+            prefixItems:
+              - type: integer
+                minimum: 1
+          description: "Castelletto IVA - Aliquota IVA ventilazione differita. Array indicizzato [[indice, valore], ...] con indice da 1 a 4. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Alfanumerico
+        gest_cast:
+          type: array
+          items:
+            type: array
+            minItems: 2
+            maxItems: 3
+            prefixItems:
+              - type: integer
+                minimum: 1
+          description: "Castelletto IVA - Gestione castelletto no doppio protocollo. Array indicizzato [[indice, valore], ...] con indice da 1 a 4. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Alfanumerico
+        gest_spes_forza:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: string
+            minItems: 2
+            maxItems: 2
+          description: "Spesometro - Gestione forza comunicazione se documento inferiore al limite. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Alfanumerico
+        gest_nota_var:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: string
+            minItems: 2
+            maxItems: 2
+          description: "Spesometro - Gestione nota di variazione. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Alfanumerico
+        serie_nota_var:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: integer
+            minItems: 2
+            maxItems: 2
+          description: "Spesometro - Riferimento documento serie per nota di variazione. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Numerico
+        data_nota_var:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: string
+            minItems: 2
+            maxItems: 2
+          description: "Spesometro - Riferimento documento data per nota di variazione. Data in formato AAAAMMGG. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Alfanumerico
+        gest_op_rif_ctr:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: string
+            minItems: 2
+            maxItems: 2
+          description: "Spesometro - Operazione riferita a contratto. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Alfanumerico
+        gest_escl_cast:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: string
+            minItems: 2
+            maxItems: 2
+          description: "Spesometro - Gestione esclusione castelletto da comunicazione. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Alfanumerico
+        sp_cod_fis_piva:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: string
+            minItems: 2
+            maxItems: 2
+          description: "Spesometro - Codice fiscale / partita IVA. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Alfanumerico
+        sp_cod_cliente:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: string
+            minItems: 2
+            maxItems: 2
+          description: "Spesometro - Codice cliente. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Alfanumerico
+        sp_codice_ctr:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: string
+            minItems: 2
+            maxItems: 2
+          description: "Spesometro - Codice contratto. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Alfanumerico
+        sp_rif_op:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: string
+            minItems: 2
+            maxItems: 2
+          description: "Spesometro - Riferimento operazione. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Alfanumerico
+        spes_op_rcharge:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: integer
+            minItems: 2
+            maxItems: 2
+          description: "Spesometro - Tipo operazione reverse charge. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Numerico
+        spes_dt_plafond:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+              - type: string
+            minItems: 2
+            maxItems: 2
+          description: "Spesometro - Data competenza plafond. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Alfanumerico
+        ps_cod_conto:
+          type: array
+          items:
+            type: array
+            minItems: 2
+            maxItems: 3
+            prefixItems:
+              - type: integer
+                minimum: 1
+          description: "Riferimenti pagamenti PS - Codice conto. Array indicizzato [[indice, valore], ...] con indice da 1 a 4. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Alfanumerico
+        ps_serie_doc:
+          type: array
+          items:
+            type: array
+            minItems: 2
+            maxItems: 3
+            prefixItems:
+              - type: integer
+                minimum: 1
+          description: "Riferimenti pagamenti PS - Serie documento in pagamento. Array indicizzato [[indice, valore], ...] con indice da 1 a 4. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Numerico
+        ps_nr_documento:
+          type: array
+          items:
+            type: array
+            minItems: 2
+            maxItems: 3
+            prefixItems:
+              - type: integer
+                minimum: 1
+          description: "Riferimenti pagamenti PS - Numero documento in pagamento. Array indicizzato [[indice, valore], ...] con indice da 1 a 4. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Numerico
+        ps_dt_documento:
+          type: array
+          items:
+            type: array
+            minItems: 2
+            maxItems: 3
+            prefixItems:
+              - type: integer
+                minimum: 1
+          description: "Riferimenti pagamenti PS - Data documento in pagamento. Array indicizzato [[indice, valore], ...] con indice da 1 a 4. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Alfanumerico
+        ca_cod_analit:
+          type: array
+          items:
+            type: array
+            minItems: 2
+            maxItems: 3
+            prefixItems:
+              - type: integer
+                minimum: 1
+          description: "Contabilita' analitica - Codice analitico. Array indicizzato [[indice, valore], ...] con indice da 1 a 50. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Alfanumerico
+        ca_commessa:
+          type: array
+          items:
+            type: array
+            minItems: 2
+            maxItems: 3
+            prefixItems:
+              - type: integer
+                minimum: 1
+          description: "Contabilita' analitica - Commessa. Array indicizzato [[indice, valore], ...] con indice da 1 a 50. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Alfanumerico
+        ca_anno:
+          type: array
+          items:
+            type: array
+            minItems: 2
+            maxItems: 3
+            prefixItems:
+              - type: integer
+                minimum: 1
+          description: "Contabilita' analitica - Anno. Array indicizzato [[indice, valore], ...] con indice da 1 a 50. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Numerico
+        ca_importo:
+          type: array
+          items:
+            type: array
+            minItems: 2
+            maxItems: 3
+            prefixItems:
+              - type: integer
+                minimum: 1
+          description: "Contabilita' analitica - Importo. Array indicizzato [[indice, valore], ...] con indice da 1 a 50. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Numerico con virgola
+        intra_natura:
+          type: array
+          items:
+            type: array
+            minItems: 2
+            maxItems: 3
+            prefixItems:
+              - type: integer
+                minimum: 1
+          description: "Dati IntraCEE - Natura transazione. Array indicizzato [[indice, valore], ...] con indice da 1 a 50. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Alfanumerico
+        intra_natura_b:
+          type: array
+          items:
+            type: array
+            minItems: 2
+            maxItems: 3
+            prefixItems:
+              - type: integer
+                minimum: 1
+          description: "Dati IntraCEE - Natura transazione colonna b. Array indicizzato [[indice, valore], ...] con indice da 1 a 50. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Alfanumerico
+        intra_nomencla:
+          type: array
+          items:
+            type: array
+            minItems: 2
+            maxItems: 3
+            prefixItems:
+              - type: integer
+                minimum: 1
+          description: "Dati IntraCEE - Nomenclatura combinata. Array indicizzato [[indice, valore], ...] con indice da 1 a 50. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Numerico
+        intra_massa_net:
+          type: array
+          items:
+            type: array
+            minItems: 2
+            maxItems: 3
+            prefixItems:
+              - type: integer
+                minimum: 1
+          description: "Dati IntraCEE - Massa netta. Array indicizzato [[indice, valore], ...] con indice da 1 a 50. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Numerico con virgola
+        intra_unita_sup:
+          type: array
+          items:
+            type: array
+            minItems: 2
+            maxItems: 3
+            prefixItems:
+              - type: integer
+                minimum: 1
+          description: "Dati IntraCEE - Unita' suppletiva. Array indicizzato [[indice, valore], ...] con indice da 1 a 50. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Numerico
+        intra_val_sta:
+          type: array
+          items:
+            type: array
+            minItems: 2
+            maxItems: 3
+            prefixItems:
+              - type: integer
+                minimum: 1
+          description: "Dati IntraCEE - Valore statistico. Array indicizzato [[indice, valore], ...] con indice da 1 a 50. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Numerico con virgola
+        intra_cond_gna:
+          type: array
+          items:
+            type: array
+            minItems: 2
+            maxItems: 3
+            prefixItems:
+              - type: integer
+                minimum: 1
+          description: "Dati IntraCEE - Condizioni consegna - ex regime statis. Array indicizzato [[indice, valore], ...] con indice da 1 a 50. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Alfanumerico
+        intra_trasp:
+          type: array
+          items:
+            type: array
+            minItems: 2
+            maxItems: 3
+            prefixItems:
+              - type: integer
+                minimum: 1
+          description: "Dati IntraCEE - Modalita' di trasporto. Array indicizzato [[indice, valore], ...] con indice da 1 a 50. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Alfanumerico
+        intra_prv_dest:
+          type: array
+          items:
+            type: array
+            minItems: 2
+            maxItems: 3
+            prefixItems:
+              - type: integer
+                minimum: 1
+          description: "Dati IntraCEE - Provincia di destinazione. Array indicizzato [[indice, valore], ...] con indice da 1 a 50. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Alfanumerico
+        intra_pae_dest:
+          type: array
+          items:
+            type: array
+            minItems: 2
+            maxItems: 3
+            prefixItems:
+              - type: integer
+                minimum: 1
+          description: "Dati IntraCEE - Paese di destinazione. Array indicizzato [[indice, valore], ...] con indice da 1 a 50. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Alfanumerico
+        intra_pae_orig:
+          type: array
+          items:
+            type: array
+            minItems: 2
+            maxItems: 3
+            prefixItems:
+              - type: integer
+                minimum: 1
+          description: "Dati IntraCEE - Paese di origine. Array indicizzato [[indice, valore], ...] con indice da 1 a 50. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Alfanumerico
+        intra_mese_rif:
+          type: array
+          items:
+            type: array
+            minItems: 2
+            maxItems: 3
+            prefixItems:
+              - type: integer
+                minimum: 1
+          description: "Dati IntraCEE - Mese di riferimento. Array indicizzato [[indice, valore], ...] con indice da 1 a 50. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Numerico
+        intra_trim_rif:
+          type: array
+          items:
+            type: array
+            minItems: 2
+            maxItems: 3
+            prefixItems:
+              - type: integer
+                minimum: 1
+          description: "Dati IntraCEE - Trimestre di riferimento. Array indicizzato [[indice, valore], ...] con indice da 1 a 50. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Numerico
+        intra_anno_rif:
+          type: array
+          items:
+            type: array
+            minItems: 2
+            maxItems: 3
+            prefixItems:
+              - type: integer
+                minimum: 1
+          description: "Dati IntraCEE - Anno di riferimento. Array indicizzato [[indice, valore], ...] con indice da 1 a 50. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Numerico
+        intra_pae_iso:
+          type: array
+          items:
+            type: array
+            minItems: 2
+            maxItems: 3
+            prefixItems:
+              - type: integer
+                minimum: 1
+          description: "Dati IntraCEE - Codice ISO paese. Array indicizzato [[indice, valore], ...] con indice da 1 a 50. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Alfanumerico
+        intra_iva_conto:
+          type: array
+          items:
+            type: array
+            minItems: 2
+            maxItems: 3
+            prefixItems:
+              - type: integer
+                minimum: 1
+          description: "Dati IntraCEE - Codice IVA del conto. Array indicizzato [[indice, valore], ...] con indice da 1 a 50. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Alfanumerico
+        intra_segno_imp:
+          type: array
+          items:
+            type: array
+            minItems: 2
+            maxItems: 3
+            prefixItems:
+              - type: integer
+                minimum: 1
+          description: "Dati IntraCEE - Segno degli importi. Array indicizzato [[indice, valore], ...] con indice da 1 a 50. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Alfanumerico
+        intra_transitoria:
+          type: array
+          items:
+            type: array
+            minItems: 2
+            maxItems: 3
+            prefixItems:
+              - type: integer
+                minimum: 1
+          description: "Dati IntraCEE - Natura transitoria. Array indicizzato [[indice, valore], ...] con indice da 1 a 50. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Alfanumerico
+        intra_imp_op_euro:
+          type: array
+          items:
+            type: array
+            minItems: 2
+            maxItems: 3
+            prefixItems:
+              - type: integer
+                minimum: 1
+          description: "Dati IntraCEE - Ammontare operazione in Euro. Array indicizzato [[indice, valore], ...] con indice da 1 a 50. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Numerico con virgola
+        intra_imp_op_vlt:
+          type: array
+          items:
+            type: array
+            minItems: 2
+            maxItems: 3
+            prefixItems:
+              - type: integer
+                minimum: 1
+          description: "Dati IntraCEE - Ammontare operazione in valuta. Array indicizzato [[indice, valore], ...] con indice da 1 a 50. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Numerico con virgola
+        intra_combinata:
+          type: array
+          items:
+            type: array
+            minItems: 2
+            maxItems: 3
+            prefixItems:
+              - type: integer
+                minimum: 1
+          description: "Dati IntraCEE - Nomenclatura combinata. Array indicizzato [[indice, valore], ...] con indice da 1 a 50. Variabile di riga: [[indice_riga, valore], ...], dove indice_riga è la posizione della riga nel documento."
+          x-mexal-tipo: Numerico
+      x-mexal-origine-campi: info
+      description: "Documento completo (GET con chiave, POST, PUT): testata più righe. Ogni campo di riga è un array [[indice_riga, valore], ...] dove indice_riga è la posizione a video della riga; gli indici devono essere coerenti fra tutti i campi di riga. id_riga = 0 indica una riga nuova."
+    PrimaNotaInserimento:
+      allOf:
+        - $ref: "#/components/schemas/PrimaNotaDocumento"
+      required:
+        - data_registr
+        - cau_contabile
+        - rstro_prot_iva
+        - codice_conto
+        - importo_riga
+      description: "Body di inserimento. Obbligatori secondo il manuale: data_registr, cau_contabile, rstro_prot_iva, codice_conto, importo_riga."
+    PrimaNotaModifica:
+      allOf:
+        - $ref: "#/components/schemas/PrimaNotaDocumento"
+      description: "Body di revisione: solo i campi da modificare."
+      x-mexal-obbligatori-put: []
+    PrimaNotaRighe:
+      type: object
+      properties:
+        data_registr:
+          type: string
+          description: Data registrazione. Data in formato AAAAMMGG.
+          x-mexal-tipo: Alfanumerico
+        progressivo:
+          type: integer
+          description: Numero progressivo (solo lettura).
+          readOnly: true
+          x-mexal-tipo: Numerico
+        cau_contabile:
+          type: string
+          description: Causale contabile.
+          x-mexal-tipo: Alfanumerico
+        rstro_prot_iva:
+          type: string
+          description: Registro protocollo iva.
+          x-mexal-tipo: Alfanumerico
+        serie_prot:
+          type: integer
+          description: Numero serie protocollo.
+          x-mexal-tipo: Numerico
+        nr_protocollo:
+          type: string
+          description: "Numero protocollo (0 = AUTO)."
+          x-mexal-tipo: Alfanumerico
+        nr_documento:
+          type: integer
+          description: "Numero documento (0 = AUTO)."
+          x-mexal-tipo: Numerico
+        data_documento:
+          type: string
+          description: Data documento. Data in formato AAAAMMGG.
+          x-mexal-tipo: Alfanumerico
+        codice_conto:
+          type: string
+          description: Righe - Codice conto. Valori da conti.codice. Conto del piano dei conti (formato mastro.conto).
+          x-mexal-tipo: Alfanumerico
+          x-mexal-riferimento:
+            risorsa: conti
+            campo: codice
+            nota: Conto del piano dei conti (formato mastro.conto)
+        cos_ric_riga:
+          type: integer
+          description: Righe - Centro costo/ricavo.
+          x-mexal-tipo: Numerico
+        descr_riga:
+          type: string
+          description: Righe - Descrizione.
+          x-mexal-tipo: Alfanumerico
+        importo_riga:
+          type: number
+          description: Righe - Importo contabile.
+          x-mexal-tipo: Numerico con virgola
+        nr_tipo_merce:
+          type: integer
+          description: Righe - Numero tipo merce.
+          x-mexal-tipo: Numerico
+        imponibile_iva:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 4
+              - type: number
+            minItems: 2
+            maxItems: 2
+          maxItems: 4
+          description: "Castelletto IVA - Imponibile IVA. Array indicizzato [[indice, valore], ...] con indice da 1 a 4."
+          x-mexal-tipo: Numerico con virgola
+        imposta_iva:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 4
+              - type: number
+            minItems: 2
+            maxItems: 2
+          maxItems: 4
+          description: "Castelletto IVA - Imposta IVA. Array indicizzato [[indice, valore], ...] con indice da 1 a 4."
+          x-mexal-tipo: Numerico con virgola
+        aliquota_iva:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 4
+              - type: string
+            minItems: 2
+            maxItems: 2
+          maxItems: 4
+          description: "Castelletto IVA - Aliquota IVA. Array indicizzato [[indice, valore], ...] con indice da 1 a 4."
+          x-mexal-tipo: Alfanumerico
+        alq_iva_differ:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 4
+              - type: string
+            minItems: 2
+            maxItems: 2
+          maxItems: 4
+          description: "Castelletto IVA - Aliquota IVA ventilazione differita. Array indicizzato [[indice, valore], ...] con indice da 1 a 4."
+          x-mexal-tipo: Alfanumerico
+        gest_cast:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 4
+              - type: string
+            minItems: 2
+            maxItems: 2
+          maxItems: 4
+          description: "Castelletto IVA - Gestione castelletto no doppio protocollo. Array indicizzato [[indice, valore], ...] con indice da 1 a 4."
+          x-mexal-tipo: Alfanumerico
+        gest_spes_forza:
+          type: string
+          description: Spesometro - Gestione forza comunicazione se documento inferiore al limite.
+          x-mexal-tipo: Alfanumerico
+        gest_nota_var:
+          type: string
+          description: Spesometro - Gestione nota di variazione.
+          x-mexal-tipo: Alfanumerico
+        serie_nota_var:
+          type: integer
+          description: Spesometro - Riferimento documento serie per nota di variazione.
+          x-mexal-tipo: Numerico
+        data_nota_var:
+          type: string
+          description: Spesometro - Riferimento documento data per nota di variazione. Data in formato AAAAMMGG.
+          x-mexal-tipo: Alfanumerico
+        gest_op_rif_ctr:
+          type: string
+          description: Spesometro - Operazione riferita a contratto.
+          x-mexal-tipo: Alfanumerico
+        gest_escl_cast:
+          type: string
+          description: Spesometro - Gestione esclusione castelletto da comunicazione.
+          x-mexal-tipo: Alfanumerico
+        sp_cod_fis_piva:
+          type: string
+          description: Spesometro - Codice fiscale / partita IVA.
+          x-mexal-tipo: Alfanumerico
+        sp_cod_cliente:
+          type: string
+          description: Spesometro - Codice cliente.
+          x-mexal-tipo: Alfanumerico
+        sp_codice_ctr:
+          type: string
+          description: Spesometro - Codice contratto.
+          x-mexal-tipo: Alfanumerico
+        sp_rif_op:
+          type: string
+          description: Spesometro - Riferimento operazione.
+          x-mexal-tipo: Alfanumerico
+        spes_op_rcharge:
+          type: integer
+          description: Spesometro - Tipo operazione reverse charge.
+          x-mexal-tipo: Numerico
+        spes_dt_plafond:
+          type: string
+          description: Spesometro - Data competenza plafond.
+          x-mexal-tipo: Alfanumerico
+        ps_cod_conto:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 4
+              - type: string
+            minItems: 2
+            maxItems: 2
+          maxItems: 4
+          description: "Riferimenti pagamenti PS - Codice conto. Array indicizzato [[indice, valore], ...] con indice da 1 a 4."
+          x-mexal-tipo: Alfanumerico
+        ps_serie_doc:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 4
+              - type: integer
+            minItems: 2
+            maxItems: 2
+          maxItems: 4
+          description: "Riferimenti pagamenti PS - Serie documento in pagamento. Array indicizzato [[indice, valore], ...] con indice da 1 a 4."
+          x-mexal-tipo: Numerico
+        ps_nr_documento:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 4
+              - type: integer
+            minItems: 2
+            maxItems: 2
+          maxItems: 4
+          description: "Riferimenti pagamenti PS - Numero documento in pagamento. Array indicizzato [[indice, valore], ...] con indice da 1 a 4."
+          x-mexal-tipo: Numerico
+        ps_dt_documento:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 4
+              - type: string
+            minItems: 2
+            maxItems: 2
+          maxItems: 4
+          description: "Riferimenti pagamenti PS - Data documento in pagamento. Array indicizzato [[indice, valore], ...] con indice da 1 a 4."
+          x-mexal-tipo: Alfanumerico
+        ca_cod_analit:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 50
+              - type: string
+            minItems: 2
+            maxItems: 2
+          maxItems: 50
+          description: "Contabilita' analitica - Codice analitico. Array indicizzato [[indice, valore], ...] con indice da 1 a 50."
+          x-mexal-tipo: Alfanumerico
+        ca_commessa:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 50
+              - type: string
+            minItems: 2
+            maxItems: 2
+          maxItems: 50
+          description: "Contabilita' analitica - Commessa. Array indicizzato [[indice, valore], ...] con indice da 1 a 50."
+          x-mexal-tipo: Alfanumerico
+        ca_anno:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 50
+              - type: integer
+            minItems: 2
+            maxItems: 2
+          maxItems: 50
+          description: "Contabilita' analitica - Anno. Array indicizzato [[indice, valore], ...] con indice da 1 a 50."
+          x-mexal-tipo: Numerico
+        ca_importo:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 50
+              - type: number
+            minItems: 2
+            maxItems: 2
+          maxItems: 50
+          description: "Contabilita' analitica - Importo. Array indicizzato [[indice, valore], ...] con indice da 1 a 50."
+          x-mexal-tipo: Numerico con virgola
+        intra_natura:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 50
+              - type: string
+            minItems: 2
+            maxItems: 2
+          maxItems: 50
+          description: "Dati IntraCEE - Natura transazione. Array indicizzato [[indice, valore], ...] con indice da 1 a 50."
+          x-mexal-tipo: Alfanumerico
+        intra_natura_b:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 50
+              - type: string
+            minItems: 2
+            maxItems: 2
+          maxItems: 50
+          description: "Dati IntraCEE - Natura transazione colonna b. Array indicizzato [[indice, valore], ...] con indice da 1 a 50."
+          x-mexal-tipo: Alfanumerico
+        intra_nomencla:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 50
+              - type: integer
+            minItems: 2
+            maxItems: 2
+          maxItems: 50
+          description: "Dati IntraCEE - Nomenclatura combinata. Array indicizzato [[indice, valore], ...] con indice da 1 a 50."
+          x-mexal-tipo: Numerico
+        intra_massa_net:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 50
+              - type: number
+            minItems: 2
+            maxItems: 2
+          maxItems: 50
+          description: "Dati IntraCEE - Massa netta. Array indicizzato [[indice, valore], ...] con indice da 1 a 50."
+          x-mexal-tipo: Numerico con virgola
+        intra_unita_sup:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 50
+              - type: integer
+            minItems: 2
+            maxItems: 2
+          maxItems: 50
+          description: "Dati IntraCEE - Unita' suppletiva. Array indicizzato [[indice, valore], ...] con indice da 1 a 50."
+          x-mexal-tipo: Numerico
+        intra_val_sta:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 50
+              - type: number
+            minItems: 2
+            maxItems: 2
+          maxItems: 50
+          description: "Dati IntraCEE - Valore statistico. Array indicizzato [[indice, valore], ...] con indice da 1 a 50."
+          x-mexal-tipo: Numerico con virgola
+        intra_cond_gna:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 50
+              - type: string
+            minItems: 2
+            maxItems: 2
+          maxItems: 50
+          description: "Dati IntraCEE - Condizioni consegna - ex regime statis. Array indicizzato [[indice, valore], ...] con indice da 1 a 50."
+          x-mexal-tipo: Alfanumerico
+        intra_trasp:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 50
+              - type: string
+            minItems: 2
+            maxItems: 2
+          maxItems: 50
+          description: "Dati IntraCEE - Modalita' di trasporto. Array indicizzato [[indice, valore], ...] con indice da 1 a 50."
+          x-mexal-tipo: Alfanumerico
+        intra_prv_dest:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 50
+              - type: string
+            minItems: 2
+            maxItems: 2
+          maxItems: 50
+          description: "Dati IntraCEE - Provincia di destinazione. Array indicizzato [[indice, valore], ...] con indice da 1 a 50."
+          x-mexal-tipo: Alfanumerico
+        intra_pae_dest:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 50
+              - type: string
+            minItems: 2
+            maxItems: 2
+          maxItems: 50
+          description: "Dati IntraCEE - Paese di destinazione. Array indicizzato [[indice, valore], ...] con indice da 1 a 50."
+          x-mexal-tipo: Alfanumerico
+        intra_pae_orig:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 50
+              - type: string
+            minItems: 2
+            maxItems: 2
+          maxItems: 50
+          description: "Dati IntraCEE - Paese di origine. Array indicizzato [[indice, valore], ...] con indice da 1 a 50."
+          x-mexal-tipo: Alfanumerico
+        intra_mese_rif:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 50
+              - type: integer
+            minItems: 2
+            maxItems: 2
+          maxItems: 50
+          description: "Dati IntraCEE - Mese di riferimento. Array indicizzato [[indice, valore], ...] con indice da 1 a 50."
+          x-mexal-tipo: Numerico
+        intra_trim_rif:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 50
+              - type: integer
+            minItems: 2
+            maxItems: 2
+          maxItems: 50
+          description: "Dati IntraCEE - Trimestre di riferimento. Array indicizzato [[indice, valore], ...] con indice da 1 a 50."
+          x-mexal-tipo: Numerico
+        intra_anno_rif:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 50
+              - type: integer
+            minItems: 2
+            maxItems: 2
+          maxItems: 50
+          description: "Dati IntraCEE - Anno di riferimento. Array indicizzato [[indice, valore], ...] con indice da 1 a 50."
+          x-mexal-tipo: Numerico
+        intra_pae_iso:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 50
+              - type: string
+            minItems: 2
+            maxItems: 2
+          maxItems: 50
+          description: "Dati IntraCEE - Codice ISO paese. Array indicizzato [[indice, valore], ...] con indice da 1 a 50."
+          x-mexal-tipo: Alfanumerico
+        intra_iva_conto:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 50
+              - type: string
+            minItems: 2
+            maxItems: 2
+          maxItems: 50
+          description: "Dati IntraCEE - Codice IVA del conto. Array indicizzato [[indice, valore], ...] con indice da 1 a 50."
+          x-mexal-tipo: Alfanumerico
+        intra_segno_imp:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 50
+              - type: string
+            minItems: 2
+            maxItems: 2
+          maxItems: 50
+          description: "Dati IntraCEE - Segno degli importi. Array indicizzato [[indice, valore], ...] con indice da 1 a 50."
+          x-mexal-tipo: Alfanumerico
+        intra_transitoria:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 50
+              - type: string
+            minItems: 2
+            maxItems: 2
+          maxItems: 50
+          description: "Dati IntraCEE - Natura transitoria. Array indicizzato [[indice, valore], ...] con indice da 1 a 50."
+          x-mexal-tipo: Alfanumerico
+        intra_imp_op_euro:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 50
+              - type: number
+            minItems: 2
+            maxItems: 2
+          maxItems: 50
+          description: "Dati IntraCEE - Ammontare operazione in Euro. Array indicizzato [[indice, valore], ...] con indice da 1 a 50."
+          x-mexal-tipo: Numerico con virgola
+        intra_imp_op_vlt:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 50
+              - type: number
+            minItems: 2
+            maxItems: 2
+          maxItems: 50
+          description: "Dati IntraCEE - Ammontare operazione in valuta. Array indicizzato [[indice, valore], ...] con indice da 1 a 50."
+          x-mexal-tipo: Numerico con virgola
+        intra_combinata:
+          type: array
+          items:
+            type: array
+            prefixItems:
+              - type: integer
+                minimum: 1
+                maximum: 50
+              - type: integer
+            minItems: 2
+            maxItems: 2
+          maxItems: 50
+          description: "Dati IntraCEE - Nomenclatura combinata. Array indicizzato [[indice, valore], ...] con indice da 1 a 50."
+          x-mexal-tipo: Numerico
+        data_ult_mod:
+          type: string
+          pattern: "^(\\d{8} \\d{6})?$"
+          description: Data ora ultima modifica. Formato AAAAMMGG HHMMSS.
+          x-mexal-tipo: Data e ora
+      x-mexal-origine-campi: info
+    PrimaNotaRigheCampo:
+      type: string
+      enum:
+        - data_registr
+        - progressivo
+        - cau_contabile
+        - rstro_prot_iva
+        - serie_prot
+        - nr_protocollo
+        - nr_documento
+        - data_documento
+        - codice_conto
+        - cos_ric_riga
+        - descr_riga
+        - importo_riga
+        - nr_tipo_merce
+        - imponibile_iva
+        - imposta_iva
+        - aliquota_iva
+        - alq_iva_differ
+        - gest_cast
+        - gest_spes_forza
+        - gest_nota_var
+        - serie_nota_var
+        - data_nota_var
+        - gest_op_rif_ctr
+        - gest_escl_cast
+        - sp_cod_fis_piva
+        - sp_cod_cliente
+        - sp_codice_ctr
+        - sp_rif_op
+        - spes_op_rcharge
+        - spes_dt_plafond
+        - ps_cod_conto
+        - ps_serie_doc
+        - ps_nr_documento
+        - ps_dt_documento
+        - ca_cod_analit
+        - ca_commessa
+        - ca_anno
+        - ca_importo
+        - intra_natura
+        - intra_natura_b
+        - intra_nomencla
+        - intra_massa_net
+        - intra_unita_sup
+        - intra_val_sta
+        - intra_cond_gna
+        - intra_trasp
+        - intra_prv_dest
+        - intra_pae_dest
+        - intra_pae_orig
+        - intra_mese_rif
+        - intra_trim_rif
+        - intra_anno_rif
+        - intra_pae_iso
+        - intra_iva_conto
+        - intra_segno_imp
+        - intra_transitoria
+        - intra_imp_op_euro
+        - intra_imp_op_vlt
+        - intra_combinata
+        - data_ult_mod
+      description: Campi di prima-nota/righe.
+    PrimaNotaRigheLista:
+      type: object
+      required:
+        - dati
+      properties:
+        dati:
+          type: array
+          items:
+            $ref: "#/components/schemas/PrimaNotaRighe"
+        data_ric_elab:
+          type: string
+          description: Timestamp di elaborazione, AAAAMMGG HHMMSS.
+        next:
+          type: string
+          description: "Presente solo se ci sono altre pagine: da passare così com'è nel parametro next."
+    PrimaNotaRigheRicerca:
+      type: object
+      required:
+        - filtri
+      properties:
+        filtri:
+          type: array
+          minItems: 1
+          items:
+            allOf:
+              - $ref: "#/components/schemas/Filtro"
+              - properties:
+                  campo:
+                    $ref: "#/components/schemas/PrimaNotaRigheCampo"
+    Filtro:
+      type: object
+      required:
+        - campo
+        - condizione
+        - valore
+      properties:
+        campo:
+          type: string
+          description: Nome del campo su cui filtrare.
+        indice1:
+          type: integer
+          minimum: 1
+          description: Indice del primo livello, per i campi array.
+        indice2:
+          type: integer
+          minimum: 1
+          description: Indice del secondo livello, per gli array a due livelli.
+        condizione:
+          type: string
+          enum:
+            - "="
+            - "<>"
+            - ">"
+            - "<"
+            - ">="
+            - "<="
+            - contiene
+            - inizia_per
+        case_insensitive:
+          type: boolean
+          default: false
+          description: Solo per i confronti fra stringhe.
+        valore:
+          description: "Valore da confrontare; un array mette i valori in OR. Date come AAAAMMGG."
+          anyOf:
+            - type: string
+            - type: number
+            - type: array
+              minItems: 1
+              items:
+                type:
+                  - string
+                  - number
+    Errore:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            response-code:
+              type: integer
+            response-detail:
+              type: string
+              description: "Codice numerico + messaggio: \"<codice> - <messaggio> [<dettaglio>]\". 6001 = errore gestionale."
+            response-message:
+              type: string
+            request-uri:
+              type: string
+            request-method:
+              type: string
+            request-id:
+              type: string
+              description: UUID da citare al supporto.
+            warsion:
+              type: string
+            remote:
+              type: string
+            timestamp:
+              type: string

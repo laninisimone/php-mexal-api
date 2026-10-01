@@ -1,0 +1,5 @@
+{
+    "path": "/distinte-base/fasi",
+    "origine": "errore",
+    "errore": "6001 - errore gestionale [cmd lista_fasi_distinte_base disponibile solo per aziende di livello produzione o superiore]"
+}

@@ -1,0 +1,499 @@
+{
+    "path": "/anagrafica-unica/storico",
+    "origine": "info",
+    "forma": "dati",
+    "campi": [
+        {
+            "nome": "id_anagrafica",
+            "descrizione": "Codice anagrafico",
+            "tipo": "Numerico",
+            "chiave": true
+        },
+        {
+            "nome": "data_iniz_valid",
+            "descrizione": "data inizio validita'",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "data_fine_valid",
+            "descrizione": "data fine validita'",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "annullato",
+            "descrizione": "annullata logicamente",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tp_dati",
+            "descrizione": "tipo dato",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "sottotp_dati",
+            "descrizione": "sottotipo dato",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "anag_tipo_sogg",
+            "descrizione": "Anagrafica: tipo soggetto",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "anag_cod_fis",
+            "descrizione": "Anagrafica: codice fiscale",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "anag_piva",
+            "descrizione": "Anagrafica: partita iva",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "anag_cognome",
+            "descrizione": "Anagrafica: cognome",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "anag_nome",
+            "descrizione": "Anagrafica: nome",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "anag_rag_soc",
+            "descrizione": "Anagrafica: ragione sociale",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "anag_desc",
+            "descrizione": "Anagrafica: descrizione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "anag_denom",
+            "descrizione": "Anagrafica: denominazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "anag_stor_iniz",
+            "descrizione": "Anagrafica: data inizio validita' storicizzazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "anag_stor_data",
+            "descrizione": "Anagrafica: data fine validita' storicizzazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "anag_stor_nota",
+            "descrizione": "Anagrafica: nota storicizzazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "res_indir",
+            "descrizione": "Residenza: indirizzo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "res_cap",
+            "descrizione": "Residenza: cap",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "res_comune",
+            "descrizione": "Residenza: comune",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "res_prov",
+            "descrizione": "Residenza: provincia",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "res_nazione",
+            "descrizione": "Residenza: nazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "res_localita",
+            "descrizione": "Residenza: localita'",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "res_irpef",
+            "descrizione": "Residenza: codice irpef",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "res_stesso_dom",
+            "descrizione": "Residenza: uguale a sede legale",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "res_stor_iniz",
+            "descrizione": "Residenza: data inizio validita' storicizzazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "res_stor_data",
+            "descrizione": "Residenza: data fine validita' storicizzazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "res_stor_nota",
+            "descrizione": "Residenza: nota storicizzazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "dom_indir",
+            "descrizione": "Domicilio fiscale: indirizzo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "dom_cap",
+            "descrizione": "Domicilio fiscale: cap",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "dom_comune",
+            "descrizione": "Domicilio fiscale: comune",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "dom_prov",
+            "descrizione": "Domicilio fiscale: provincia",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "dom_nazione",
+            "descrizione": "Domicilio fiscale: nazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "dom_localita",
+            "descrizione": "Domicilio fiscale: localita'",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "dom_irpef",
+            "descrizione": "Domicilio fiscale: codice irpef",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "dom_stor_iniz",
+            "descrizione": "Domicilio fiscale: data inizio validita' storicizzazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "dom_stor_data",
+            "descrizione": "Domicilio fiscale: data fine validita' storicizzazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "dom_stor_nota",
+            "descrizione": "Domicilio fiscale: nota storicizzazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "est_indir",
+            "descrizione": "Residenza estera: indirizzo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "est_localita",
+            "descrizione": "Residenza estera: localita'",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "est_cod_fiscale",
+            "descrizione": "Residenza estera: codice fiscale",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "est_cod_stato",
+            "descrizione": "Residenza estera: codice stato",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "est_nazione",
+            "descrizione": "Residenza estera: stato",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "est_stato_fed",
+            "descrizione": "Residenza estera: stato federato",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "est_stor_iniz",
+            "descrizione": "Residenza estera: data inizio validita' storicizzazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "est_stor_data",
+            "descrizione": "Residenza estera: data fine validita' storicizzazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "est_stor_nota",
+            "descrizione": "Residenza estera: nota storicizzazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "leg_id_anag",
+            "descrizione": "Legale rappr.: codice id",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "leg_cod_fiscale",
+            "descrizione": "Legale rappr.: codice fiscale",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "leg_sesso",
+            "descrizione": "Legale rappr.: sesso",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "leg_cognome",
+            "descrizione": "Legale rappr.: cognome",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "leg_nome",
+            "descrizione": "Legale rappr.: nome",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "leg_cod_carica",
+            "descrizione": "Legale rappr.: codice carica",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "leg_data_decor",
+            "descrizione": "Legale rappr.: data decorrenza",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "leg_nasc_data",
+            "descrizione": "Legale rappr.nascita: data",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "leg_nasc_comune",
+            "descrizione": "Legale rappr.nascita: comune",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "leg_nasc_prov",
+            "descrizione": "Legale rappr.nascita: provincia",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "leg_dom_indir",
+            "descrizione": "Legale rappr.domicilio: indirizzo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "leg_dom_cap",
+            "descrizione": "Legale rappr.domicilio: cap",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "leg_dom_comune",
+            "descrizione": "Legale rappr.domicilio: comune",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "leg_dom_prov",
+            "descrizione": "Legale rappr.domicilio: provincia",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "leg_telefono",
+            "descrizione": "Legale rappr.domicilio: telefono",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "leg_soc_id_anag",
+            "descrizione": "Legale rappr.soc.: codice id",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "leg_soc_cod_fis",
+            "descrizione": "Legale rappr.soc.: codice fiscale",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "leg_soc_rag_soc",
+            "descrizione": "Legale rappr.soc.: ragione sociale",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "leg_stor_iniz",
+            "descrizione": "Legale rappr.: data inizio validita' storicizzazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "leg_stor_data",
+            "descrizione": "Legale rappr.: data fine validita' storicizzazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "leg_stor_nota",
+            "descrizione": "Legale rappr.: nota storicizzazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "docum_tipo",
+            "descrizione": "Documento: tipo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "docum_numero",
+            "descrizione": "Documento: numero",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "docum_aut_ril",
+            "descrizione": "Documento: autorita' di rilascio",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "docum_data_ril",
+            "descrizione": "Documento: data rilascio",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "docum_data_scad",
+            "descrizione": "Documento: data scadenza",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "docum_stor_iniz",
+            "descrizione": "Documento: data inizio validita' storicizzazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "docum_stor_data",
+            "descrizione": "Documento: data fine validita' storicizzazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "docum_stor_nota",
+            "descrizione": "Documento: nota storicizzazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "pf_stato_civ",
+            "descrizione": "Persona fisica: stato civile",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "pf_tit_studio",
+            "descrizione": "Persona fisica: titolo di studio",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "pf_nazione",
+            "descrizione": "Persona fisica: nazionalita'",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "pf_qualif",
+            "descrizione": "Persona fisica: professione/qualifica",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "pf_titolo",
+            "descrizione": "Persona fisica: titolo",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "pf_stor_iniz",
+            "descrizione": "Persona fisica: data inizio validita' storicizzazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "pf_stor_data",
+            "descrizione": "Persona fisica: data fine validita' storicizzazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "pf_stor_nota",
+            "descrizione": "Persona fisica: nota storicizzazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "pg_nat_giurid",
+            "descrizione": "Persona giuridica: natura giuridica",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "pg_stato_soc",
+            "descrizione": "Persona giuridica: stato della societa'",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "pg_sit_societa",
+            "descrizione": "Persona giuridica: situazione societa'",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "pg_stor_iniz",
+            "descrizione": "Persona giuridica: data inizio validita' storicizzazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "pg_stor_data",
+            "descrizione": "Persona giuridica: data fine validita' storicizzazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "pg_stor_nota",
+            "descrizione": "Persona giuridica: nota storicizzazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "nota",
+            "descrizione": "Nota anagrafica",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "5"
+        },
+        {
+            "nome": "nota_stor_iniz",
+            "descrizione": "Nota anagrafica: data inizio validita' storicizzazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "nota_stor_data",
+            "descrizione": "Nota anagrafica: data fine validita' storicizzazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "nota_stor_nota",
+            "descrizione": "Nota anagrafica: nota storicizzazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "data_creaz",
+            "descrizione": "Data creazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "data_modif",
+            "descrizione": "Data modifica",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "utente_ult_mod",
+            "descrizione": "Utente ultima modifica",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "data_ult_mod",
+            "descrizione": "Data ora ultima modifica",
+            "tipo": "Data e ora (formato AAAAMMGG HHMMSS)"
+        }
+    ]
+}

@@ -1,0 +1,2015 @@
+openapi: "3.1.0"
+info:
+  title: Passepartout WebAPI - Canale servizi
+  version: "88201"
+  description: |-
+    Il canale `/servizi` non è RESTful: si invia sempre una POST con il comando in `cmd` e i parametri in `dati`
+    (alcuni servizi vogliono parametri allo stesso livello di `cmd`). Il token `next` di paginazione viaggia nel body,
+    accanto a `cmd`. Schemi ricavati dal manuale WebAPI v3.1: i servizi disponibili dipendono da versione e moduli.
+
+    L'upload di file usa un endpoint diverso (`POST /webapi/uploads`, multipart/form-data) e non è descritto qui.
+
+    **Servizi**
+
+    - `esec_collage_server_remoto`: Collage Server Remoto
+    - `sviluppo_distinta_base`: Sviluppo Distinta Base
+    - `avanzamento_produzione`: Avanzamento di Produzione
+    - `spezzariga_bl`: Spezza Riga Bolle di Lavorazione
+    - `condizioni_documento`: Condizioni Documento
+    - `calcolo_esposizione`: Calcolo Esposizione
+    - `get_prog_ubicazioni`: Progressivi totale Ubicazioni
+    - `totali_documento`: Totali Documento e Totali Riga
+    - `totali_riga_documento`: Totali Documento e Totali Riga
+    - `get_tabella_cap`: Località Italiane (CAP e Zone)
+    - `get_tabella_zone`: Località Italiane (CAP e Zone)
+    - `totali_nr_operazioni_contabili`: Conteggio Operazioni Contabili
+    - `leggi_pratica_dr`: Pratiche Dichiarativi
+    - `get_lista_pratiche_dr`: Pratiche Dichiarativi
+    - `get_lista_deleghe`: Deleghe Dichiarativi
+    - `cambia_stato_delega`: Deleghe Dichiarativi
+    - `get_registro_operazioni_utente`: Registro Cancellati
+    - `leggi_dichiarazione_iva_annuale`: Dichiarazioni IVA Annuali
+    - `leggi_comunicazioni_lipe`: Lettura Comunicazioni LIPE
+    - `stampa_ordine_cliente`: Stampa PDF di Documenti - Ordine cliente
+    - `stampa_ordine_fornitore`: Stampa PDF di Documenti - Ordine fornitore
+    - `stampa_preventivo`: Stampa PDF di Documenti - Preventivo
+    - `stampa_ordine_matrice`: Stampa PDF di Documenti - Ordine matrice
+    - `stampa_movimento_magazzino`: Stampa PDF di Documenti - Movimento di magazzino
+    - `ins_righe_ordine_cliente`: Inserimento Righe nei Documenti - Ordine cliente
+    - `ins_righe_ordine_fornitore`: Inserimento Righe nei Documenti - Ordine fornitore
+    - `ins_righe_preventivo`: Inserimento Righe nei Documenti - Preventivo
+    - `ins_righe_ordine_matrice`: Inserimento Righe nei Documenti - Ordine matrice
+    - `ins_righe_movimento_magazzino`: Inserimento Righe nei Documenti - Movimento di magazzino
+    - `lista_docdv`: Lista Allegati Docuvision
+    - `get_allegato_archivio`: Lettura Allegati Docuvision
+    - `get_assoc_dv`: Associazioni Docuvision
+    - `lista_strutture_mydb`: Lista Strutture MyDB
+    - `get_proprieta_numeratori`: Proprietà Numeratori
+    - `verifica_autenticazione_mydb`: Autenticazione MyDB
+    - `get_calendari_produzione`: Calendari di Produzione
+    - `get_multilotto`: Multilotto
+    - `cambia_iban_tipo_invio_delega`: Modifica IBAN e Tipo Invio
+    - `inserisci_aggiorna_iban`: Inserimento-Aggiornamento IBAN
+    - `get_storico_ordine`: Storia Ordine
+servers:
+  - url: "https://{host}:{porta}/webapi"
+    description: Installazione locale (certificato spesso self-signed)
+    variables:
+      host:
+        default: localhost
+      porta:
+        default: "9004"
+  - url: "https://services.passepartout.cloud/webapi"
+    description: "Passepartout Live (cloud): aggiungere Dominio=<DOMINIO> all'header Authorization"
+security:
+  - passepartout: []
+paths:
+  "/servizi":
+    post:
+      operationId: servizi
+      summary: Esegue un servizio del gestionale
+      parameters:
+        - $ref: "#/components/parameters/CoordinateGestionale"
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              oneOf:
+                - $ref: "#/components/schemas/ServizioEsecCollageServerRemoto"
+                - $ref: "#/components/schemas/ServizioSviluppoDistintaBase"
+                - $ref: "#/components/schemas/ServizioAvanzamentoProduzione"
+                - $ref: "#/components/schemas/ServizioSpezzarigaBl"
+                - $ref: "#/components/schemas/ServizioCondizioniDocumento"
+                - $ref: "#/components/schemas/ServizioCalcoloEsposizione"
+                - $ref: "#/components/schemas/ServizioGetProgUbicazioni"
+                - $ref: "#/components/schemas/ServizioTotaliDocumento"
+                - $ref: "#/components/schemas/ServizioTotaliRigaDocumento"
+                - $ref: "#/components/schemas/ServizioGetTabellaCap"
+                - $ref: "#/components/schemas/ServizioGetTabellaZone"
+                - $ref: "#/components/schemas/ServizioTotaliNrOperazioniContabili"
+                - $ref: "#/components/schemas/ServizioLeggiPraticaDr"
+                - $ref: "#/components/schemas/ServizioGetListaPraticheDr"
+                - $ref: "#/components/schemas/ServizioGetListaDeleghe"
+                - $ref: "#/components/schemas/ServizioCambiaStatoDelega"
+                - $ref: "#/components/schemas/ServizioGetRegistroOperazioniUtente"
+                - $ref: "#/components/schemas/ServizioLeggiDichiarazioneIvaAnnuale"
+                - $ref: "#/components/schemas/ServizioLeggiComunicazioniLipe"
+                - $ref: "#/components/schemas/ServizioStampaOrdineCliente"
+                - $ref: "#/components/schemas/ServizioStampaOrdineFornitore"
+                - $ref: "#/components/schemas/ServizioStampaPreventivo"
+                - $ref: "#/components/schemas/ServizioStampaOrdineMatrice"
+                - $ref: "#/components/schemas/ServizioStampaMovimentoMagazzino"
+                - $ref: "#/components/schemas/ServizioInsRigheOrdineCliente"
+                - $ref: "#/components/schemas/ServizioInsRigheOrdineFornitore"
+                - $ref: "#/components/schemas/ServizioInsRighePreventivo"
+                - $ref: "#/components/schemas/ServizioInsRigheOrdineMatrice"
+                - $ref: "#/components/schemas/ServizioInsRigheMovimentoMagazzino"
+                - $ref: "#/components/schemas/ServizioListaDocdv"
+                - $ref: "#/components/schemas/ServizioGetAllegatoArchivio"
+                - $ref: "#/components/schemas/ServizioGetAssocDv"
+                - $ref: "#/components/schemas/ServizioListaStruttureMydb"
+                - $ref: "#/components/schemas/ServizioGetProprietaNumeratori"
+                - $ref: "#/components/schemas/ServizioVerificaAutenticazioneMydb"
+                - $ref: "#/components/schemas/ServizioGetCalendariProduzione"
+                - $ref: "#/components/schemas/ServizioGetMultilotto"
+                - $ref: "#/components/schemas/ServizioCambiaIbanTipoInvioDelega"
+                - $ref: "#/components/schemas/ServizioInserisciAggiornaIban"
+                - $ref: "#/components/schemas/ServizioGetStoricoOrdine"
+              discriminator:
+                propertyName: cmd
+                mapping:
+                  esec_collage_server_remoto: "#/components/schemas/ServizioEsecCollageServerRemoto"
+                  sviluppo_distinta_base: "#/components/schemas/ServizioSviluppoDistintaBase"
+                  avanzamento_produzione: "#/components/schemas/ServizioAvanzamentoProduzione"
+                  spezzariga_bl: "#/components/schemas/ServizioSpezzarigaBl"
+                  condizioni_documento: "#/components/schemas/ServizioCondizioniDocumento"
+                  calcolo_esposizione: "#/components/schemas/ServizioCalcoloEsposizione"
+                  get_prog_ubicazioni: "#/components/schemas/ServizioGetProgUbicazioni"
+                  totali_documento: "#/components/schemas/ServizioTotaliDocumento"
+                  totali_riga_documento: "#/components/schemas/ServizioTotaliRigaDocumento"
+                  get_tabella_cap: "#/components/schemas/ServizioGetTabellaCap"
+                  get_tabella_zone: "#/components/schemas/ServizioGetTabellaZone"
+                  totali_nr_operazioni_contabili: "#/components/schemas/ServizioTotaliNrOperazioniContabili"
+                  leggi_pratica_dr: "#/components/schemas/ServizioLeggiPraticaDr"
+                  get_lista_pratiche_dr: "#/components/schemas/ServizioGetListaPraticheDr"
+                  get_lista_deleghe: "#/components/schemas/ServizioGetListaDeleghe"
+                  cambia_stato_delega: "#/components/schemas/ServizioCambiaStatoDelega"
+                  get_registro_operazioni_utente: "#/components/schemas/ServizioGetRegistroOperazioniUtente"
+                  leggi_dichiarazione_iva_annuale: "#/components/schemas/ServizioLeggiDichiarazioneIvaAnnuale"
+                  leggi_comunicazioni_lipe: "#/components/schemas/ServizioLeggiComunicazioniLipe"
+                  stampa_ordine_cliente: "#/components/schemas/ServizioStampaOrdineCliente"
+                  stampa_ordine_fornitore: "#/components/schemas/ServizioStampaOrdineFornitore"
+                  stampa_preventivo: "#/components/schemas/ServizioStampaPreventivo"
+                  stampa_ordine_matrice: "#/components/schemas/ServizioStampaOrdineMatrice"
+                  stampa_movimento_magazzino: "#/components/schemas/ServizioStampaMovimentoMagazzino"
+                  ins_righe_ordine_cliente: "#/components/schemas/ServizioInsRigheOrdineCliente"
+                  ins_righe_ordine_fornitore: "#/components/schemas/ServizioInsRigheOrdineFornitore"
+                  ins_righe_preventivo: "#/components/schemas/ServizioInsRighePreventivo"
+                  ins_righe_ordine_matrice: "#/components/schemas/ServizioInsRigheOrdineMatrice"
+                  ins_righe_movimento_magazzino: "#/components/schemas/ServizioInsRigheMovimentoMagazzino"
+                  lista_docdv: "#/components/schemas/ServizioListaDocdv"
+                  get_allegato_archivio: "#/components/schemas/ServizioGetAllegatoArchivio"
+                  get_assoc_dv: "#/components/schemas/ServizioGetAssocDv"
+                  lista_strutture_mydb: "#/components/schemas/ServizioListaStruttureMydb"
+                  get_proprieta_numeratori: "#/components/schemas/ServizioGetProprietaNumeratori"
+                  verifica_autenticazione_mydb: "#/components/schemas/ServizioVerificaAutenticazioneMydb"
+                  get_calendari_produzione: "#/components/schemas/ServizioGetCalendariProduzione"
+                  get_multilotto: "#/components/schemas/ServizioGetMultilotto"
+                  cambia_iban_tipo_invio_delega: "#/components/schemas/ServizioCambiaIbanTipoInvioDelega"
+                  inserisci_aggiorna_iban: "#/components/schemas/ServizioInserisciAggiornaIban"
+                  get_storico_ordine: "#/components/schemas/ServizioGetStoricoOrdine"
+      responses:
+        "200":
+          description: Esito del servizio. JSON per la maggior parte dei servizi, PDF per le stampe.
+          content:
+            "application/json":
+              schema:
+                anyOf:
+                  - $ref: "#/components/schemas/RispostaCondizioniDocumento"
+                  - $ref: "#/components/schemas/RispostaCalcoloEsposizione"
+                  - $ref: "#/components/schemas/RispostaGetProprietaNumeratori"
+                  - type: object
+                    description: Risposta di un servizio senza schema documentato.
+            "application/pdf":
+              schema:
+                type: string
+                contentMediaType: application/pdf
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+components:
+  securitySchemes:
+    passepartout:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: "Formato `Passepartout <base64(utente:password)>`. Sul cloud: `Passepartout <base64> Dominio=<DOMINIO>`. Con login di sistema operativo attivo (login=1) si aggiunge un secondo blocco `<base64(utente_so:password_so)>`."
+  parameters:
+    CoordinateGestionale:
+      name: Coordinate-Gestionale
+      in: header
+      required: true
+      description: Azienda e anno di lavoro, più sotto-azienda e magazzino di default facoltativi (magazzino 1 se omesso).
+      schema:
+        type: string
+        pattern: "^Azienda=\\S+( SottoAzienda=\\S+)? Anno=\\d{4}( Magazzino=\\d+)?$"
+        examples:
+          - "Azienda=DEM Anno=2026 Magazzino=1"
+  responses:
+    ErroreRichiesta:
+      description: "Richiesta non valida: parametri o campi errati, errore gestionale (6001), coordinate mancanti."
+      content:
+        "application/json":
+          schema:
+            $ref: "#/components/schemas/Errore"
+    NonAutorizzato:
+      description: "Credenziali assenti o errate. Attenzione: tentativi ripetuti bloccano l'utente WebAPI."
+      content:
+        "application/json":
+          schema:
+            $ref: "#/components/schemas/Errore"
+    NonTrovato:
+      description: Risorsa inesistente o path non valido (nessun body).
+    PoolEsaurito:
+      description: "Pool di 5 servizi dell'utente WebAPI esaurito: riprovare più tardi, senza retry aggressivi."
+      content:
+        "application/json":
+          schema:
+            $ref: "#/components/schemas/Errore"
+  schemas:
+    ServizioEsecCollageServerRemoto:
+      type: object
+      title: Collage Server Remoto
+      description: |-
+        Questo comando permette l’esecuzione di un Collage Server Remoto contenuto in una Passapp, esattamente come avviene con WebShaker (di fatto WebShaker è a tutti gli effetti una “costola” di WebAPI). È necessario specificare i dati necessari all’individuazione dell’etichetta Collage da eseguire all’interno della Passapp indicando codice_app, nome_collage e etichetta_collage.
+
+        - Il risultato dell’elaborazione dipende dalla logica implementata nel Collage Server Remoto.
+        - Il servizio replica il funzionamento di WebShaker per l’esecuzione di logiche custom lato server.
+      required:
+        - cmd
+        - codice_app
+        - nome_collage
+        - etichetta_collage
+      properties:
+        cmd:
+          type: string
+          const: esec_collage_server_remoto
+        codice_app:
+          type: string
+          description: Codice della Passapp contenente il Collage
+        nome_collage:
+          type: string
+          description: Nome del file Collage all’interno della Passapp
+        etichetta_collage:
+          type: string
+          description: Etichetta Collage da eseguire
+        dati:
+          type: object
+          description: Parametri del servizio.
+        next:
+          type: string
+          description: Token di paginazione ricevuto nella risposta precedente, accanto a cmd.
+      x-mexal-endpoint: "/servizi"
+    ServizioSviluppoDistintaBase:
+      type: object
+      title: Sviluppo Distinta Base
+      description: |-
+        Servizio per lo sviluppo della distinta base di un articolo. Nel caso di articolo non a taglie è necessario specificare la quantità come primo elemento dell’array quantita_taglie.
+
+        - Per articoli non a taglie, specificare la quantità come primo elemento dell’array quantita_taglie (es. [[1, 5]]).
+        - L’array quantita_taglie accetta coppie [indice, quantità] con indice da 1 a 32.
+      required:
+        - cmd
+        - dati
+      properties:
+        cmd:
+          type: string
+          const: sviluppo_distinta_base
+        dati:
+          type: object
+          description: Parametri del servizio.
+          properties:
+            codice_articolo:
+              type: string
+              description: Codice dell’articolo di cui sviluppare la distinta
+            codice_art_padre:
+              type: string
+              description: Codice articolo padre
+            codice_cliente:
+              type: string
+              description: Codice del cliente
+            data_documento:
+              type: string
+              description: Data del documento
+            codice:
+              type: number
+              description: Numero bolla
+            cod_sottobolla:
+              type: number
+              description: Numero sottobolla
+            nr_rif_pf:
+              type: number
+              description: Numero riferimento prodotto finito
+            id_riga_oc:
+              type: number
+              description: Id riga ordine
+            quantita_taglie:
+              type: array
+              description: "Array di coppie [indice_taglia, quantità] (da 1 a 32)"
+          required:
+            - codice_articolo
+        next:
+          type: string
+          description: Token di paginazione ricevuto nella risposta precedente, accanto a cmd.
+      x-mexal-endpoint: "/servizi"
+    ServizioAvanzamentoProduzione:
+      type: object
+      title: Avanzamento di Produzione
+      description: |-
+        Servizio per avanzare la produzione creando automaticamente i relativi documenti di carico (CL) e scarico (SL).
+
+        - Il campo tp_operazione accetta “S” per Scarico o “C” per Carico.
+        - Il servizio crea automaticamente i documenti CL (carico) e SL (scarico) corrispondenti.
+      required:
+        - cmd
+        - dati
+      properties:
+        cmd:
+          type: string
+          const: avanzamento_produzione
+        dati:
+          type: object
+          description: Parametri del servizio.
+          properties:
+            data_documento:
+              type: string
+              description: Data documento nel formato AAAAMMGG
+            codice:
+              type: number
+              description: Numero bolla
+            cod_sottobolla:
+              type: number
+              description: Numero sottobolla
+            nr_rif_pf:
+              type: number
+              description: Numero riferimento prodotto finito
+            tp_operazione:
+              type: string
+              description: "Tipo operazione: “S” (Scarico) o “C” (Carico)"
+            nr_fase:
+              type: number
+              description: Numero fase
+            id_lotto:
+              type: array
+              description: Array id lotti
+            qta_lotto:
+              type: array
+              description: Array quantità lotti
+            qta_agg_carico:
+              type: number
+              description: Quantità aggiuntiva carico
+            nr_colli_lotto:
+              type: array
+              description: Array numero colli lotto
+            qta_tg_lotto:
+              type: array
+              description: Array quantità taglie lotto
+            nr_decimali_qta:
+              type: array
+              description: Array numero decimali quantità
+            id_lotto_sa:
+              type: array
+              description: Array id lotti semilavorati/accessori
+            qta_lotto_sa:
+              type: array
+              description: Array quantità lotti semilavorati/accessori
+            nr_colli_lo_sa:
+              type: array
+              description: Array numero colli lotti semilavorati/accessori
+            qta_tg_lo_sa:
+              type: array
+              description: Array quantità taglie lotti semilavorati/accessori
+            nr_dev_qta_sa:
+              type: array
+              description: Array numero deviazioni quantità semilavorati/accessori
+            nr_righe_lo_sa:
+              type: array
+              description: Array numero righe lotti semilavorati/accessori
+            nr_righe_lotto:
+              type: number
+              description: Numero righe lotto
+          required:
+            - data_documento
+            - codice
+            - cod_sottobolla
+            - nr_rif_pf
+            - tp_operazione
+            - nr_fase
+        next:
+          type: string
+          description: Token di paginazione ricevuto nella risposta precedente, accanto a cmd.
+      x-mexal-endpoint: "/servizi"
+    ServizioSpezzarigaBl:
+      type: object
+      title: Spezza Riga Bolle di Lavorazione
+      description: |-
+        Funzione che permette di spezzare la quantità di riga del prodotto finito, suddividendo in due righe le quantità totali. È utilizzata per effettuare gli avanzamenti di produzione parziali. Come per lo sviluppo della distinta base, nel caso di articolo non a taglie è necessario specificare la quantità come primo elemento dell’array qta.
+
+        - Per articoli non a taglie, la quantità va specificata come primo elemento dell’array qta (es.
+      required:
+        - cmd
+        - dati
+      properties:
+        cmd:
+          type: string
+          const: spezzariga_bl
+        dati:
+          type: object
+          description: Parametri del servizio.
+          properties:
+            codice:
+              type: number
+              description: Numero bolla
+            cod_sottobolla:
+              type: number
+              description: Numero sottobolla
+            codice_pf:
+              type: string
+              description: Codice articolo prodotto finito
+            nr_rif_pf:
+              type: number
+              description: Numero riferimento prodotto finito
+            qta:
+              type: array
+              description: "Array di coppie [indice_taglia, quantità]"
+            stato_riga_orig:
+              type: string
+              description: Stato della riga di origine
+            stato_riga_dest:
+              type: string
+              description: Stato della riga di destinazione
+            solo_bl:
+              type: string
+              description: "“S” o “N” — indica se operare solo sulla bolla di lavorazione"
+          required:
+            - codice
+            - cod_sottobolla
+            - codice_pf
+            - nr_rif_pf
+            - qta
+            - stato_riga_orig
+            - stato_riga_dest
+        next:
+          type: string
+          description: Token di paginazione ricevuto nella risposta precedente, accanto a cmd.
+      x-mexal-endpoint: "/servizi"
+    ServizioCondizioniDocumento:
+      type: object
+      title: Condizioni Documento
+      description: Servizio che permette di ottenere, se presenti, prezzo, sconto e provvigione in base ai parametri impostati.
+      required:
+        - cmd
+        - dati
+      properties:
+        cmd:
+          type: string
+          const: condizioni_documento
+        dati:
+          type: object
+          description: Parametri del servizio.
+          properties:
+            tipo:
+              type: number
+              description: "1: prezzo, sconto e provvigione; 2: sconto e provvigione; 3: solo provvigione"
+            cod_conto:
+              type: string
+              description: Conto del cliente
+            codice_articolo:
+              type: string
+              description: Codice articolo
+            data_documento:
+              type: string
+              description: Data documento formato AAAAMMGG
+            sigla_documento:
+              type: string
+              description: "Sigla documento (es. “OC”)"
+            prezzo:
+              type: number
+              description: "Se impostato e tipo=1/2, viene utilizzato come base per calcolo sconti e provvigioni"
+            quantita:
+              type: number
+              description: Valore per lo scaglione delle quantità
+            coefficiente:
+              type: number
+              description: Se zero lavora in u.m. primaria dell’articolo, se valorizzato in u.m. secondaria
+            valuta:
+              type: number
+              description: Codice valuta
+            id_listino:
+              type: number
+              description: ID listino (se zero si usa il listino del cliente)
+            sconto:
+              type: string
+              description: "Se impostato e tipo=3, viene utilizzato come base per calcolo provvigioni"
+            id_cat_sconto:
+              type: number
+              description: Se impostata, viene utilizzata al posto di quella del cliente
+            id_categoria_pr:
+              type: number
+              description: Se impostata, viene utilizzata al posto di quella del cliente
+            extra:
+              type: string
+              description: Se impostato, viene utilizzato per il calcolo
+            cod_agente:
+              type: string
+              description: Se impostato, viene utilizzato questo agente per il calcolo
+          required:
+            - tipo
+            - cod_conto
+            - codice_articolo
+            - data_documento
+            - sigla_documento
+        next:
+          type: string
+          description: Token di paginazione ricevuto nella risposta precedente, accanto a cmd.
+      x-mexal-endpoint: "/servizi"
+    RispostaCondizioniDocumento:
+      type: object
+      title: Risposta condizioni_documento
+      properties:
+        prezzo:
+          type: number
+          description: Prezzo calcolato
+        sconto:
+          type: string
+          description: Sconto calcolato
+        provvigione:
+          type: number
+          description: Provvigione calcolata
+        tp_provvigione:
+          type: array
+          description: "Tipo provvigione (% o T=totale)"
+        formula_pr:
+          type: array
+          description: Formula provvigione
+        codice_agente:
+          type: array
+          description: Codici agente
+        quota_pr:
+          type: array
+          description: Quota provvigione ripartita
+        cond_agente:
+          type: array
+          description: Condizione agente
+        modalita_pr:
+          type: array
+          description: Modalità provvigione
+        base_impon_calc:
+          type: array
+          description: Base imponibile di calcolo provvigione
+        utente_ult_mod:
+          type: string
+          description: Utente ultima modifica
+        data_ult_mod:
+          type: string
+          description: Data ultima modifica
+    ServizioCalcoloEsposizione:
+      type: object
+      title: Calcolo Esposizione
+      description: Servizio che permette, dato un codice conto e una data di riferimento, di calcolare i dati relativi all’esposizione di un cliente/fornitore.
+      required:
+        - cmd
+        - dati
+      properties:
+        cmd:
+          type: string
+          const: calcolo_esposizione
+        dati:
+          type: object
+          description: Parametri del servizio.
+          properties:
+            in_codice_conto:
+              type: string
+              description: Codice conto del cliente/fornitore
+            in_alla_data:
+              type: string
+              description: Data di riferimento formato AAAAMMGG
+          required:
+            - in_codice_conto
+            - in_alla_data
+        next:
+          type: string
+          description: Token di paginazione ricevuto nella risposta precedente, accanto a cmd.
+      x-mexal-endpoint: "/servizi"
+    RispostaCalcoloEsposizione:
+      type: object
+      title: Risposta calcolo_esposizione
+      properties:
+        saldo_cli_for:
+          type: number
+          description: Saldo cliente/fornitore
+        valore_fido:
+          type: number
+          description: Valore del fido
+        val_ord_bolle:
+          type: number
+          description: Valore ordini e bolle
+        val_ord_netto:
+          type: number
+          description: Valore ordini netto
+        val_ord_iva:
+          type: number
+          description: Valore ordini con IVA
+        val_bolle_netto:
+          type: number
+          description: Valore bolle netto
+        val_bolle_iva:
+          type: number
+          description: Valore bolle con IVA
+        esposizione:
+          type: number
+          description: Esposizione calcolata
+        dt_esposizione:
+          type: string
+          description: Data di esposizione
+        valore_rischio:
+          type: number
+          description: Valore del rischio
+        fuori_fido:
+          type: number
+          description: Importo fuori fido
+        rating_assegnato:
+          type: string
+          description: Rating assegnato al cliente
+        numero_insoluti:
+          type: number
+          description: Numero insoluti
+        valore_insoluti:
+          type: number
+          description: Valore insoluti
+        fatturato_net_ap:
+          type: number
+          description: Fatturato netto anno precedente
+        fatturato_ld_ap:
+          type: number
+          description: Fatturato lordo anno precedente
+        fatturato_net_ac:
+          type: number
+          description: Fatturato netto anno corrente
+        fatturato_ld_ac:
+          type: number
+          description: Fatturato lordo anno corrente
+        dt_doc_ult_gna:
+          type: string
+          description: Data documento ultima consegna
+        doc_ult_consegna:
+          type: string
+          description: Documento ultima consegna
+    ServizioGetProgUbicazioni:
+      type: object
+      title: Progressivi totale Ubicazioni
+      description: |-
+        Servizio che permette di ottenere i progressivi di tutte le ubicazioni per tutti i magazzini (Magazzino=0) o per il singolo magazzino selezionato (Magazzino=n).
+
+        - Il magazzino deve essere impostato nell’header della request nella chiave Coordinate-
+      required:
+        - cmd
+      properties:
+        cmd:
+          type: string
+          const: get_prog_ubicazioni
+        cod_art_progr:
+          type: string
+          description: "Se vuoto ritorna il dettaglio di tutti gli articoli; se specificato un articolo ritorna il dettaglio di quell’articolo"
+        dettlotti:
+          type: boolean
+          description: Se true ritorna il dettaglio anche dei lotti
+        campi:
+          type: array
+          description: Elenco dei soli campi da restituire nella response
+        filtri:
+          type: array
+          description: Array di oggetti filtro (campo, condizione, valore)
+        dati:
+          type: object
+          description: Parametri del servizio.
+        next:
+          type: string
+          description: Token di paginazione ricevuto nella risposta precedente, accanto a cmd.
+      x-mexal-endpoint: "/servizi"
+    ServizioTotaliDocumento:
+      type: object
+      title: Totali Documento e Totali Riga
+      description: Servizi che permettono di ottenere i totali di un documento di magazzino e i totali di una singola riga. Totali Documento
+      required:
+        - cmd
+        - dati
+      properties:
+        cmd:
+          type: string
+          const: totali_documento
+        dati:
+          type: object
+          description: Parametri del servizio.
+          properties:
+            in_sigla:
+              type: string
+              description: "Sigla del documento (es. “OC”)"
+            in_serie:
+              type: number
+              description: Serie del documento
+            in_numero:
+              type: number
+              description: Numero del documento
+            in_cod_conto:
+              type: string
+              description: Codice conto
+            in_documento:
+              type: object
+              description: Oggetto con i dati completi del documento
+        next:
+          type: string
+          description: Token di paginazione ricevuto nella risposta precedente, accanto a cmd.
+      x-mexal-endpoint: "/servizi"
+    ServizioTotaliRigaDocumento:
+      type: object
+      title: Totali Documento e Totali Riga
+      description: Servizi che permettono di ottenere i totali di un documento di magazzino e i totali di una singola riga. Totali Documento
+      required:
+        - cmd
+        - dati
+      properties:
+        cmd:
+          type: string
+          const: totali_riga_documento
+        dati:
+          type: object
+          description: Parametri del servizio.
+          properties:
+            in_sigla:
+              type: string
+              description: "Sigla del documento (es. “OC”)"
+            in_serie:
+              type: number
+              description: Serie del documento
+            in_numero:
+              type: number
+              description: Numero del documento
+            in_id_riga:
+              type: number
+              description: ID della riga
+            in_modo:
+              type: number
+              description: Modalità di calcolo (1 o 2)
+            in_nr_dec_articolo:
+              type: number
+              description: "Numero decimali dell’articolo Valori di in_modo Valore Descrizione 1 Calcola per progressivi — i valori (es. quantità e importo) di riga sono in unità di misura primaria e in valuta di gestione azienda 2 Calcola per totale documento — gli stessi valori sono espressi in unità di misura secondaria (se gestita) ed in valuta del documento (se diversa da quella di valuta azienda) La differenza di metodo è relazionata alle righe in um2 (unità di misura secondaria)."
+          required:
+            - in_sigla
+            - in_serie
+            - in_numero
+            - in_id_riga
+            - in_modo
+        next:
+          type: string
+          description: Token di paginazione ricevuto nella risposta precedente, accanto a cmd.
+      x-mexal-endpoint: "/servizi"
+    ServizioGetTabellaCap:
+      type: object
+      title: Località Italiane (CAP e Zone)
+      description: "Sono due servizi separati per la lettura delle località italiane: • get_tabella_cap — per l’elenco delle province, località, CAP e comune • get_tabella_zone — per l’elenco degli indirizzi/zone get_tabella_cap"
+      required:
+        - cmd
+        - dati
+      properties:
+        cmd:
+          type: string
+          const: get_tabella_cap
+        dati:
+          type: object
+          description: "Parametri del servizio. Struttura degli elementi annidati: next (string): Token di paginazione Valori di in_tipo_ricerca Valore Descrizione Campi restituiti Filtri possibili P Elenco delle province provincia — C Elenco dei CAP provincia, cap provincia L Elenco delle località provincia, cap, località provincia, cap M Elenco dei comuni provincia, cap, localita, comune provincia, cap, comune."
+          properties:
+            in_tipo_ricerca:
+              type: string
+              description: Tipo di informazione richiesta (vedi tabella sotto)
+            in_cap:
+              type: string
+              description: Filtro per CAP
+            in_provincia:
+              type: string
+              description: Filtro per provincia
+            in_comune:
+              type: string
+              description: Filtro per comune
+            in_localita:
+              type: string
+              description: Filtro per località
+          required:
+            - in_tipo_ricerca
+        next:
+          type: string
+          description: Token di paginazione ricevuto nella risposta precedente, accanto a cmd.
+      x-mexal-endpoint: "/servizi"
+    ServizioGetTabellaZone:
+      type: object
+      title: Località Italiane (CAP e Zone)
+      description: "Sono due servizi separati per la lettura delle località italiane: • get_tabella_cap — per l’elenco delle province, località, CAP e comune • get_tabella_zone — per l’elenco degli indirizzi/zone get_tabella_cap"
+      required:
+        - cmd
+        - dati
+      properties:
+        cmd:
+          type: string
+          const: get_tabella_zone
+        dati:
+          type: object
+          description: "Parametri del servizio. Struttura degli elementi annidati: next (string): Token di paginazione."
+          properties:
+            in_cap:
+              type: string
+              description: Filtro per CAP
+            in_provincia:
+              type: string
+              description: Filtro per provincia
+        next:
+          type: string
+          description: Token di paginazione ricevuto nella risposta precedente, accanto a cmd.
+      x-mexal-endpoint: "/servizi"
+    ServizioTotaliNrOperazioniContabili:
+      type: object
+      title: Conteggio Operazioni Contabili
+      description: |-
+        Servizio che restituisce il conteggio del numero di operazioni contabili a fronte di una data di inizio e fine.
+
+        - Se in_da_data_op e in_a_data_op sono vuote vengono restituite tutte le operazioni contabili.
+      required:
+        - cmd
+        - dati
+      properties:
+        cmd:
+          type: string
+          const: totali_nr_operazioni_contabili
+        dati:
+          type: object
+          description: Parametri del servizio.
+          properties:
+            in_da_data_op:
+              type: string
+              description: Data inizio nel formato AAAAMMGG
+            in_a_data_op:
+              type: string
+              description: Data fine nel formato AAAAMMGG
+        next:
+          type: string
+          description: Token di paginazione ricevuto nella risposta precedente, accanto a cmd.
+      x-mexal-endpoint: "/servizi"
+    ServizioLeggiPraticaDr:
+      type: object
+      title: Pratiche Dichiarativi
+      description: Servizi per la lettura e il filtraggio delle pratiche dei dichiarativi. Lettura pratica dichiarativi
+      required:
+        - cmd
+        - dati
+      properties:
+        cmd:
+          type: string
+          const: leggi_pratica_dr
+        dati:
+          type: object
+          description: Parametri del servizio.
+          properties:
+            in_mod_pratica:
+              type: string
+              description: "Modello dichiarativo (es. “RPF”)"
+            in_pratica:
+              type: string
+              description: Codice pratica
+            in_interno:
+              type: string
+              description: Numero interno
+            in_tp_soggetto:
+              type: string
+              description: "Tipo soggetto (es. “D”)"
+          required:
+            - in_mod_pratica
+            - in_pratica
+            - in_interno
+        next:
+          type: string
+          description: Token di paginazione ricevuto nella risposta precedente, accanto a cmd.
+      x-mexal-endpoint: "/servizi"
+    ServizioGetListaPraticheDr:
+      type: object
+      title: Pratiche Dichiarativi
+      description: Servizi per la lettura e il filtraggio delle pratiche dei dichiarativi. Lettura pratica dichiarativi
+      required:
+        - cmd
+      properties:
+        cmd:
+          type: string
+          const: get_lista_pratiche_dr
+        dati:
+          type: object
+          description: Parametri del servizio.
+        next:
+          type: string
+          description: Token di paginazione ricevuto nella risposta precedente, accanto a cmd.
+      x-mexal-endpoint: "/servizi"
+    ServizioGetListaDeleghe:
+      type: object
+      title: Deleghe Dichiarativi
+      description: Servizi per leggere la lista delle deleghe dei pagamenti unificati F24 e per lo sblocco di deleghe sospese. Lista deleghe
+      required:
+        - cmd
+      properties:
+        cmd:
+          type: string
+          const: get_lista_deleghe
+        dati:
+          type: object
+          description: Parametri del servizio.
+        next:
+          type: string
+          description: Token di paginazione ricevuto nella risposta precedente, accanto a cmd.
+      x-mexal-endpoint: "/servizi"
+    ServizioCambiaStatoDelega:
+      type: object
+      title: Deleghe Dichiarativi
+      description: |-
+        Servizi per leggere la lista delle deleghe dei pagamenti unificati F24 e per lo sblocco di deleghe sospese. Lista deleghe
+
+        - Nell’array in_elenco_pratiche devono essere elencate le varie pratiche, e per ogni pratica nell’array in_elenco_deleghe devono essere elencati gli oggetti con i riferimenti per sbloccare la particolare delega (in_id_delega + in_numero_modulo).
+        - In caso di richieste onerose possono essere restituiti risultati parziali e viene fornita la chiave next da cui partire per completare la lettura (paginazione).
+      required:
+        - cmd
+      properties:
+        cmd:
+          type: string
+          const: cambia_stato_delega
+        dati:
+          type: object
+          description: Parametri del servizio.
+        next:
+          type: string
+          description: Token di paginazione ricevuto nella risposta precedente, accanto a cmd.
+      x-mexal-endpoint: "/servizi"
+    ServizioGetRegistroOperazioniUtente:
+      type: object
+      title: Registro Cancellati
+      description: |-
+        Servizio per la lettura dei registri con l’elenco dei record eliminati sui vari end-point.
+
+        - Al momento è possibile richiedere solo i cancellati (in_tipo_operazione = “C”).
+        - Se in_data_ric_elab viene omesso, vengono restituiti tutti i record cancellati per gli archivi specificati.
+        - Se viene inserita la data_ric_elab ritornata dall’ultima richiesta effettuata, mostrerà solo i cancellati da quel momento in poi.
+        - In caso di ripristino di dati aziendali verrà restituito un errore 400 indicando che il registro non è più consistente.
+      required:
+        - cmd
+        - dati
+      properties:
+        cmd:
+          type: string
+          const: get_registro_operazioni_utente
+        dati:
+          type: object
+          description: Parametri del servizio.
+          properties:
+            in_archivi:
+              type: array
+              description: Array con l’elenco degli end-point dei quali si vuole avere la lista dei cancellati
+            in_tipo_operazione:
+              type: string
+              description: "Tipo operazione — al momento solo “C” (cancellati)"
+            in_storico:
+              type: boolean
+              description: Se true, viene indicato se il dato cancellato è presente nello storico
+            in_data_ric_elab:
+              type: string
+              description: "Data/ora di ultima lettura (formato “AAAAMMGG HHMMSS”). Se omesso prende tutti i record End-point gestiti • articoli • alias-articoli • clienti • fornitori • prima-nota • movimenti-magazzino • scadenzario • anagrafica-unica • anagrafica-unica-storico • preventivi • ordini-clienti • indirizzi-spedizione • liste-prelievo • ubicazioni • particolarita • ordini-fornitori • ordini-matrici • lotti • distinte-base • lavorazione-bolle • impegni Informazione storico L’informazione in_storico è disponibile solo per: - Movimenti di magazzino (bolle) - Ordini clienti - Lotti su ordini clienti - Lotti su movimenti di magazzino (lotti su bolle)"
+          required:
+            - in_archivi
+            - in_tipo_operazione
+        next:
+          type: string
+          description: Token di paginazione ricevuto nella risposta precedente, accanto a cmd.
+      x-mexal-endpoint: "/servizi"
+    ServizioLeggiDichiarazioneIvaAnnuale:
+      type: object
+      title: Dichiarazioni IVA Annuali
+      description: |-
+        Servizio per richiedere la lista delle dichiarazioni IVA.
+
+        - I campi in_da_data_versamento, in_a_data_versamento, in_da_data_fine_pratica e in_a_data_fine_pratica sono facoltativi:
+      required:
+        - cmd
+        - dati
+      properties:
+        cmd:
+          type: string
+          const: leggi_dichiarazione_iva_annuale
+        dati:
+          type: object
+          description: Parametri del servizio.
+          properties:
+            in_da_azienda:
+              type: string
+              description: Sigla azienda di inizio range
+            in_a_azienda:
+              type: string
+              description: Sigla azienda di fine range
+            in_da_data_versamento:
+              type: string
+              description: Data versamento iniziale (AAAAMMGG)
+            in_a_data_versamento:
+              type: string
+              description: Data versamento finale (AAAAMMGG)
+            in_da_data_fine_pratica:
+              type: string
+              description: Data fine pratica iniziale (AAAAMMGG)
+            in_a_data_fine_pratica:
+              type: string
+              description: Data fine pratica finale (AAAAMMGG)
+          required:
+            - in_da_azienda
+            - in_a_azienda
+        next:
+          type: string
+          description: Token di paginazione ricevuto nella risposta precedente, accanto a cmd.
+      x-mexal-endpoint: "/servizi"
+    ServizioLeggiComunicazioniLipe:
+      type: object
+      title: Lettura Comunicazioni LIPE
+      description: |-
+        Servizio per richiedere la lettura delle dichiarazioni LIPE (Liquidazioni Periodiche IVA).
+
+        - I campi in_da_data_versamento, in_a_data_versamento e in_trimestre sono facoltativi:
+      required:
+        - cmd
+        - dati
+      properties:
+        cmd:
+          type: string
+          const: leggi_comunicazioni_lipe
+        dati:
+          type: object
+          description: Parametri del servizio.
+          properties:
+            in_da_azienda:
+              type: string
+              description: Sigla azienda di inizio range
+            in_a_azienda:
+              type: string
+              description: Sigla azienda di fine range
+            in_da_data_versamento:
+              type: string
+              description: Data versamento iniziale (AAAAMMGG)
+            in_a_data_versamento:
+              type: string
+              description: Data versamento finale (AAAAMMGG)
+            in_trimestre:
+              type: number
+              description: "Trimestre (1, 2, 3, 4, -1 = tutti). Se omesso ritorna tutti i trimestri"
+          required:
+            - in_da_azienda
+            - in_a_azienda
+        next:
+          type: string
+          description: Token di paginazione ricevuto nella risposta precedente, accanto a cmd.
+      x-mexal-endpoint: "/servizi"
+    ServizioStampaOrdineCliente:
+      type: object
+      title: Stampa PDF di Documenti - Ordine cliente
+      description: |-
+        Servizi che lanciano una stampa PDF lato server del documento specificato nei campi chiave. Il risultato viene tornato nella response con content-type application/pdf.
+
+        - Il campo cod_conto è obbligatorio solo per i movimenti di magazzino.
+        - Il campo cod_modulo è facoltativo e permette di specificare un modulo di stampa personalizzato.
+        - Il risultato è un PDF generato lato server.
+      required:
+        - cmd
+        - dati
+      properties:
+        cmd:
+          type: string
+          const: stampa_ordine_cliente
+        dati:
+          type: object
+          description: Parametri del servizio.
+          properties:
+            sigla:
+              type: string
+              description: Sigla del documento
+            serie:
+              type: number
+              description: Serie del documento
+            numero:
+              type: number
+              description: Numero del documento
+            cod_conto:
+              type: string
+              description: "Codice conto — obbligatorio solo per i movimenti di magazzino"
+            cod_modulo:
+              type: string
+              description: Codice modulo di stampa personalizzato
+          required:
+            - sigla
+            - serie
+            - numero
+        next:
+          type: string
+          description: Token di paginazione ricevuto nella risposta precedente, accanto a cmd.
+      x-mexal-endpoint: "/servizi"
+    ServizioStampaOrdineFornitore:
+      type: object
+      title: Stampa PDF di Documenti - Ordine fornitore
+      description: |-
+        Servizi che lanciano una stampa PDF lato server del documento specificato nei campi chiave. Il risultato viene tornato nella response con content-type application/pdf.
+
+        - Il campo cod_conto è obbligatorio solo per i movimenti di magazzino.
+        - Il campo cod_modulo è facoltativo e permette di specificare un modulo di stampa personalizzato.
+        - Il risultato è un PDF generato lato server.
+      required:
+        - cmd
+        - dati
+      properties:
+        cmd:
+          type: string
+          const: stampa_ordine_fornitore
+        dati:
+          type: object
+          description: Parametri del servizio.
+          properties:
+            sigla:
+              type: string
+              description: Sigla del documento
+            serie:
+              type: number
+              description: Serie del documento
+            numero:
+              type: number
+              description: Numero del documento
+            cod_conto:
+              type: string
+              description: "Codice conto — obbligatorio solo per i movimenti di magazzino"
+            cod_modulo:
+              type: string
+              description: Codice modulo di stampa personalizzato
+          required:
+            - sigla
+            - serie
+            - numero
+        next:
+          type: string
+          description: Token di paginazione ricevuto nella risposta precedente, accanto a cmd.
+      x-mexal-endpoint: "/servizi"
+    ServizioStampaPreventivo:
+      type: object
+      title: Stampa PDF di Documenti - Preventivo
+      description: |-
+        Servizi che lanciano una stampa PDF lato server del documento specificato nei campi chiave. Il risultato viene tornato nella response con content-type application/pdf.
+
+        - Il campo cod_conto è obbligatorio solo per i movimenti di magazzino.
+        - Il campo cod_modulo è facoltativo e permette di specificare un modulo di stampa personalizzato.
+        - Il risultato è un PDF generato lato server.
+      required:
+        - cmd
+        - dati
+      properties:
+        cmd:
+          type: string
+          const: stampa_preventivo
+        dati:
+          type: object
+          description: Parametri del servizio.
+          properties:
+            sigla:
+              type: string
+              description: Sigla del documento
+            serie:
+              type: number
+              description: Serie del documento
+            numero:
+              type: number
+              description: Numero del documento
+            cod_conto:
+              type: string
+              description: "Codice conto — obbligatorio solo per i movimenti di magazzino"
+            cod_modulo:
+              type: string
+              description: Codice modulo di stampa personalizzato
+          required:
+            - sigla
+            - serie
+            - numero
+        next:
+          type: string
+          description: Token di paginazione ricevuto nella risposta precedente, accanto a cmd.
+      x-mexal-endpoint: "/servizi"
+    ServizioStampaOrdineMatrice:
+      type: object
+      title: Stampa PDF di Documenti - Ordine matrice
+      description: |-
+        Servizi che lanciano una stampa PDF lato server del documento specificato nei campi chiave. Il risultato viene tornato nella response con content-type application/pdf.
+
+        - Il campo cod_conto è obbligatorio solo per i movimenti di magazzino.
+        - Il campo cod_modulo è facoltativo e permette di specificare un modulo di stampa personalizzato.
+        - Il risultato è un PDF generato lato server.
+      required:
+        - cmd
+        - dati
+      properties:
+        cmd:
+          type: string
+          const: stampa_ordine_matrice
+        dati:
+          type: object
+          description: Parametri del servizio.
+          properties:
+            sigla:
+              type: string
+              description: Sigla del documento
+            serie:
+              type: number
+              description: Serie del documento
+            numero:
+              type: number
+              description: Numero del documento
+            cod_conto:
+              type: string
+              description: "Codice conto — obbligatorio solo per i movimenti di magazzino"
+            cod_modulo:
+              type: string
+              description: Codice modulo di stampa personalizzato
+          required:
+            - sigla
+            - serie
+            - numero
+        next:
+          type: string
+          description: Token di paginazione ricevuto nella risposta precedente, accanto a cmd.
+      x-mexal-endpoint: "/servizi"
+    ServizioStampaMovimentoMagazzino:
+      type: object
+      title: Stampa PDF di Documenti - Movimento di magazzino
+      description: |-
+        Servizi che lanciano una stampa PDF lato server del documento specificato nei campi chiave. Il risultato viene tornato nella response con content-type application/pdf.
+
+        - Il campo cod_conto è obbligatorio solo per i movimenti di magazzino.
+        - Il campo cod_modulo è facoltativo e permette di specificare un modulo di stampa personalizzato.
+        - Il risultato è un PDF generato lato server.
+      required:
+        - cmd
+        - dati
+      properties:
+        cmd:
+          type: string
+          const: stampa_movimento_magazzino
+        dati:
+          type: object
+          description: Parametri del servizio.
+          properties:
+            sigla:
+              type: string
+              description: Sigla del documento
+            serie:
+              type: number
+              description: Serie del documento
+            numero:
+              type: number
+              description: Numero del documento
+            cod_conto:
+              type: string
+              description: "Codice conto — obbligatorio solo per i movimenti di magazzino"
+            cod_modulo:
+              type: string
+              description: Codice modulo di stampa personalizzato
+          required:
+            - sigla
+            - serie
+            - numero
+        next:
+          type: string
+          description: Token di paginazione ricevuto nella risposta precedente, accanto a cmd.
+      x-mexal-endpoint: "/servizi"
+    ServizioInsRigheOrdineCliente:
+      type: object
+      title: Inserimento Righe nei Documenti - Ordine cliente
+      description: |-
+        Dato che l’inserimento di nuove righe a seguito di una PUT o anche in fase di trasformazione con POST non restituisce l’id delle righe appena create, è stato inserito un servizio dedicato al solo inserimento di nuove righe all’interno di un documento.
+
+        - Per i documenti di tipo ordine e preventivo i campi chiave sono solo sigla, serie e numero.
+        - Per i documenti di tipo movimenti di magazzino bisogna fornire anche il codice del conto
+      required:
+        - cmd
+        - dati
+      properties:
+        cmd:
+          type: string
+          const: ins_righe_ordine_cliente
+        dati:
+          type: object
+          description: Parametri del servizio.
+          properties:
+            sigla:
+              type: string
+              description: Sigla del documento
+            serie:
+              type: number
+              description: Serie del documento
+            numero:
+              type: number
+              description: Numero del documento
+            cod_conto:
+              type: string
+              description: "Codice conto — solo per movimenti di magazzino"
+            id_riga:
+              type: array
+              description: "Array di coppie [posizione, 0]"
+            tp_riga:
+              type: array
+              description: "Array di coppie [posizione, tipo_riga]"
+            codice_articolo:
+              type: array
+              description: "Array di coppie [posizione, codice]"
+            quantita:
+              type: array
+              description: "Array di coppie [posizione, quantità]"
+            cod_iva:
+              type: array
+              description: "Array di coppie [posizione, codice_iva]"
+            id_mag_riga:
+              type: array
+              description: "Array di coppie [posizione, id_magazzino] — per ordini"
+            id_magazzino:
+              type: number
+              description: "ID magazzino di testata — per movimenti di magazzino"
+          required:
+            - sigla
+            - serie
+            - numero
+            - id_riga
+            - tp_riga
+            - codice_articolo
+            - quantita
+            - cod_iva
+        next:
+          type: string
+          description: Token di paginazione ricevuto nella risposta precedente, accanto a cmd.
+      x-mexal-endpoint: "/servizi"
+    ServizioInsRigheOrdineFornitore:
+      type: object
+      title: Inserimento Righe nei Documenti - Ordine fornitore
+      description: |-
+        Dato che l’inserimento di nuove righe a seguito di una PUT o anche in fase di trasformazione con POST non restituisce l’id delle righe appena create, è stato inserito un servizio dedicato al solo inserimento di nuove righe all’interno di un documento.
+
+        - Per i documenti di tipo ordine e preventivo i campi chiave sono solo sigla, serie e numero.
+        - Per i documenti di tipo movimenti di magazzino bisogna fornire anche il codice del conto
+      required:
+        - cmd
+        - dati
+      properties:
+        cmd:
+          type: string
+          const: ins_righe_ordine_fornitore
+        dati:
+          type: object
+          description: Parametri del servizio.
+          properties:
+            sigla:
+              type: string
+              description: Sigla del documento
+            serie:
+              type: number
+              description: Serie del documento
+            numero:
+              type: number
+              description: Numero del documento
+            cod_conto:
+              type: string
+              description: "Codice conto — solo per movimenti di magazzino"
+            id_riga:
+              type: array
+              description: "Array di coppie [posizione, 0]"
+            tp_riga:
+              type: array
+              description: "Array di coppie [posizione, tipo_riga]"
+            codice_articolo:
+              type: array
+              description: "Array di coppie [posizione, codice]"
+            quantita:
+              type: array
+              description: "Array di coppie [posizione, quantità]"
+            cod_iva:
+              type: array
+              description: "Array di coppie [posizione, codice_iva]"
+            id_mag_riga:
+              type: array
+              description: "Array di coppie [posizione, id_magazzino] — per ordini"
+            id_magazzino:
+              type: number
+              description: "ID magazzino di testata — per movimenti di magazzino"
+          required:
+            - sigla
+            - serie
+            - numero
+            - id_riga
+            - tp_riga
+            - codice_articolo
+            - quantita
+            - cod_iva
+        next:
+          type: string
+          description: Token di paginazione ricevuto nella risposta precedente, accanto a cmd.
+      x-mexal-endpoint: "/servizi"
+    ServizioInsRighePreventivo:
+      type: object
+      title: Inserimento Righe nei Documenti - Preventivo
+      description: |-
+        Dato che l’inserimento di nuove righe a seguito di una PUT o anche in fase di trasformazione con POST non restituisce l’id delle righe appena create, è stato inserito un servizio dedicato al solo inserimento di nuove righe all’interno di un documento.
+
+        - Per i documenti di tipo ordine e preventivo i campi chiave sono solo sigla, serie e numero.
+        - Per i documenti di tipo movimenti di magazzino bisogna fornire anche il codice del conto
+      required:
+        - cmd
+        - dati
+      properties:
+        cmd:
+          type: string
+          const: ins_righe_preventivo
+        dati:
+          type: object
+          description: Parametri del servizio.
+          properties:
+            sigla:
+              type: string
+              description: Sigla del documento
+            serie:
+              type: number
+              description: Serie del documento
+            numero:
+              type: number
+              description: Numero del documento
+            cod_conto:
+              type: string
+              description: "Codice conto — solo per movimenti di magazzino"
+            id_riga:
+              type: array
+              description: "Array di coppie [posizione, 0]"
+            tp_riga:
+              type: array
+              description: "Array di coppie [posizione, tipo_riga]"
+            codice_articolo:
+              type: array
+              description: "Array di coppie [posizione, codice]"
+            quantita:
+              type: array
+              description: "Array di coppie [posizione, quantità]"
+            cod_iva:
+              type: array
+              description: "Array di coppie [posizione, codice_iva]"
+            id_mag_riga:
+              type: array
+              description: "Array di coppie [posizione, id_magazzino] — per ordini"
+            id_magazzino:
+              type: number
+              description: "ID magazzino di testata — per movimenti di magazzino"
+          required:
+            - sigla
+            - serie
+            - numero
+            - id_riga
+            - tp_riga
+            - codice_articolo
+            - quantita
+            - cod_iva
+        next:
+          type: string
+          description: Token di paginazione ricevuto nella risposta precedente, accanto a cmd.
+      x-mexal-endpoint: "/servizi"
+    ServizioInsRigheOrdineMatrice:
+      type: object
+      title: Inserimento Righe nei Documenti - Ordine matrice
+      description: |-
+        Dato che l’inserimento di nuove righe a seguito di una PUT o anche in fase di trasformazione con POST non restituisce l’id delle righe appena create, è stato inserito un servizio dedicato al solo inserimento di nuove righe all’interno di un documento.
+
+        - Per i documenti di tipo ordine e preventivo i campi chiave sono solo sigla, serie e numero.
+        - Per i documenti di tipo movimenti di magazzino bisogna fornire anche il codice del conto
+      required:
+        - cmd
+        - dati
+      properties:
+        cmd:
+          type: string
+          const: ins_righe_ordine_matrice
+        dati:
+          type: object
+          description: Parametri del servizio.
+          properties:
+            sigla:
+              type: string
+              description: Sigla del documento
+            serie:
+              type: number
+              description: Serie del documento
+            numero:
+              type: number
+              description: Numero del documento
+            cod_conto:
+              type: string
+              description: "Codice conto — solo per movimenti di magazzino"
+            id_riga:
+              type: array
+              description: "Array di coppie [posizione, 0]"
+            tp_riga:
+              type: array
+              description: "Array di coppie [posizione, tipo_riga]"
+            codice_articolo:
+              type: array
+              description: "Array di coppie [posizione, codice]"
+            quantita:
+              type: array
+              description: "Array di coppie [posizione, quantità]"
+            cod_iva:
+              type: array
+              description: "Array di coppie [posizione, codice_iva]"
+            id_mag_riga:
+              type: array
+              description: "Array di coppie [posizione, id_magazzino] — per ordini"
+            id_magazzino:
+              type: number
+              description: "ID magazzino di testata — per movimenti di magazzino"
+          required:
+            - sigla
+            - serie
+            - numero
+            - id_riga
+            - tp_riga
+            - codice_articolo
+            - quantita
+            - cod_iva
+        next:
+          type: string
+          description: Token di paginazione ricevuto nella risposta precedente, accanto a cmd.
+      x-mexal-endpoint: "/servizi"
+    ServizioInsRigheMovimentoMagazzino:
+      type: object
+      title: Inserimento Righe nei Documenti - Movimento di magazzino
+      description: |-
+        Dato che l’inserimento di nuove righe a seguito di una PUT o anche in fase di trasformazione con POST non restituisce l’id delle righe appena create, è stato inserito un servizio dedicato al solo inserimento di nuove righe all’interno di un documento.
+
+        - Per i documenti di tipo ordine e preventivo i campi chiave sono solo sigla, serie e numero.
+        - Per i documenti di tipo movimenti di magazzino bisogna fornire anche il codice del conto
+      required:
+        - cmd
+        - dati
+      properties:
+        cmd:
+          type: string
+          const: ins_righe_movimento_magazzino
+        dati:
+          type: object
+          description: Parametri del servizio.
+          properties:
+            sigla:
+              type: string
+              description: Sigla del documento
+            serie:
+              type: number
+              description: Serie del documento
+            numero:
+              type: number
+              description: Numero del documento
+            cod_conto:
+              type: string
+              description: "Codice conto — solo per movimenti di magazzino"
+            id_riga:
+              type: array
+              description: "Array di coppie [posizione, 0]"
+            tp_riga:
+              type: array
+              description: "Array di coppie [posizione, tipo_riga]"
+            codice_articolo:
+              type: array
+              description: "Array di coppie [posizione, codice]"
+            quantita:
+              type: array
+              description: "Array di coppie [posizione, quantità]"
+            cod_iva:
+              type: array
+              description: "Array di coppie [posizione, codice_iva]"
+            id_mag_riga:
+              type: array
+              description: "Array di coppie [posizione, id_magazzino] — per ordini"
+            id_magazzino:
+              type: number
+              description: "ID magazzino di testata — per movimenti di magazzino"
+          required:
+            - sigla
+            - serie
+            - numero
+            - id_riga
+            - tp_riga
+            - codice_articolo
+            - quantita
+            - cod_iva
+        next:
+          type: string
+          description: Token di paginazione ricevuto nella risposta precedente, accanto a cmd.
+      x-mexal-endpoint: "/servizi"
+    ServizioListaDocdv:
+      type: object
+      title: Lista Allegati Docuvision
+      description: |-
+        Servizio che permette di ottenere la lista di tutti gli allegati Docuvision. È possibile filtrare i risultati tramite l’elemento filtri e selezionare i soli campi che si vogliono leggere tramite l’elemento campi (come avviene per gli end-point REST).
+
+        - Il parametro numerico in_classe deve essere sempre indicato.
+        - Il parametro in_allegati è opzionale (default “T”):
+      required:
+        - cmd
+        - dati
+      properties:
+        cmd:
+          type: string
+          const: lista_docdv
+        dati:
+          type: object
+          description: "Parametri del servizio. Struttura degli elementi annidati: campi (array): Elenco dei soli campi da restituire; filtri (array): Array di oggetti filtro (campo, condizione, valore) Tabella Classi Docuvision classe_dv Descrizione 1 Stampa generica 100 Anagrafica nominativi 200 Bilanci 400 Anagrafica Cliente/Fornitore 600 Operazione contabile 800 Dichiarativi/Versamenti 900 Stampe Fiscali 1000 Agenda di lavoro 1100 Parcella/Notula 1200 Anagrafica articolo 1400 Movimento di magazzino 1450 Controllo di gestione 1500 Ordine/Preventivo/Matrice 1600 Bolla di lavorazione 1700 Anagrafiche MyDB Parametri di filtro per classe Oltre ai filtri sui campi dell’archivio è possibile specificare nell’oggetto dati anche ulteriori parametri di filtro. I parametri di filtro sono gli stessi che, da gestionale in Docuvision → Gestione documento, compaiono nella maschera “Parametri su classe” (F2, scelta della classe e poi F7). Classe 1 — Stampa generica Tipo Nome Variabile STR in_stpg_menu STR in_stpg_op_menu STR in_stpg_nota STR in_stpg_op_nota Classe 100 — Anagrafica nominativi Tipo Nome Variabile STR in_nomi_tp_allega DAT in_nomi_dt_da DAT in_nomi_dt_a Classe 200 — Bilanci Tipo Nome Variabile NUM in_bila_anno STR in_bila_tipo STR in_bila_autore STR in_bila_op_autore Classe 400 — Anagrafica Cliente/Fornitore Tipo Nome Variabile STR in_pico_tp_conto STR in_pico_cod_conto STR in_pico_cod_alt STR in_pico_op_cod_alt STR in_pico_nome_ric STR in_pico_op_nome_ric STR in_pico_prv NUM in_pico_zona NUM in_pico_catsta Classe 600 — Operazione contabile Tipo Nome Variabile NUM in_prn_sotto_az DAT in_prn_dt_regis STR in_prn_cau STR in_prn_desc_testa STR in_prn_op_desc_testa STR in_prn_tp_rstro NUM in_prn_serie_prot NUM in_prn_nr_prot NUM in_prn_nr_doc DAT in_prn_dt_doc STR in_prn_tp_invio Classe 800 — Dichiarativi/Versamenti Tipo Nome Variabile NUM in_dicv_anno STR in_dicv_dich STR in_dicv_tp_doc STR in_dicv_sgl_prat STR in_dicv_interno STR in_dicv_dich_coniuge STR in_dicv_tp_allega Classe 900 — Stampe Fiscali Tipo Nome Variabile NUM in_stpf_anno STR in_stpf_doc STR in_stpf_tp_doc STR in_stpf_op_tp_doc STR in_stpf_crit_sel STR in_stpf_op_crit_sel Classe 1000 — Agenda di lavoro Tipo Nome Variabile STR in_agen_stato DAT in_agen_dt_lavoro STR in_agen_cod_conto STR in_agen_prest STR in_agen_op_prest Classe 1100 — Parcella/Notula Tipo Nome Variabile NUM in_notp_sotto_az STR in_notp_tp_doc NUM in_notp_serie NUM in_notp_numero DAT in_notp_dt_doc STR in_notp_cod_conto STR in_notp_note STR in_notp_op_note Classe 1200 — Anagrafica articolo Tipo Nome Variabile STR in_arti_cod STR in_arti_op_cod STR in_arti_desc STR in_arti_op_desc STR in_arti_cod_alt STR in_arti_op_cod_alt STR in_arti_catsta STR in_arti_tp_allega Classe 1400 — Movimento di magazzino Tipo Nome Variabile NUM in_mm_sotto_az STR in_mm_sigla NUM in_mm_serie NUM in_mm_numero DAT in_mm_dt_doc NUM in_mm_anno_solare STR in_mm_cod_conto NUM in_mm_zona NUM in_mm_catsta STR in_mm_note STR in_mm_op_note Classe 1450 — Controllo di gestione Tipo Nome Variabile STR in_cdg_tp_anag Analitici: Tipo Nome Variabile STR in_cdg_a_cod STR in_cdg_a_tp STR in_cdg_a_natura STR in_cdg_a_qualita Commesse: Tipo Nome Variabile STR in_cdg_c_cod STR in_cdg_c_padre STR in_cdg_c_tp STR in_cdg_c_respons STR in_cdg_c_zona NUM in_cdg_c_cli NUM in_cdg_c_dest_merce NUM in_cdg_c_age Aree: Tipo Nome Variabile STR in_cdg_r_cod STR in_cdg_r_padre STR in_cdg_r_tp STR in_cdg_r_respons STR in_cdg_r_zona Classe 1500 — Ordine/Preventivo/Matrice Tipo Nome Variabile NUM in_ordi_sotto_az STR in_ordi_sigla NUM in_ordi_serie NUM in_ordi_numero DAT in_ordi_dt_doc STR in_ordi_cod_conto STR in_ordi_note STR in_ordi_op_note Classe 1600 — Bolla di lavorazione Tipo Nome Variabile NUM in_blav_cod STR in_blav_cod_sottobl DAT in_blav_dt_bolla STR in_blav_cod_conto STR in_blav_nota STR in_blav_op_nota."
+          properties:
+            in_classe:
+              type: number
+              description: Classe del documento (vedi tabella classi)
+            in_allegati:
+              type: string
+              description: "“S” = solo allegati, “N” = solo non allegati, “T” = tutti (default)"
+            in_gest_dv_dr:
+              type: string
+              description: "“S” = usa il DB dei redditi, “N” = DB aziendale"
+          required:
+            - in_classe
+        next:
+          type: string
+          description: Token di paginazione ricevuto nella risposta precedente, accanto a cmd.
+      x-mexal-endpoint: "/servizi"
+    ServizioGetAllegatoArchivio:
+      type: object
+      title: Lettura Allegati Docuvision
+      description: |-
+        Tramite questo servizio è possibile, per ogni archivio del gestionale, leggere i documenti allegati. Gli allegati vengono restituiti in un multipart/form-data in formato RAW ognuno evidenziato con il proprio Content-Type (es. application/pdf, image/jpg, etc.) come da RFC 1341.
+
+        - La response è di tipo multipart/form-data con ogni allegato evidenziato con il proprio
+      required:
+        - cmd
+        - dati
+      properties:
+        cmd:
+          type: string
+          const: get_allegato_archivio
+        dati:
+          type: object
+          description: "Parametri del servizio. Struttura degli elementi annidati: next (string): Token di paginazione Mutua esclusività dei parametri • I campi codice e id_dv sono mutuamente esclusivi. • Nel caso numero_versione_dv > 0 è obbligatorio specificare anche id_dv. Tabella Classi Docuvision classe_dv Descrizione 1 Stampa generica 100 Anagrafica nominativi 200 Bilanci 400 Anagrafica Cliente/Fornitore 600 Operazione contabile 800 Dichiarativi/Versamenti 900 Stampe Fiscali 1000 Agenda di lavoro 1100 Parcella/Notula 1200 Anagrafica articolo 1400 Movimento di magazzino 1450 Controllo di gestione 1500 Ordine/Preventivo/Matrice 1600 Bolla di lavorazione 1700 Anagrafiche MyDB."
+          properties:
+            tipo:
+              type: string
+              description: "Tipo di allegato richiesto (al momento solo “docuvision”)"
+            codice:
+              type: string
+              description: "Codice dell’entità di cui si vogliono leggere gli allegati (non valorizzare se id_dv > 0)"
+            classe_dv:
+              type: number
+              description: Classe del documento Docuvision
+            id_dv:
+              type: number
+              description: ID del particolare documento (0 o omesso se codice è valorizzato)
+            numero_versione_dv:
+              type: number
+              description: "Versione del documento: -1 = tutte, 0 = ultima, >0 = specifica"
+          required:
+            - tipo
+            - classe_dv
+        next:
+          type: string
+          description: Token di paginazione ricevuto nella risposta precedente, accanto a cmd.
+      x-mexal-endpoint: "/servizi"
+    ServizioGetAssocDv:
+      type: object
+      title: Associazioni Docuvision
+      description: |-
+        Tramite questo servizio è possibile leggere le associazioni fra il documento Docuvision e le entità del gestionale in cui è stato allegato.
+
+        - I campi codice/classe e id possono essere usati in combinazione per restringere la ricerca.
+        - Se codice è valorizzato, è obbligatorio specificare anche la relativa classe.
+      required:
+        - cmd
+        - dati
+      properties:
+        cmd:
+          type: string
+          const: get_assoc_dv
+        dati:
+          type: object
+          description: Parametri del servizio.
+          properties:
+            codice:
+              type: string
+              description: Codice dell’entità (se valorizzato, è obbligatorio specificare anche la relativa classe)
+            classe:
+              type: number
+              description: Classe dell’entità in cui il documento è allegato
+            id:
+              type: number
+              description: ID del particolare documento (può essere 0 o omesso se codice è valorizzato)
+        next:
+          type: string
+          description: Token di paginazione ricevuto nella risposta precedente, accanto a cmd.
+      x-mexal-endpoint: "/servizi"
+    ServizioListaStruttureMydb:
+      type: object
+      title: Lista Strutture MyDB
+      description: |-
+        Tramite questo servizio è possibile leggere e filtrare tutta la lista delle strutture MyDB presenti sui vari archivi.
+
+        - Nell’elemento campi possono essere indicati gli unici campi che si vogliono ottenere in risposta.
+        - Nell’elemento filtri possono essere specificati dei filtri con le stesse condizioni usate per gli end-point REST.
+        - Se info_campi=true viene mostrato l’help in linea di tutti i campi che compongono la struttura.
+      required:
+        - cmd
+      properties:
+        cmd:
+          type: string
+          const: lista_strutture_mydb
+        info_campi:
+          type: boolean
+          description: Se true, viene mostrato l’help in linea di tutti i campi che compongono la struttura
+        campi:
+          type: array
+          description: Elenco dei soli campi da restituire nella response
+        filtri:
+          type: array
+          description: "Array di oggetti filtro con le stesse condizioni usate per gli end- point REST Sintassi per campi e filtri Per indicare i campi negli elementi campi o filtri bisogna specificare il percorso completo del campo di interesse all’interno della struttura JSON usando i : come separatore. Ad esempio, per usare il campo codice_campo all’interno della collection elenco_campi: lista_strutture_mydb:elenco_campi:codice_campo"
+        dati:
+          type: object
+          description: Parametri del servizio.
+        next:
+          type: string
+          description: Token di paginazione ricevuto nella risposta precedente, accanto a cmd.
+      x-mexal-endpoint: "/servizi"
+    ServizioGetProprietaNumeratori:
+      type: object
+      title: Proprietà Numeratori
+      description: |-
+        Tramite questo servizio è possibile ottenere, per ogni tipo documento, la propria gestione dei numeratori.
+
+        - I campi in_cod_fornitore e in_tipo_documento_el sono necessari esclusivamente per documenti di tipo FF (fatture fornitore).
+      required:
+        - cmd
+        - dati
+      properties:
+        cmd:
+          type: string
+          const: get_proprieta_numeratori
+        dati:
+          type: object
+          description: Parametri del servizio.
+          properties:
+            in_sigla:
+              type: string
+              description: Sigla del documento di cui si vogliono le informazioni
+            in_cod_fornitore:
+              type: string
+              description: "Codice del fornitore — necessario esclusivamente per documenti di tipo FF"
+            in_tipo_documento_el:
+              type: string
+              description: "Tipo del documento elettronico — necessario esclusivamente per documenti di tipo FF"
+          required:
+            - in_sigla
+        next:
+          type: string
+          description: Token di paginazione ricevuto nella risposta precedente, accanto a cmd.
+      x-mexal-endpoint: "/servizi"
+    RispostaGetProprietaNumeratori:
+      type: object
+      title: Risposta get_proprieta_numeratori
+      properties:
+        max_serie:
+          type: number
+          description: Numero massimo di serie gestite
+        max_numero_documento:
+          type: number
+          description: Valore massimo del numeratore
+        gest_numerazione_automatica:
+          type: string
+          description: "“S” o “N” — indica se gestisce la numerazione automatica"
+    ServizioVerificaAutenticazioneMydb:
+      type: object
+      title: Autenticazione MyDB
+      description: |-
+        Per i soli campi degli archivi MyDB etichettati come “Aut” è possibile gestire l’autenticazione tramite questo servizio. Il servizio funziona esclusivamente per coppie di credenziali utente+password, quindi se un archivio MyDB contiene più di 2 campi etichettati come “Aut” nel servizio è necessario specificare quali sono i campi sui quali si vuole verificare l’autenticazione.
+
+        - È possibile specificare il record specifico su cui fare il controllo tramite in_id: se viene omesso, il controllo viene fatto su tutti i record e restituisce esito positivo alla prima coppia di credenziali verificata.
+        - Il servizio funziona esclusivamente per coppie di credenziali (login + password).
+      required:
+        - cmd
+        - dati
+      properties:
+        cmd:
+          type: string
+          const: verifica_autenticazione_mydb
+        dati:
+          type: object
+          description: Parametri del servizio.
+          properties:
+            in_codice_archivio:
+              type: string
+              description: Archivio MyDB contenente i campi di autenticazione
+            in_nomecampo_login:
+              type: string
+              description: "Campo dell’archivio MyDB designato come campo “username”"
+            in_login_value:
+              type: string
+              description: Username necessario per l’autenticazione
+            in_nomecampo_password:
+              type: string
+              description: "Campo dell’archivio MyDB designato come campo “password”"
+            in_password_value:
+              type: string
+              description: Password associata allo username
+            in_id:
+              type: number
+              description: ID del record dell’archivio MyDB per il quale si deve verificare l’autenticazione
+          required:
+            - in_codice_archivio
+            - in_nomecampo_login
+            - in_login_value
+            - in_nomecampo_password
+            - in_password_value
+        next:
+          type: string
+          description: Token di paginazione ricevuto nella risposta precedente, accanto a cmd.
+      x-mexal-endpoint: "/servizi"
+    ServizioGetCalendariProduzione:
+      type: object
+      title: Calendari di Produzione
+      description: |-
+        Il servizio restituisce la lista di tutti i calendari configurati su Mexal in Produzione → Tabelle → Calendari produzione (Alt+PKA). Disponibile solo per aziende di livello produzione o superiore.
+
+        - Il servizio è disponibile solo per aziende di livello produzione o superiore.
+        - Non richiede parametri aggiuntivi nel campo dati.
+      required:
+        - cmd
+      properties:
+        cmd:
+          type: string
+          const: get_calendari_produzione
+        dati:
+          type: object
+          description: Parametri del servizio.
+        next:
+          type: string
+          description: Token di paginazione ricevuto nella risposta precedente, accanto a cmd.
+      x-mexal-endpoint: "/servizi"
+    ServizioGetMultilotto:
+      type: object
+      title: Multilotto
+      description: |-
+        Questo servizio, affiancato agli end-point REST sui lotti, permette di leggere tutti i lotti specificando ulteriori parametri come filtro.
+
+        - in_tipo_lotto e in_cod_articolo sono mutuamente esclusivi. Se indicati entrambi viene considerato solo in_cod_articolo.
+        - Il campo in_cod_utente è facoltativo e case sensitive.
+        - in_nr_magazzino: 0 = tutti i magazzini, da 1 a 255 per selezionare un magazzino specifico.
+      required:
+        - cmd
+        - dati
+      properties:
+        cmd:
+          type: string
+          const: get_multilotto
+        dati:
+          type: object
+          description: Parametri del servizio.
+          properties:
+            in_tipo_lotto:
+              type: string
+              description: "Codice alfanumerico del tipo lotto (es. “aa”)"
+            in_cod_articolo:
+              type: string
+              description: Codice articolo
+            in_tp_cod_utente:
+              type: number
+              description: "Modalità di ricerca per codice utente: 0=completo, 1=inizia per, 2=contiene"
+            in_cod_utente:
+              type: string
+              description: Codice utente del lotto (case sensitive)
+            in_includi:
+              type: number
+              description: Tipo inclusione (vedi tabella sotto)
+            in_nr_magazzino:
+              type: number
+              description: "Numero del magazzino (0=tutti i magazzini, da 1 a 255) Valori di in_includi Valore Descrizione 0 Include tutti i lotti del solo archivio corrente, tranne quelli con stato B/N, con data validità inferiore alla data terminale o con quantità 0 1 Include tutti i lotti del solo archivio corrente 2 Come 0 ma solo dei dati nello storico 3 Come 1 ma solo dei dati nello storico 4 Come 0 ma dei dati sia nel corrente che nello storico 5 Come 1 ma dei dati sia nel corrente che nello storico"
+        next:
+          type: string
+          description: Token di paginazione ricevuto nella risposta precedente, accanto a cmd.
+      x-mexal-endpoint: "/servizi"
+    ServizioCambiaIbanTipoInvioDelega:
+      type: object
+      title: Modifica IBAN e Tipo Invio
+      description: |-
+        Servizio per la modifica massiva di IBAN e/o tipo invio in tutte le deleghe che non risultano definitive o bloccate.
+
+        - Il servizio modifica solo le deleghe che non risultano definitive o bloccate.
+        - È possibile modificare sia l’IBAN che il tipo invio nella stessa chiamata.
+        - Per le deleghe contabili usare in_elenco_aziende, per le dichiarativi usare in_elenco_pratiche.
+      required:
+        - cmd
+        - dati
+      properties:
+        cmd:
+          type: string
+          const: cambia_iban_tipo_invio_delega
+        dati:
+          type: object
+          description: "Parametri del servizio. Struttura degli elementi annidati: in_id_delega (string): ID della delega (formato GG/MM/AAAA/NN); in_numero_modulo (string): Numero modulo; in_dati_delega (object): Oggetto con i nuovi dati; in_dati_delega.in_elenco_iban (array): Array con i nuovi IBAN; in_dati_delega.in_codice_invio_delega (string): Nuovo codice invio."
+          properties:
+            in_elenco_aziende:
+              type: array
+              description: Array di aziende con le relative deleghe da modificare (per deleghe contabili)
+            in_elenco_pratiche:
+              type: array
+              description: "Array di pratiche con le relative deleghe da modificare (per deleghe dichiarativi) Per ogni delega nell’array in_elenco_deleghe:"
+        next:
+          type: string
+          description: Token di paginazione ricevuto nella risposta precedente, accanto a cmd.
+      x-mexal-endpoint: "/servizi"
+    ServizioInserisciAggiornaIban:
+      type: object
+      title: Inserimento-Aggiornamento IBAN
+      description: Il servizio può scrivere una banca con relativo IBAN nell’anagrafica banche per quanto riguarda le aziende, oppure nel quadro GE in caso di pratiche dichiarativi. Inoltre permette anche di modificare l’IBAN abituale.
+      required:
+        - cmd
+        - dati
+      properties:
+        cmd:
+          type: string
+          const: inserisci_aggiorna_iban
+        dati:
+          type: object
+          description: "Parametri del servizio. Struttura degli elementi annidati: in_sigla (string): (az.) Sigla azienda; in_mod_pratica (string): (pr.) Modello dichiarativo; in_pratica (string): (pr.) Codice pratica; in_interno (string): (pr.) Interno; in_anagrafica_banca (object): Dati anagrafici della banca; in_elenco_iban (array): Array con gli IBAN da inserire/aggiornare Campi di in_anagrafica_banca Campo Tipo Descrizione in_abi String Codice ABI in_cab String Codice CAB; in_azienda_credito (string): me azienda di credito; in_filiale_credito (string): me filiale in_indirizzo String Indirizzo in_cap String CAP in_localita String Località in_provincia String Provincia in_telefono String Telefono in_fax String Fax in_email String Email in_url_homebanking String URL homebanking Campi di in_elenco_iban[] Campo Tipo Descrizione in_iban String Codice IBAN in_gest_abituale String “S” o “N” — gestione IBAN abituale Codici di esito codice_esito Descrizione 0 Nessun errore 3 Delega GG/MM/AAAA/PR Coordinate bancarie non presenti in tabella:  Delega non aggiornata 4 Delega GG/MM/AAAA/PR non trovata. Put non eseguita Note • Per lavorare sull’anagrafica banche occorre specificare l’array in_elenco_aziende. • Per operare sulle pratiche dichiarativi occorre specificare l’array in_elenco_pratiche. • I dati sono forniti in formato array perché il servizio è stato predisposto per inserimenti multipli ma al momento è possibile inserire un solo elemento. • Se si vogliono modificare solo i campi anagrafici il campo in_elenco_iban non deve essere passato.."
+          properties:
+            in_elenco_aziende:
+              type: array
+              description: Array di aziende (per operare sull’anagrafica banche)
+            in_elenco_pratiche:
+              type: array
+              description: "Array di pratiche (per operare sulle pratiche dichiarativi) Per ogni elemento dell’array (azienda o pratica):"
+        next:
+          type: string
+          description: Token di paginazione ricevuto nella risposta precedente, accanto a cmd.
+      x-mexal-endpoint: "/servizi"
+    ServizioGetStoricoOrdine:
+      type: object
+      title: Storia Ordine
+      description: |-
+        Il servizio permette di reperire tutti i documenti relativi ad un dato ordine.
+
+        - Il campo in_anno_inizio_ricerca indica l’anno in cui iniziare la ricerca per i documenti di magazzino derivati dall’ordine e deve essere sempre >= in_anno_ordine.
+      required:
+        - cmd
+        - dati
+      properties:
+        cmd:
+          type: string
+          const: get_storico_ordine
+        dati:
+          type: object
+          description: Parametri del servizio.
+          properties:
+            in_serie_ordine:
+              type: number
+              description: Serie dell’ordine
+            in_numero_ordine:
+              type: number
+              description: Numero dell’ordine
+            in_anno_ordine:
+              type: number
+              description: Anno dell’ordine
+            in_anno_inizio_ricerca:
+              type: number
+              description: Anno in cui iniziare la ricerca per i documenti di magazzino derivati dall’ordine
+          required:
+            - in_serie_ordine
+            - in_numero_ordine
+            - in_anno_ordine
+            - in_anno_inizio_ricerca
+        next:
+          type: string
+          description: Token di paginazione ricevuto nella risposta precedente, accanto a cmd.
+      x-mexal-endpoint: "/servizi"
+    Errore:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            response-code:
+              type: integer
+            response-detail:
+              type: string
+              description: "Codice numerico + messaggio: \"<codice> - <messaggio> [<dettaglio>]\". 6001 = errore gestionale."
+            response-message:
+              type: string
+            request-uri:
+              type: string
+            request-method:
+              type: string
+            request-id:
+              type: string
+              description: UUID da citare al supporto.
+            warsion:
+              type: string
+            remote:
+              type: string
+            timestamp:
+              type: string

@@ -1,0 +1,247 @@
+{
+    "path": "/prima-nota",
+    "origine": "info",
+    "forma": "dati",
+    "campi": [
+        {
+            "nome": "nr_operatore",
+            "descrizione": "Numero operatore (0 = AUTO)",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "sottoazienda",
+            "descrizione": "Codice sottoazienda (solo lettura)",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "data_registr",
+            "descrizione": "Data registrazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "progressivo",
+            "descrizione": "Numero progressivo (solo lettura)",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "cau_contabile",
+            "descrizione": "Causale contabile",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "descrizione",
+            "descrizione": "Descrizione di testata",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "rstro_prot_iva",
+            "descrizione": "Registro protocollo iva",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "serie_prot",
+            "descrizione": "Numero serie protocollo",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "nr_protocollo",
+            "descrizione": "Numero protocollo (0 = AUTO)",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "nr_documento",
+            "descrizione": "Numero documento (0 = AUTO)",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "nr_doc_str",
+            "descrizione": "Numero documento - alfanumerico",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "data_documento",
+            "descrizione": "Data documento",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "punto_vendita",
+            "descrizione": "Punto vendita",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "data_statistica",
+            "descrizione": "Data statistica",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "dt_rif_uff_trib",
+            "descrizione": "Data riferimento vidimazione ufficio tributario Repubblica di San Marino",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "valuta_doc",
+            "descrizione": "Valuta documento",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "cambio_vlt_euro",
+            "descrizione": "Cambio valuta estera / euro",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "cambio_euro_vlt",
+            "descrizione": "Cambio euro / valuta estera",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "divisa_vlt_euro",
+            "descrizione": "Divisa valuta estera / euro",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "divisa_euro_vlt",
+            "descrizione": "Divisa euro / valuta contabile",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_escl_doc",
+            "descrizione": "Gestione documento da escludere dalla presentazione della distinta RSM",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "doc_dt_crea",
+            "descrizione": "Proprieta' documento - data creazione (sola lettura)",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "doc_ora_crea",
+            "descrizione": "Proprieta' documento - ora creazione (sola lettura)",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "doc_ute_crea",
+            "descrizione": "Proprieta' documento - utente creazione (sola lettura)",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "doc_menu_crea",
+            "descrizione": "Proprieta' documento - menu' creazione (sola lettura)",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "doc_dt_mod",
+            "descrizione": "Proprieta' documento - data ultima modifica (sola lettura)",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "doc_ora_mod",
+            "descrizione": "Proprieta' documento - ora ultima modifica (sola lettura)",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "doc_ute_mod",
+            "descrizione": "Proprieta' documento - utente ultima modifica (sola lettura)",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "doc_menu_mod",
+            "descrizione": "Proprieta' documento - menu' ultima modifica (sola lettura)",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_pv_intra",
+            "descrizione": "Protocollo vendite - Gestione Intra CEE. Tipologia di cliente (CEE oppure no)",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "pv_vlt_estera",
+            "descrizione": "Protocollo vendite - Codice valuta estera",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "pv_descr_valuta",
+            "descrizione": "Protocollo vendite - Descrizione valuta",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "pv_imp_valuta",
+            "descrizione": "Protocollo vendite - Importo in valuta",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "variazione_nota",
+            "descrizione": "Nota variazione anni precedenti",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cat_bilancio",
+            "descrizione": "Categoria bilancio specializzato",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "bklist_elenco",
+            "descrizione": "Blacklist - Includi operazione nell'elenco",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "bklist_nota_ac",
+            "descrizione": "Blacklist - Nota di variazione operazioni dell'anno",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "bklist_nota_ap",
+            "descrizione": "Blacklist - Nota di variazione operazioni anni precedenti",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "bklist_cod_cli",
+            "descrizione": "Blacklist - Codice cliente",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "bklist_escl_op",
+            "descrizione": "Blacklist - Escludi operazioni blacklist",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "split_payment",
+            "descrizione": "Includi in liquidazione operazione Split Payment",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_pg_ts",
+            "descrizione": "Spese sanitarie - Pagamento tracciato (elaborazione spese sanitarie)",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "oss_cod_paese",
+            "descrizione": "IVA OSS - Codice paese gestione - se paese destinazione beni diverso da cliente in fatt.",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "oss_cod_iva",
+            "descrizione": "IVA OSS - Codice iva per liquidazione/dichiarazione - calcolo plafond",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "sf_gest_escl",
+            "descrizione": "Spese funebri - Gestione esclusione dalla comunicazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "sf_cod_fis",
+            "descrizione": "Spese funebri - Codice fiscale del defunto",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "utente_ult_mod",
+            "descrizione": "Utente ultima modifica",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "data_ult_mod",
+            "descrizione": "Data ora ultima modifica",
+            "tipo": "Data e ora (formato AAAAMMGG HHMMSS)"
+        }
+    ]
+}

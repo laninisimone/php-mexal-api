@@ -1,0 +1,32 @@
+{
+    "path": "/dati-generali/causali-movimenti",
+    "origine": "info",
+    "forma": "dati",
+    "campi": [
+        {
+            "nome": "id",
+            "descrizione": "Causale",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "descrizione",
+            "descrizione": "Descrizione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_cos_ultimo",
+            "descrizione": "Escludi aggiornamento costo ultimo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_dt_carico",
+            "descrizione": "Escludi aggiornamento data ultimo carico",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_mov_valore",
+            "descrizione": "Proponi movimento a valore",
+            "tipo": "Alfanumerico"
+        }
+    ]
+}

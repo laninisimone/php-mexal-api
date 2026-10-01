@@ -1,0 +1,264 @@
+{
+    "path": "/anagrafica-contatti",
+    "origine": "info",
+    "forma": "dati",
+    "campi": [
+        {
+            "nome": "codice",
+            "descrizione": "Codice contatto",
+            "tipo": "Alfanumerico",
+            "chiave": true,
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "url",
+            "descrizione": "Indirizzo internet",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "descrizione",
+            "descrizione": "Descrizione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "note",
+            "descrizione": "Note",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "indirizzo",
+            "descrizione": "Indirizzo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "data_validita",
+            "descrizione": "Data validita'",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cap",
+            "descrizione": "C.A.P.",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "data_creazione",
+            "descrizione": "Data creazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "localita",
+            "descrizione": "Localita'",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "dt_anagrafica",
+            "descrizione": "Data aggiornamento anagrafica",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "provincia",
+            "descrizione": "Provincia",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "partita_iva",
+            "descrizione": "Partita iva",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "nazionalita",
+            "descrizione": "Nazionalita'",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "codice_fiscale",
+            "descrizione": "Codice fiscale",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "paese_iso",
+            "descrizione": "Codice ISO paese",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_per_fisica",
+            "descrizione": "Persona fisica",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "telefono",
+            "descrizione": "Numero telefono",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "nome_ricerca",
+            "descrizione": "Nome di ricerca",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "fax",
+            "descrizione": "Numero fax",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "email",
+            "descrizione": "Indirizzo e-mail",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "codice_pdc",
+            "descrizione": "Codice piano dei conti",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "id_pagamento",
+            "descrizione": "Codice pagamento",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "id_listino",
+            "descrizione": "Numero listino",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "cat_sconto",
+            "descrizione": "Categoria sconto",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "cat_provvigione",
+            "descrizione": "Categoria provvigione",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "cod_iva",
+            "descrizione": "codice assoggettamento IVA",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_lingua",
+            "descrizione": "Codice lingua estera",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "cod_agente",
+            "descrizione": "Codice agente",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_cond_agente",
+            "descrizione": "Codice condizioni agente",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "valuta_estera",
+            "descrizione": "Valuta estera",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "cat_statistica",
+            "descrizione": "Categoria statistica",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "zona",
+            "descrizione": "Zona",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "addebito_bollo",
+            "descrizione": "Addebito bollo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_cig_cup",
+            "descrizione": "Gestione CIG-CUP",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "rg_bolle",
+            "descrizione": "Raggruppamenti bolle",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "rg_effetti",
+            "descrizione": "Raggruppamento effetti",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "proposto_e_ord",
+            "descrizione": "Proposto evadibilita' ordini",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "sconto_icz",
+            "descrizione": "Sconto incondizionato",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "trasporto_mezzo",
+            "descrizione": "Trasporto a mezzo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_vett_abituale",
+            "descrizione": "Codice vettore abituale",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tipo_porto",
+            "descrizione": "Tipo porto",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "descr_porto",
+            "descrizione": "Descrizione porto",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "codice_incoterms",
+            "descrizione": "Codice INCOTERMS",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_calc_colli",
+            "descrizione": "Modalita' calcolo colli",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_calc_peso",
+            "descrizione": "Modalita' calcolo peso",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tipo_spese_sped",
+            "descrizione": "Tipo spese spedizione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "val_spese_sped",
+            "descrizione": "Valore spese spedizione",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "asp_est_beni",
+            "descrizione": "Aspetto esteriore beni",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "fino_val_spese_sped",
+            "descrizione": "Fino a valore spese spedizione",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "utente_ult_mod",
+            "descrizione": "Utente ultima modifica",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "data_ult_mod",
+            "descrizione": "Data ora ultima modifica",
+            "tipo": "Data e ora (formato AAAAMMGG HHMMSS)"
+        }
+    ]
+}

@@ -1,0 +1,5 @@
+{
+    "path": "/documenti/lavorazione/impegni",
+    "origine": "errore",
+    "errore": "6001 - errore gestionale [cmd lista_impegni disponibile solo per aziende di livello produzione o superiore]"
+}

@@ -1,0 +1,213 @@
+{
+    "path": "/liste-prelievo/righe",
+    "origine": "info",
+    "forma": "dati",
+    "campi": [
+        {
+            "nome": "id",
+            "descrizione": "Identificatore lista prelievo Testata",
+            "tipo": "Numerico",
+            "chiave": true,
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "sigla",
+            "descrizione": "Sigla Documento",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "sottoazienda",
+            "descrizione": "Codice sottoazienda documento",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "serie",
+            "descrizione": "Serie Documento",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "numero",
+            "descrizione": "Numero Documento",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "id_riga",
+            "descrizione": "Riga univoca documento",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "prog_riga",
+            "descrizione": "Progressivo riga",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "codice_articolo",
+            "descrizione": "Codice articolo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "data_documento",
+            "descrizione": "Data documento",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "nr_riga_art",
+            "descrizione": "Numero record articolo",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "id_magazzino",
+            "descrizione": "Numero magazzino",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "id_ubicazione",
+            "descrizione": "Identificatore ubicazione",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "dt_sca_doc",
+            "descrizione": "Data scadenza documento",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tp_um_articolo",
+            "descrizione": "Tipo um",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "nr_colli",
+            "descrizione": "Numero colli",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "quantita",
+            "descrizione": "Quantita' / Peso Lordo",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "decimali_qta",
+            "descrizione": "Numero decimali quantita articolo",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "coeff_conv",
+            "descrizione": "Rapporto di conversione misura o tara",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "nota",
+            "descrizione": "Nota",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "id_lotto",
+            "descrizione": "Identificatore lotto",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "id_lotto_ord",
+            "descrizione": "Identificatore lotto su ordine",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "dec_qta_lo_ord",
+            "descrizione": "Lotti su ordine - Numero decimali quantita'",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "qta_lotto_ord",
+            "descrizione": "Lotti su ordine - Quantita'",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "nr_colli_lo_ord",
+            "descrizione": "Lotti su ordine - Colli",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "qta_tg_lo_ord",
+            "descrizione": "Lotti su ordine - Quantita' per taglia",
+            "tipo": "Numerico",
+            "dimensione_array": "32"
+        },
+        {
+            "nome": "numero_taglia",
+            "descrizione": "Numero taglia",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "qta_taglia",
+            "descrizione": "Quantita' per taglia",
+            "tipo": "Numerico",
+            "dimensione_array": "32"
+        },
+        {
+            "nome": "id_alias",
+            "descrizione": "Identificatore alias",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "cod_conto",
+            "descrizione": "Codice cliente",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_agente",
+            "descrizione": "Codide agente",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_vettore",
+            "descrizione": "Codide vettore",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "ute_ult_mod",
+            "descrizione": "Id utente ultima modifica riga (sola lettura)",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "dt_ult_mod",
+            "descrizione": "Data ora ultima modifica riga (sola lettura)",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "conto_ind_sped",
+            "descrizione": "Conto indirizzo di spedizione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "ind_spedizione",
+            "descrizione": "Indirizzo spedizione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "priorita",
+            "descrizione": "Priorita",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "gest_residuo",
+            "descrizione": "Stralcio / residuo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_tipo_lav",
+            "descrizione": "Riga in prelievo magazzino",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "note_documento",
+            "descrizione": "Annotazioni documento",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "65535"
+        },
+        {
+            "nome": "note_articolo",
+            "descrizione": "Annotazioni articolo",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "65535"
+        }
+    ]
+}

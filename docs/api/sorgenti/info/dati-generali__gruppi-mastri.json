@@ -1,0 +1,92 @@
+{
+    "path": "/dati-generali/gruppi-mastri",
+    "origine": "info",
+    "forma": "dati",
+    "campi": [
+        {
+            "nome": "id_gruppo",
+            "descrizione": "Id gruppo",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "mastro",
+            "descrizione": "Mastro",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "descrizione",
+            "descrizione": "Descrizione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tp_gruppo",
+            "descrizione": "Tipo gruppo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tipo",
+            "descrizione": "Tipo mastro",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tp_bilancio",
+            "descrizione": "Tipo per bilancio",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "mastro_banca",
+            "descrizione": "Mastro banca",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "mastro_sospeso",
+            "descrizione": "Mastro sospeso",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "bil_cee_ecc_d",
+            "descrizione": "Codice CEE eccezzione dare",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "bil_cee_ecc_a",
+            "descrizione": "Codice CEE eccezzione avere",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "bil_ue_ecc_d",
+            "descrizione": "Codice UE  eccezzione dare",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "bil_ue_ecc_a",
+            "descrizione": "Codice UE  eccezzione avere",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "bil_rsm_ecc_d",
+            "descrizione": "Codice RSM eccezzione dare",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "bil_rsm_ecc_a",
+            "descrizione": "Codice RSM eccezzione avere",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "bil_ets_ecc_d",
+            "descrizione": "Codice ETS eccezzione dare",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "bil_ets_ecc_a",
+            "descrizione": "Codice ETS eccezzione avere",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "categoria",
+            "descrizione": "Categoria",
+            "tipo": "Alfanumerico"
+        }
+    ]
+}

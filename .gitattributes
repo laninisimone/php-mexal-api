@@ -11,3 +11,4 @@
 /phpstan.neon.dist  export-ignore
 /phpunit.xml.dist   export-ignore
 /CONTRIBUTING.md    export-ignore
+/tools              export-ignore

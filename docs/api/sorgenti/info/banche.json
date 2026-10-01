@@ -1,0 +1,147 @@
+{
+    "path": "/banche",
+    "origine": "info",
+    "forma": "dati",
+    "campi": [
+        {
+            "nome": "codice",
+            "descrizione": "Codice",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "banca",
+            "descrizione": "Banca",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "filiale",
+            "descrizione": "Filiale",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "abi",
+            "descrizione": "Coordinate bancarie - ABI",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cab",
+            "descrizione": "Coordinate bancarie - CAB",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "bic",
+            "descrizione": "Coordinate bancarie - BIC",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "indirizzo",
+            "descrizione": "Indirizzo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cap",
+            "descrizione": "CAP",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "comune",
+            "descrizione": "Comune",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "provincia",
+            "descrizione": "Provincia",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "telefono",
+            "descrizione": "Telefono",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "fax",
+            "descrizione": "Fax",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "email",
+            "descrizione": "Indirizzo e-mail",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "url",
+            "descrizione": "Indirizzo internet",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "sigla_azienda",
+            "descrizione": "Sigla azienda",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "intendenza",
+            "descrizione": "Intendenza di finanza che ha rilasciato l'autorizzazione all'applicazione bollo virtuale",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "nr_autorizza",
+            "descrizione": "Numero autorizzazione dell'intendenza di finanza",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "data_autorizza",
+            "descrizione": "Data autorizzazione dell'intendenza di finanza",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tipo_invio_arch",
+            "descrizione": "Tipo invio archivio",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_cr_lf",
+            "descrizione": "Flag aggiungi CRLF",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cf_piva_cli_for",
+            "descrizione": "Riporta codice fiscale o partita iva cliente/fornitore",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cf_piva_azienda",
+            "descrizione": "Riporta codice fiscale o partita iva azienda",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_esito_pg",
+            "descrizione": "Gestione esito pagamento",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_bonif_cbi",
+            "descrizione": "Gestione bonifici CBI - Coordinate ordinante",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_mav_cbi",
+            "descrizione": "Gestione MAV CBI - Coordinate ordinante",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_rid_cbi",
+            "descrizione": "Gestione RID CBI - Coordinate ordinante",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tipo_codice_rid",
+            "descrizione": "RID Coordinate azienda creditrice - Tipo codice",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tipo_inc_rid",
+            "descrizione": "RID - Tipo incasso",
+            "tipo": "Alfanumerico"
+        }
+    ]
+}

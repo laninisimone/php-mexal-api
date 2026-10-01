@@ -1,0 +1,69 @@
+{
+    "path": "/dba",
+    "origine": "info",
+    "forma": "dati",
+    "campi": [
+        {
+            "nome": "codice",
+            "descrizione": "Codice articolo distinta automatica",
+            "tipo": "Alfanumerico",
+            "chiave": true,
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "nr_riga",
+            "descrizione": "Numero riga",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "titolo",
+            "descrizione": "Titolo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_articolo_cmp",
+            "descrizione": "Codice articolo componente",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "um",
+            "descrizione": "Unita' di misura",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "quantita",
+            "descrizione": "Quantita'",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tipo_condizione",
+            "descrizione": "Tipo condizione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cond_articolo",
+            "descrizione": "Condizione articolo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cond_cliente",
+            "descrizione": "Condizione cliente",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tipo_scelta",
+            "descrizione": "Tipo scelta",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "part_prz_cmp",
+            "descrizione": "Particolarita' prezzi su componenti",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "gest_cos_ini",
+            "descrizione": "Costo di partenza",
+            "tipo": "Alfanumerico"
+        }
+    ]
+}

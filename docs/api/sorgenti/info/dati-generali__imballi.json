@@ -1,0 +1,37 @@
+{
+    "path": "/dati-generali/imballi",
+    "origine": "info",
+    "forma": "dati",
+    "campi": [
+        {
+            "nome": "cod_imballo",
+            "descrizione": "Codice imballo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "descr_imballo",
+            "descrizione": "Descrizione imballo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "prz_imballo",
+            "descrizione": "Valore/prezzo imballo",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "alq_imb_perdere",
+            "descrizione": "Aliquota iva imballo a perdere",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "alq_imb_rendere",
+            "descrizione": "Aliquota iva imballo a rendere",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "alq_imb_vendita",
+            "descrizione": "Aliquota iva imballo a rendere in vendita",
+            "tipo": "Alfanumerico"
+        }
+    ]
+}

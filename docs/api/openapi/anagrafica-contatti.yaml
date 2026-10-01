@@ -1,0 +1,720 @@
+openapi: "3.1.0"
+info:
+  title: Passepartout WebAPI - Anagrafica contatti
+  version: "88201"
+  description: |-
+    Generato da `tools/api-docs/genera.php` a partire dall'help in linea (`GET /risorse/help?extended=true`)
+    e da `?info=true` di un'installazione Mexal/Passcom 2.9.17 (versione gestionale 88201), integrato con il manuale WebAPI v3.1.
+    Endpoint e campi dipendono da versione e moduli installati: la fonte di verità resta `?info=true`.
+
+    **Convenzioni**
+
+    - Autenticazione: `Authorization: Passepartout <base64(utente:password)>`; sul cloud si aggiunge ` Dominio=<DOMINIO>`.
+    - Contesto aziendale: header `Coordinate-Gestionale: Azienda=XXX Anno=AAAA` (opzionali `SottoAzienda=`, `Magazzino=`).
+    - Date `AAAAMMGG`, date-ora `AAAAMMGG HHMMSS`, decimali con il punto.
+    - Gli array sono liste di coppie `[[indice, valore], ...]`, non liste semplici.
+    - Chiavi composte unite da `+` nel path (es. `OC+1+15`). Codici con `/` o `\` vanno in esadecimale con `?encoding=hex`.
+    - Paginazione: `max` limita i record, il token `next` della risposta va ripassato così com'è e subito.
+    - Ricerca: `POST .../ricerca` con `filtri`; i filtri sono in AND, i valori di uno stesso filtro in OR.
+    - Revisione (PUT): rimandare `data_ult_mod` letto dalla GET per il controllo di modifica concorrente.
+    - Limiti: 5 richieste simultanee per utente WebAPI (oltre si riceve 503).
+servers:
+  - url: "https://{host}:{porta}/webapi/risorse"
+    description: Installazione locale (certificato spesso self-signed)
+    variables:
+      host:
+        default: localhost
+      porta:
+        default: "9004"
+  - url: "https://services.passepartout.cloud/webapi/risorse"
+    description: "Passepartout Live (cloud): aggiungere Dominio=<DOMINIO> all'header Authorization"
+security:
+  - passepartout: []
+tags:
+  - name: anagrafica-contatti
+    description: Anagrafica contatti (prospect e nominativi non ancora clienti) con condizioni commerciali.
+paths:
+  "/anagrafica-contatti":
+    get:
+      tags:
+        - anagrafica-contatti
+      operationId: anagrafica_contatti_lista
+      summary: Lista anagrafica contatti
+      description: |-
+        Paginata: il server pagina oltre 30 secondi o 50 MB anche senza `max`; seguire `next` fino a esaurimento.
+
+        Supporta paginazione e selezione campi
+      parameters:
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - name: fields
+          in: query
+          description: "Campi da restituire, separati da virgola. Riduce il payload: usarlo sempre sulle liste."
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/AnagraficaContattiCampo"
+        - $ref: "#/components/parameters/Max"
+        - $ref: "#/components/parameters/Next"
+      responses:
+        "200":
+          description: Record trovati
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/AnagraficaContattiLista"
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "87100"
+    post:
+      tags:
+        - anagrafica-contatti
+      operationId: anagrafica_contatti_crea
+      summary: Inserimento anagrafica contatti
+      description: |-
+        Risponde 201 senza body: il codice assegnato è nell'header `Location`.
+
+        L’header Location nella response contiene l’URL della risorsa creata
+      parameters:
+        - $ref: "#/components/parameters/CoordinateGestionale"
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/AnagraficaContattiInserimento"
+      responses:
+        "201":
+          description: "Creato. Nessun body: il path della nuova risorsa è nell'header Location."
+          headers:
+            Location:
+              description: "Path della risorsa creata (es. /webapi/risorse/anagrafica-contatti/...). Può contenere ?encoding=hex."
+              schema:
+                type: string
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "87100"
+  "/anagrafica-contatti/ricerca":
+    post:
+      tags:
+        - anagrafica-contatti
+      operationId: anagrafica_contatti_cerca
+      summary: Ricerca anagrafica contatti
+      description: |-
+        Filtri in AND fra loro; un `valore` array mette i valori in OR. Condizioni: `=`, `<>`, `>`, `<`, `>=`, `<=`, `contiene`, `inizia_per`.
+
+        Formato filtri standard WebAPI
+      parameters:
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - name: fields
+          in: query
+          description: "Campi da restituire, separati da virgola. Riduce il payload: usarlo sempre sulle liste."
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/AnagraficaContattiCampo"
+        - $ref: "#/components/parameters/Max"
+        - $ref: "#/components/parameters/Next"
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/AnagraficaContattiRicerca"
+      responses:
+        "200":
+          description: Record trovati
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/AnagraficaContattiLista"
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "87100"
+  "/anagrafica-contatti/{codice}":
+    get:
+      tags:
+        - anagrafica-contatti
+      operationId: anagrafica_contatti_leggi
+      summary: Lettura anagrafica contatti
+      description: Chiave alfanumerica semplice
+      parameters:
+        - name: codice
+          in: path
+          required: true
+          description: "Parte di chiave `codice`."
+          schema:
+            type: integer
+            minimum: 0
+        - $ref: "#/components/parameters/CoordinateGestionale"
+        - name: fields
+          in: query
+          description: "Campi da restituire, separati da virgola. Riduce il payload: usarlo sempre sulle liste."
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/AnagraficaContattiCampo"
+      responses:
+        "200":
+          description: Record richiesto
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/AnagraficaContatti"
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "404":
+          $ref: "#/components/responses/NonTrovato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "87100"
+    put:
+      tags:
+        - anagrafica-contatti
+      operationId: anagrafica_contatti_modifica
+      summary: Modifica anagrafica contatti
+      description: |-
+        Inviare solo i campi da modificare, più `data_ult_mod` letto dalla GET se il controllo di modifica concorrente è attivo.
+
+        Inviare nel body solo i campi da modificare
+      parameters:
+        - name: codice
+          in: path
+          required: true
+          description: "Parte di chiave `codice`."
+          schema:
+            type: integer
+            minimum: 0
+        - $ref: "#/components/parameters/CoordinateGestionale"
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/AnagraficaContattiModifica"
+      responses:
+        "204":
+          description: Operazione eseguita, nessun body.
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "404":
+          $ref: "#/components/responses/NonTrovato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "87100"
+    delete:
+      tags:
+        - anagrafica-contatti
+      operationId: anagrafica_contatti_elimina
+      summary: Cancellazione anagrafica contatti
+      description: Operazione irreversibile
+      parameters:
+        - name: codice
+          in: path
+          required: true
+          description: "Parte di chiave `codice`."
+          schema:
+            type: integer
+            minimum: 0
+        - $ref: "#/components/parameters/CoordinateGestionale"
+      responses:
+        "204":
+          description: Operazione eseguita, nessun body.
+        "400":
+          $ref: "#/components/responses/ErroreRichiesta"
+        "401":
+          $ref: "#/components/responses/NonAutorizzato"
+        "404":
+          $ref: "#/components/responses/NonTrovato"
+        "503":
+          $ref: "#/components/responses/PoolEsaurito"
+      x-mexal-versione-minima: "87100"
+components:
+  securitySchemes:
+    passepartout:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: "Formato `Passepartout <base64(utente:password)>`. Sul cloud: `Passepartout <base64> Dominio=<DOMINIO>`. Con login di sistema operativo attivo (login=1) si aggiunge un secondo blocco `<base64(utente_so:password_so)>`."
+  parameters:
+    CoordinateGestionale:
+      name: Coordinate-Gestionale
+      in: header
+      required: true
+      description: Azienda e anno di lavoro, più sotto-azienda e magazzino di default facoltativi (magazzino 1 se omesso).
+      schema:
+        type: string
+        pattern: "^Azienda=\\S+( SottoAzienda=\\S+)? Anno=\\d{4}( Magazzino=\\d+)?$"
+        examples:
+          - "Azienda=DEM Anno=2026 Magazzino=1"
+    Max:
+      name: max
+      in: query
+      description: Numero massimo di record per pagina. Il server può restituirne meno (limiti di 30 s e 50 MB).
+      schema:
+        type: integer
+        minimum: 1
+    Next:
+      name: next
+      in: query
+      description: "Token di pagina restituito dalla risposta precedente: opaco, da usare subito e così com'è."
+      schema:
+        type: string
+    Encoding:
+      name: encoding
+      in: query
+      description: "Codifica delle parti di chiave nel path. Obbligatoria quando un codice contiene `/` o `\\`: il codice va inviato in esadecimale (es. `ARTI/S` -> `415254492f53`)."
+      schema:
+        type: string
+        enum:
+          - hex
+          - base32
+  responses:
+    ErroreRichiesta:
+      description: "Richiesta non valida: parametri o campi errati, errore gestionale (6001), coordinate mancanti."
+      content:
+        "application/json":
+          schema:
+            $ref: "#/components/schemas/Errore"
+    NonAutorizzato:
+      description: "Credenziali assenti o errate. Attenzione: tentativi ripetuti bloccano l'utente WebAPI."
+      content:
+        "application/json":
+          schema:
+            $ref: "#/components/schemas/Errore"
+    NonTrovato:
+      description: Risorsa inesistente o path non valido (nessun body).
+    PoolEsaurito:
+      description: "Pool di 5 servizi dell'utente WebAPI esaurito: riprovare più tardi, senza retry aggressivi."
+      content:
+        "application/json":
+          schema:
+            $ref: "#/components/schemas/Errore"
+  schemas:
+    AnagraficaContatti:
+      type: object
+      properties:
+        codice:
+          type: string
+          description: Codice contatto. Campo chiave.
+          x-mexal-tipo: Alfanumerico
+        url:
+          type: string
+          description: Indirizzo internet.
+          x-mexal-tipo: Alfanumerico
+        descrizione:
+          type: string
+          description: Descrizione (ragione sociale).
+          x-mexal-tipo: Alfanumerico
+        note:
+          type: string
+          description: Note.
+          x-mexal-tipo: Alfanumerico
+        indirizzo:
+          type: string
+          description: Indirizzo.
+          x-mexal-tipo: Alfanumerico
+        data_validita:
+          type: string
+          description: Data validita'. Data in formato AAAAMMGG.
+          x-mexal-tipo: Alfanumerico
+        cap:
+          type: string
+          description: "C.A.P. — CAP."
+          x-mexal-tipo: Alfanumerico
+        data_creazione:
+          type: string
+          description: Data creazione. Data in formato AAAAMMGG.
+          x-mexal-tipo: Alfanumerico
+        localita:
+          type: string
+          description: "Localita' — Località."
+          x-mexal-tipo: Alfanumerico
+        dt_anagrafica:
+          type: string
+          description: Data aggiornamento anagrafica. Data in formato AAAAMMGG.
+          x-mexal-tipo: Alfanumerico
+        provincia:
+          type: string
+          description: Provincia (sigla 2 caratteri).
+          x-mexal-tipo: Alfanumerico
+        partita_iva:
+          type: string
+          description: Partita iva.
+          x-mexal-tipo: Alfanumerico
+        nazionalita:
+          type: string
+          description: Nazionalita'.
+          x-mexal-tipo: Alfanumerico
+        codice_fiscale:
+          type: string
+          description: Codice fiscale.
+          x-mexal-tipo: Alfanumerico
+        paese_iso:
+          type: string
+          description: Codice ISO paese.
+          x-mexal-tipo: Alfanumerico
+        gest_per_fisica:
+          type: string
+          description: Persona fisica.
+          x-mexal-tipo: Alfanumerico
+        telefono:
+          type: string
+          description: "Numero telefono — Numero di telefono."
+          x-mexal-tipo: Alfanumerico
+        nome_ricerca:
+          type: string
+          description: Nome di ricerca.
+          x-mexal-tipo: Alfanumerico
+        fax:
+          type: string
+          description: Numero fax.
+          x-mexal-tipo: Alfanumerico
+        email:
+          type: string
+          description: "Indirizzo e-mail — Indirizzo email (altri campi) No body Vedi tabella Campi Disponibili."
+          x-mexal-tipo: Alfanumerico
+        codice_pdc:
+          type: string
+          description: Codice piano dei conti.
+          x-mexal-tipo: Alfanumerico
+        id_pagamento:
+          type: integer
+          description: Codice pagamento. Valori da dati-generali/pagamenti.id. Condizione di pagamento.
+          x-mexal-tipo: Numerico
+          x-mexal-riferimento:
+            risorsa: dati-generali/pagamenti
+            campo: id
+            nota: Condizione di pagamento
+        id_listino:
+          type: integer
+          description: Numero listino. Valori da dati-generali/listini.id.
+          x-mexal-tipo: Numerico
+          x-mexal-riferimento:
+            risorsa: dati-generali/listini
+            campo: id
+        cat_sconto:
+          type: integer
+          description: Categoria sconto. Valori da dati-generali/categorie-sconti.codice.
+          x-mexal-tipo: Numerico
+          x-mexal-riferimento:
+            risorsa: dati-generali/categorie-sconti
+            campo: codice
+        cat_provvigione:
+          type: integer
+          description: Categoria provvigione. Valori da dati-generali/categorie-provvigioni.codice.
+          x-mexal-tipo: Numerico
+          x-mexal-riferimento:
+            risorsa: dati-generali/categorie-provvigioni
+            campo: codice
+        cod_iva:
+          type: string
+          description: "codice assoggettamento IVA. Valori da dati-generali/esenzioni-iva.codice. Aliquota IVA numerica come stringa (es. \"22\") oppure codice di esenzione presente in questa tabella."
+          x-mexal-tipo: Alfanumerico
+          x-mexal-riferimento:
+            risorsa: dati-generali/esenzioni-iva
+            campo: codice
+            nota: "Aliquota IVA numerica come stringa (es. \"22\") oppure codice di esenzione presente in questa tabella"
+        cod_lingua:
+          type: integer
+          description: Codice lingua estera. Valori da dati-generali/lingue-straniere.codice.
+          x-mexal-tipo: Numerico
+          x-mexal-riferimento:
+            risorsa: dati-generali/lingue-straniere
+            campo: codice
+        cod_agente:
+          type: string
+          description: Codice agente. Valori da conti.codice. Conto dell'agente (formato mastro.conto).
+          x-mexal-tipo: Alfanumerico
+          x-mexal-riferimento:
+            risorsa: conti
+            campo: codice
+            nota: Conto dell'agente (formato mastro.conto)
+        cod_cond_agente:
+          type: integer
+          description: Codice condizioni agente.
+          x-mexal-tipo: Numerico
+        valuta_estera:
+          type: integer
+          description: Valuta estera.
+          x-mexal-tipo: Numerico
+        cat_statistica:
+          type: integer
+          description: Categoria statistica. Valori da dati-generali/categorie-statistiche-cli-for.id.
+          x-mexal-tipo: Numerico
+          x-mexal-riferimento:
+            risorsa: dati-generali/categorie-statistiche-cli-for
+            campo: id
+        zona:
+          type: integer
+          description: Zona. Valori da dati-generali/zone-clienti-fornitori.codice.
+          x-mexal-tipo: Numerico
+          x-mexal-riferimento:
+            risorsa: dati-generali/zone-clienti-fornitori
+            campo: codice
+        addebito_bollo:
+          type: string
+          description: Addebito bollo.
+          x-mexal-tipo: Alfanumerico
+        gest_cig_cup:
+          type: string
+          description: Gestione CIG-CUP.
+          x-mexal-tipo: Alfanumerico
+        rg_bolle:
+          type: string
+          description: Raggruppamenti bolle.
+          x-mexal-tipo: Alfanumerico
+        rg_effetti:
+          type: string
+          description: Raggruppamento effetti.
+          x-mexal-tipo: Alfanumerico
+        proposto_e_ord:
+          type: string
+          description: Proposto evadibilita' ordini.
+          x-mexal-tipo: Alfanumerico
+        sconto_icz:
+          type: string
+          description: Sconto incondizionato.
+          x-mexal-tipo: Alfanumerico
+        trasporto_mezzo:
+          type: string
+          description: Trasporto a mezzo.
+          x-mexal-tipo: Alfanumerico
+        cod_vett_abituale:
+          type: string
+          description: Codice vettore abituale.
+          x-mexal-tipo: Alfanumerico
+        tipo_porto:
+          type: string
+          description: Tipo porto.
+          x-mexal-tipo: Alfanumerico
+        descr_porto:
+          type: string
+          description: Descrizione porto.
+          x-mexal-tipo: Alfanumerico
+        codice_incoterms:
+          type: string
+          description: Codice INCOTERMS.
+          x-mexal-tipo: Alfanumerico
+        gest_calc_colli:
+          type: string
+          description: Modalita' calcolo colli.
+          x-mexal-tipo: Alfanumerico
+        gest_calc_peso:
+          type: string
+          description: Modalita' calcolo peso.
+          x-mexal-tipo: Alfanumerico
+        tipo_spese_sped:
+          type: string
+          description: Tipo spese spedizione.
+          x-mexal-tipo: Alfanumerico
+        val_spese_sped:
+          type: number
+          description: Valore spese spedizione.
+          x-mexal-tipo: Numerico con virgola
+        asp_est_beni:
+          type: integer
+          description: Aspetto esteriore beni.
+          x-mexal-tipo: Numerico
+        fino_val_spese_sped:
+          type: number
+          description: Fino a valore spese spedizione.
+          x-mexal-tipo: Numerico con virgola
+        utente_ult_mod:
+          type: string
+          description: Utente ultima modifica.
+          x-mexal-tipo: Alfanumerico
+        data_ult_mod:
+          type: string
+          pattern: "^(\\d{8} \\d{6})?$"
+          description: Data ora ultima modifica. Formato AAAAMMGG HHMMSS.
+          x-mexal-tipo: Data e ora
+      x-mexal-origine-campi: info
+    AnagraficaContattiCampo:
+      type: string
+      enum:
+        - codice
+        - url
+        - descrizione
+        - note
+        - indirizzo
+        - data_validita
+        - cap
+        - data_creazione
+        - localita
+        - dt_anagrafica
+        - provincia
+        - partita_iva
+        - nazionalita
+        - codice_fiscale
+        - paese_iso
+        - gest_per_fisica
+        - telefono
+        - nome_ricerca
+        - fax
+        - email
+        - codice_pdc
+        - id_pagamento
+        - id_listino
+        - cat_sconto
+        - cat_provvigione
+        - cod_iva
+        - cod_lingua
+        - cod_agente
+        - cod_cond_agente
+        - valuta_estera
+        - cat_statistica
+        - zona
+        - addebito_bollo
+        - gest_cig_cup
+        - rg_bolle
+        - rg_effetti
+        - proposto_e_ord
+        - sconto_icz
+        - trasporto_mezzo
+        - cod_vett_abituale
+        - tipo_porto
+        - descr_porto
+        - codice_incoterms
+        - gest_calc_colli
+        - gest_calc_peso
+        - tipo_spese_sped
+        - val_spese_sped
+        - asp_est_beni
+        - fino_val_spese_sped
+        - utente_ult_mod
+        - data_ult_mod
+      description: Campi di anagrafica-contatti.
+    AnagraficaContattiLista:
+      type: object
+      required:
+        - dati
+      properties:
+        dati:
+          type: array
+          items:
+            $ref: "#/components/schemas/AnagraficaContatti"
+        data_ric_elab:
+          type: string
+          description: Timestamp di elaborazione, AAAAMMGG HHMMSS.
+        next:
+          type: string
+          description: "Presente solo se ci sono altre pagine: da passare così com'è nel parametro next."
+    AnagraficaContattiRicerca:
+      type: object
+      required:
+        - filtri
+      properties:
+        filtri:
+          type: array
+          minItems: 1
+          items:
+            allOf:
+              - $ref: "#/components/schemas/Filtro"
+              - properties:
+                  campo:
+                    $ref: "#/components/schemas/AnagraficaContattiCampo"
+    AnagraficaContattiInserimento:
+      allOf:
+        - $ref: "#/components/schemas/AnagraficaContatti"
+      required:
+        - codice
+        - descrizione
+      description: "Body di inserimento. Obbligatori secondo il manuale: codice, descrizione."
+    AnagraficaContattiModifica:
+      allOf:
+        - $ref: "#/components/schemas/AnagraficaContatti"
+      description: "Body di revisione: solo i campi da modificare. Campi da indicare sempre secondo ?info=true: codice."
+      x-mexal-obbligatori-put:
+        - codice
+    Filtro:
+      type: object
+      required:
+        - campo
+        - condizione
+        - valore
+      properties:
+        campo:
+          type: string
+          description: Nome del campo su cui filtrare.
+        indice1:
+          type: integer
+          minimum: 1
+          description: Indice del primo livello, per i campi array.
+        indice2:
+          type: integer
+          minimum: 1
+          description: Indice del secondo livello, per gli array a due livelli.
+        condizione:
+          type: string
+          enum:
+            - "="
+            - "<>"
+            - ">"
+            - "<"
+            - ">="
+            - "<="
+            - contiene
+            - inizia_per
+        case_insensitive:
+          type: boolean
+          default: false
+          description: Solo per i confronti fra stringhe.
+        valore:
+          description: "Valore da confrontare; un array mette i valori in OR. Date come AAAAMMGG."
+          anyOf:
+            - type: string
+            - type: number
+            - type: array
+              minItems: 1
+              items:
+                type:
+                  - string
+                  - number
+    Errore:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            response-code:
+              type: integer
+            response-detail:
+              type: string
+              description: "Codice numerico + messaggio: \"<codice> - <messaggio> [<dettaglio>]\". 6001 = errore gestionale."
+            response-message:
+              type: string
+            request-uri:
+              type: string
+            request-method:
+              type: string
+            request-id:
+              type: string
+              description: UUID da citare al supporto.
+            warsion:
+              type: string
+            remote:
+              type: string
+            timestamp:
+              type: string

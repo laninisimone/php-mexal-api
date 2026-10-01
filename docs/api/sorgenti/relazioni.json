@@ -1,0 +1,285 @@
+{
+    "$comment": "Relazioni fra campi e risorse: ?info=true non le espone, sono ricavate a mano da nomi, descrizioni e tipi dei campi. 'risorsa' è l'archivio che contiene i valori ammessi, 'campo' il campo di quell'archivio da usare. 'solo_in' ed 'escludi_in' sono pattern fnmatch sull'id della risorsa che contiene il campo.",
+    "regole": [
+        {
+            "campi": ["cod_pagamento", "id_pagamento", "cod_pg_deper", "cod_pg_no_deper"],
+            "risorsa": "dati-generali/pagamenti",
+            "campo": "id",
+            "nota": "Condizione di pagamento"
+        },
+        {
+            "campi": ["id_magazzino", "id_magazzino_a", "id_mag_riga", "id_mag_da_riga", "id_mag_a_riga", "cod_magazzino", "cod_mag_mp", "cod_mag_mp_ctl", "cod_mag_impegni"],
+            "risorsa": "dati-generali/magazzini",
+            "campo": "id",
+            "nota": "Numero magazzino"
+        },
+        {
+            "campi": ["id_ubicazione", "id_ubicazione_a"],
+            "risorsa": "ubicazioni",
+            "campo": "id",
+            "escludi_in": ["ubicazioni"],
+            "nota": "0 = nessuna ubicazione"
+        },
+        {
+            "campi": ["id_lotto", "id_lotto_ord"],
+            "risorsa": "lotti",
+            "campo": "id",
+            "escludi_in": ["lotti"]
+        },
+        {
+            "campi": ["cod_tipo_lotto", "cod_tp_lotto"],
+            "risorsa": "dati-generali/tipi-lotti-matricole",
+            "campo": "tipo_lotto"
+        },
+        {
+            "campi": ["codice_articolo", "cod_articolo", "cod_art_sost", "cod_articolo_cmp", "cod_art_anag", "codice_mp", "cod_art_escl", "codice_pf_padre", "cod_art_costo", "cod_art_cond", "codice_abb"],
+            "risorsa": "articoli",
+            "campo": "codice",
+            "escludi_in": ["articoli"]
+        },
+        {
+            "campi": ["codice"],
+            "risorsa": "articoli",
+            "campo": "codice",
+            "solo_in": ["dba", "distinte-base/*", "mappa-articoli", "dati-generali/cartella-abbinamenti", "articoli-abbinati", "articoli/*/abbinati"],
+            "nota": "Codice dell'articolo a cui si riferisce il record (negli abbinati: l'articolo abbinato)"
+        },
+        {
+            "campi": ["cod_conto"],
+            "risorsa": "clienti",
+            "campo": "codice",
+            "solo_in": ["documenti/ordini-clienti", "documenti/ordini-clienti/*"],
+            "nota": "Codice cliente nel formato mastro.conto (es. 501.00001)"
+        },
+        {
+            "campi": ["cod_conto"],
+            "risorsa": "fornitori",
+            "campo": "codice",
+            "solo_in": ["documenti/ordini-fornitori", "documenti/ordini-fornitori/*"],
+            "nota": "Codice fornitore nel formato mastro.conto (es. 601.00001)"
+        },
+        {
+            "campi": ["cod_conto", "cod_conto_sost"],
+            "risorsa": ["clienti", "fornitori"],
+            "campo": "codice",
+            "solo_in": ["documenti/preventivi*", "documenti/ordini-matrici*", "documenti/movimenti-magazzino*", "indirizzi-spedizione", "liste-prelievo*"],
+            "nota": "Cliente o fornitore a seconda della sigla documento (formato mastro.conto)"
+        },
+        {
+            "campi": ["codice_cli_for"],
+            "risorsa": "clienti",
+            "campo": "codice",
+            "solo_in": ["referenti/clienti"],
+            "nota": "Ammesso anche un codice dell'anagrafica contatti"
+        },
+        {
+            "campi": ["codice_cli_for"],
+            "risorsa": "fornitori",
+            "campo": "codice",
+            "solo_in": ["referenti/fornitori"],
+            "nota": "Ammesso anche un codice dell'anagrafica contatti"
+        },
+        {
+            "campi": ["cod_fatturare_a"],
+            "risorsa": "clienti",
+            "campo": "codice",
+            "solo_in": ["clienti"]
+        },
+        {
+            "campi": ["cod_fatturare_a"],
+            "risorsa": "fornitori",
+            "campo": "codice",
+            "solo_in": ["fornitori"]
+        },
+        {
+            "campi": ["cod_fornitore", "cod_for_escl", "cod_fornit_ctl"],
+            "risorsa": "fornitori",
+            "campo": "codice"
+        },
+        {
+            "campi": ["cod_cliente", "cod_cli_cond"],
+            "risorsa": "clienti",
+            "campo": "codice"
+        },
+        {
+            "campi": ["codice_conto"],
+            "risorsa": "conti",
+            "campo": "codice",
+            "solo_in": ["prima-nota*"],
+            "nota": "Conto del piano dei conti (formato mastro.conto)"
+        },
+        {
+            "campi": ["cod_costo", "cod_ricavo", "cod_ric_sospeso", "conto_ab_att", "conto_ab_pas", "conto_pagamento", "conto_eff", "conto_presso", "cod_banca"],
+            "risorsa": "conti",
+            "campo": "codice",
+            "nota": "Conto del piano dei conti (formato mastro.conto)"
+        },
+        {
+            "campi": ["cod_agente", "codice_agente", "cod_agente_1", "cod_agente_2"],
+            "risorsa": "conti",
+            "campo": "codice",
+            "nota": "Conto dell'agente (formato mastro.conto)"
+        },
+        {
+            "campi": ["id_banca"],
+            "risorsa": "banche",
+            "campo": "codice"
+        },
+        {
+            "campi": ["id_valuta", "id_valuta_extra", "valuta"],
+            "risorsa": "dati-generali/valute",
+            "campo": "id",
+            "escludi_in": ["dati-generali/*", "prima-nota*"]
+        },
+        {
+            "campi": ["id_listino", "cod_listino"],
+            "risorsa": "dati-generali/listini",
+            "campo": "id"
+        },
+        {
+            "campi": ["cod_grp_merc", "grp_merc_escl"],
+            "risorsa": "dati-generali/gruppi-merceologici",
+            "campo": "codice",
+            "escludi_in": ["dati-generali/gruppi-merceologici"]
+        },
+        {
+            "campi": ["cod_natura", "natura_escl"],
+            "risorsa": "dati-generali/nature-articoli",
+            "campo": "codice"
+        },
+        {
+            "campi": ["cod_imballo"],
+            "risorsa": "dati-generali/imballi",
+            "campo": "cod_imballo",
+            "escludi_in": ["dati-generali/imballi"]
+        },
+        {
+            "campi": ["cod_struttura"],
+            "risorsa": "dati-generali/strutture-articoli",
+            "campo": "codice",
+            "solo_in": ["articoli"]
+        },
+        {
+            "campi": ["id_causale"],
+            "risorsa": "dati-generali/causali-movimenti",
+            "campo": "id",
+            "solo_in": ["documenti/*"]
+        },
+        {
+            "campi": ["id_costo_ricavo", "id_ccr_riga"],
+            "risorsa": "dati-generali/centri-costo-ricavo",
+            "campo": "id"
+        },
+        {
+            "campi": ["cod_posizione"],
+            "risorsa": "dati-generali/posizione-referenti",
+            "campo": "id"
+        },
+        {
+            "campi": ["cod_asp_beni"],
+            "risorsa": "dati-generali/aspetto-esteriore-beni",
+            "campo": "codice"
+        },
+        {
+            "campi": ["cod_cat_sta", "id_catsta_conto", "cat_statistica"],
+            "risorsa": "dati-generali/categorie-statistiche-cli-for",
+            "campo": "id"
+        },
+        {
+            "campi": ["cod_zona", "id_zona_conto", "zona"],
+            "risorsa": "dati-generali/zone-clienti-fornitori",
+            "campo": "codice"
+        },
+        {
+            "campi": ["cod_lingua"],
+            "risorsa": "dati-generali/lingue-straniere",
+            "campo": "codice"
+        },
+        {
+            "campi": ["cod_cat_sconti", "cat_sconto"],
+            "risorsa": "dati-generali/categorie-sconti",
+            "campo": "codice"
+        },
+        {
+            "campi": ["cod_cat_pr", "cat_provvigione"],
+            "risorsa": "dati-generali/categorie-provvigioni",
+            "campo": "codice"
+        },
+        {
+            "campi": ["id_cat_sconto"],
+            "risorsa": "dati-generali/categorie-sconti-articoli",
+            "campo": "codice",
+            "solo_in": ["articoli"]
+        },
+        {
+            "campi": ["id_categoria_pr"],
+            "risorsa": "dati-generali/categorie-provvigioni-articoli",
+            "campo": "codice",
+            "solo_in": ["articoli"]
+        },
+        {
+            "campi": ["id_cat_prezzo"],
+            "risorsa": "dati-generali/categorie-prezzi",
+            "campo": "codice",
+            "solo_in": ["articoli"]
+        },
+        {
+            "campi": ["cod_anag_sped", "id_ind_sped", "cod_ind_sped", "id_ind_sost"],
+            "risorsa": "indirizzi-spedizione",
+            "campo": "id"
+        },
+        {
+            "campi": ["id_rubrica_uni"],
+            "risorsa": "anagrafica-unica",
+            "campo": "id_anagrafica"
+        },
+        {
+            "campi": ["id_lista"],
+            "risorsa": "liste-prelievo",
+            "campo": "id",
+            "escludi_in": ["liste-prelievo*"]
+        },
+        {
+            "campi": ["id_alias"],
+            "risorsa": "alias-articoli",
+            "campo": "id"
+        },
+        {
+            "campi": ["cod_modulo"],
+            "risorsa": "documenti/moduli-stampa",
+            "campo": "codice"
+        },
+        {
+            "campi": ["cod_iva", "alq_iva", "alq_imb_perdere", "alq_imb_rendere", "alq_imb_vendita"],
+            "risorsa": "dati-generali/esenzioni-iva",
+            "campo": "codice",
+            "nota": "Aliquota IVA numerica come stringa (es. \"22\") oppure codice di esenzione presente in questa tabella"
+        },
+        {
+            "campi": ["cod_taglia"],
+            "risorsa": "dati-generali/taglie",
+            "campo": "cod_serie",
+            "nota": "Serie taglie dell'articolo"
+        }
+    ],
+    "composte": [
+        {
+            "campi": ["sigla", "serie", "numero"],
+            "solo_in": ["documenti/*/righe"],
+            "risorsa": "documenti/{tipo}",
+            "nota": "Chiave della testata a cui appartiene la riga: la stessa terna identifica il documento in documenti/{tipo}/{sigla}+{serie}+{numero}"
+        },
+        {
+            "campi": ["sigla_doc_orig", "serie_doc_orig", "numero_doc_orig", "data_doc_orig"],
+            "solo_in": ["documenti/*"],
+            "risorsa": "documenti/movimenti-magazzino",
+            "nota": "Documento di origine in una trasformazione (es. BC -> FT). Va valorizzato insieme a id_rif_testata e dt_ult_mod_orig"
+        },
+        {
+            "campi": ["sigla_ordine", "serie_ordine", "numero_ordine", "data_ordine"],
+            "solo_in": ["documenti/movimenti-magazzino*"],
+            "risorsa": ["documenti/ordini-clienti", "documenti/ordini-fornitori"],
+            "nota": "Ordine evaso dal movimento di magazzino (OC per i clienti, OF per i fornitori)"
+        }
+    ]
+}

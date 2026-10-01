@@ -1,0 +1,66 @@
+{
+    "path": "/referenti/clienti",
+    "origine": "info",
+    "forma": "dati",
+    "campi": [
+        {
+            "nome": "codice_cli_for",
+            "descrizione": "Codice del cliente/fornitore; si può inserire anche un codice contatto",
+            "tipo": "Alfanumerico",
+            "chiave": true,
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "cod_referente",
+            "descrizione": "Codice referente - è il collegamento fra referente registrato e array",
+            "tipo": "Numerico",
+            "chiave": true,
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "cod_posizione",
+            "descrizione": "Codice posizione referente in tabella posizioni",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "nome",
+            "descrizione": "Nome referente",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "nota",
+            "descrizione": "Nota referente",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "telefono",
+            "descrizione": "Telefono referente",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cellulare",
+            "descrizione": "Cellulare referente - per l'azzeramento occorre impostare con uno spazio = ' '",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "fax",
+            "descrizione": "Fax referente",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "email",
+            "descrizione": "Indirizzo e-mail referente",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "url",
+            "descrizione": "Indirizzo internet referente",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tipo",
+            "descrizione": "Tipo referente",
+            "tipo": "Alfanumerico"
+        }
+    ]
+}

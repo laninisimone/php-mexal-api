@@ -1,0 +1,395 @@
+{
+    "path": "/documenti/movimenti-magazzino/righe",
+    "origine": "info",
+    "forma": "dati",
+    "campi": [
+        {
+            "nome": "sigla",
+            "descrizione": "Sigla Documento",
+            "tipo": "Alfanumerico",
+            "chiave": true,
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "serie",
+            "descrizione": "Serie documento",
+            "tipo": "Numerico",
+            "chiave": true,
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "numero",
+            "descrizione": "Numero documento (0 = AUTO)",
+            "tipo": "Numerico",
+            "chiave": true,
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "cod_conto",
+            "descrizione": "Codice cliente/fornitore",
+            "tipo": "Alfanumerico",
+            "chiave": true,
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "data_documento",
+            "descrizione": "Data documento",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "data_creazione",
+            "descrizione": "Data creazione documento",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "ora_creazione",
+            "descrizione": "Ora creazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "dt_var_sistema",
+            "descrizione": "Data ultima variazione documento;solo tecnologia BP",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "ora_var_sistema",
+            "descrizione": "Ora variazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "sigla_ordine",
+            "descrizione": "Sigla documento ordine",
+            "tipo": "Alfanumerico",
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "serie_ordine",
+            "descrizione": "Serie documento ordine",
+            "tipo": "Numerico",
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "numero_ordine",
+            "descrizione": "Numero documento ordine",
+            "tipo": "Numerico",
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "data_ordine",
+            "descrizione": "Data documento ordine",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "sigla_doc_orig",
+            "descrizione": "Sigla documento origine movimento di magazzino",
+            "tipo": "Alfanumerico",
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "serie_doc_orig",
+            "descrizione": "Serie documento origine movimento di magazzino",
+            "tipo": "Numerico",
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "numero_doc_orig",
+            "descrizione": "Numero documento origine movimento di magazzino",
+            "tipo": "Numerico",
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "data_doc_orig",
+            "descrizione": "Data documento origine movimento di magazzino",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "id_riga",
+            "descrizione": "Numero di riga univoco nel documento",
+            "tipo": "Numerico",
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "id_rif_testata",
+            "descrizione": "Riferimenti a testate per documenti trasformati",
+            "tipo": "Numerico",
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "codice_articolo",
+            "descrizione": "Codice articolo (gia' codificato e leggibile)",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "tp_descrizione",
+            "descrizione": "Tipo riga di descrizione '.' o ','",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "descr_riga",
+            "descrizione": "Descrizione riga",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "descr_articolo",
+            "descrizione": "Descrizione articolo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "descr_art_ext",
+            "descrizione": "Descrizione estesa articolo",
+            "tipo": "Alfanumerico",
+            "dimensione_array": "7"
+        },
+        {
+            "nome": "descr_art_ext_0",
+            "descrizione": "Descrizione estesa articolo azzerata",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "id_causale_riga",
+            "descrizione": "Causale -v._MMCMO-/Contropartita -max 32 x Doc.",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "id_ncau_riga",
+            "descrizione": "Causale di riga",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "id_ccr_riga",
+            "descrizione": "Centro costo ricavo",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "id_mag_da_riga",
+            "descrizione": "Da Magazzino",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "id_mag_a_riga",
+            "descrizione": "A Magazzino",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "tp_um_articolo",
+            "descrizione": "Unita' di misura riga:1=Um1,2=Um2,V=um1 riga a valore",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "id_misuraltern",
+            "descrizione": "Id unita' di misura alternativa",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "nr_colli",
+            "descrizione": "Numero colli",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "quantita",
+            "descrizione": "Quantita' / Peso Lordo",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "coeff_conv",
+            "descrizione": "Coefficente / Tara su movimento",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "tipo_imballo",
+            "descrizione": "Imballo variabile in emissione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "qta_taglia",
+            "descrizione": "Quantita' per taglia",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "tipo_stato_riga",
+            "descrizione": "Stato riga movimento E=evadibile, S=sospesa",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "prezzo",
+            "descrizione": "Prezzo",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "sconto",
+            "descrizione": "Sconto",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "dt_inizio_rateo",
+            "descrizione": "Data inizio Rateo Risconto",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "dt_fine_rateo",
+            "descrizione": "Data fine Rateo Risconto",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "perc_provv",
+            "descrizione": "Percentuale provvigione agente",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "cod_iva",
+            "descrizione": "Aliquota Iva",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "id_ubicazione",
+            "descrizione": "Id Ubicazione (magazzino DA)",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "id_ubicazione_a",
+            "descrizione": "Id Ubicazione (magazzino A)",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "cod_taglia",
+            "descrizione": "Tabella Taglie",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "sigla_cat_sta",
+            "descrizione": "Cat.Num. su mov.; in PUT se -1=>0, se 0=>anagraf.",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "nr_cat_sta",
+            "descrizione": "Cat.Alfan. su mov.; in PUT se =>, se =>anag.",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "costo_ult",
+            "descrizione": "Costo ultimo allo scarico *f",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "costo_std",
+            "descrizione": "Costo standard allo scarico *f",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "costo_med_pond",
+            "descrizione": "Costo medio ponder.allo scar. *f",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "rif_sgl_ddep",
+            "descrizione": "Riferimento sigla documento deposito",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "rif_serie_ddep",
+            "descrizione": "Riferimento serie documento deposito",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "rif_nr_ddep",
+            "descrizione": "Riferimento numero documento deposito",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "rif_dt_ddep",
+            "descrizione": "Riferimento data documento deposito",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "id_riga_orig",
+            "descrizione": "Righe a residuo - Numero di riga univoco della riga origine",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "gest_mydb_riga",
+            "descrizione": "Dati MyDB collegati alla riga del documento (S/N)",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "id_lotto",
+            "descrizione": "Lotti - Idlotto -1 autocod.da carico, -2 autoprel.da scarico",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "dec_qta_lotto",
+            "descrizione": "Lotti - Numero decimali quantita'",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "qta_lotto",
+            "descrizione": "Lotti - Quantita'",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "nr_colli_lotto",
+            "descrizione": "Lotti - Colli",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "qta_tg_lotto",
+            "descrizione": "Lotti - Quantita' per taglia",
+            "tipo": "Numerico",
+            "dimensione_array": "32"
+        },
+        {
+            "nome": "anno_int_riga",
+            "descrizione": "Anno ricevimento lettera d'intento",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "prog_int_riga",
+            "descrizione": "Progressivo lettera d'intento",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "id_lista",
+            "descrizione": "ID Lista Prelievo",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "cod_rif_pf_bl",
+            "descrizione": "riferimento PF della BL; solo produzione",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "dt_doc_bl",
+            "descrizione": "data documento della BL; solo produzione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "nr_bl",
+            "descrizione": "numero BL; solo produzione",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "nr_sbl",
+            "descrizione": "sotto BL; solo produzione",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "prog_fase_bl",
+            "descrizione": "fase BL; solo produzione",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "cod_art_anag",
+            "descrizione": "Codice articolo proprietario dell'anagrafica",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "data_ult_mod",
+            "descrizione": "Data e ora ultima modifica",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "sc_merce_doc",
+            "descrizione": "Sconto merce del documento",
+            "tipo": "Alfanumerico"
+        }
+    ]
+}

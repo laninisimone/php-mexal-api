@@ -1,0 +1,52 @@
+{
+    "path": "/dati-generali/valute",
+    "origine": "info",
+    "forma": "dati",
+    "campi": [
+        {
+            "nome": "id",
+            "descrizione": "Id",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "sigla",
+            "descrizione": "Sigla",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "descrizione",
+            "descrizione": "Descrizione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "nr_dec_importi",
+            "descrizione": "Numero decimali importi",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "cambio_euro",
+            "descrizione": "Cambio fisso Euro",
+            "tipo": "Numerico con virgola"
+        },
+        {
+            "nome": "sequenza_visual",
+            "descrizione": "Sequenza visualizzazione",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "tipo",
+            "descrizione": "Tipo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "simbolo",
+            "descrizione": "Simbolo",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "nr_dec_prezzi",
+            "descrizione": "Numero decimali prezzi",
+            "tipo": "Numerico"
+        }
+    ]
+}

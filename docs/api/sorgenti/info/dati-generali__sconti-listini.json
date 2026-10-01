@@ -1,0 +1,27 @@
+{
+    "path": "/dati-generali/sconti-listini",
+    "origine": "info",
+    "forma": "dati",
+    "campi": [
+        {
+            "nome": "cod_cat_cli",
+            "descrizione": "Categoria cliente",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "cod_cat_art",
+            "descrizione": "Categoria articolo",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "sconto",
+            "descrizione": "Sconto",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "sconto_esteso",
+            "descrizione": "Sconto esteso",
+            "tipo": "Alfanumerico"
+        }
+    ]
+}

@@ -1,0 +1,79 @@
+{
+    "path": "/mappa-articoli",
+    "origine": "info",
+    "forma": "dati",
+    "campi": [
+        {
+            "nome": "codice",
+            "descrizione": "Codice articolo",
+            "tipo": "Alfanumerico",
+            "chiave": true,
+            "obbligatorio_put": true
+        },
+        {
+            "nome": "nr_magazzino",
+            "descrizione": "Numero magazzino",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "cod_ubicazione",
+            "descrizione": "Ubicazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "cod_sotto_ubic",
+            "descrizione": "Sotto ubicazione",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "id_ubicazione",
+            "descrizione": "Id Ubicazione",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "dt_ult_carico",
+            "descrizione": "Ultima data di carico",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "dt_ult_scarico",
+            "descrizione": "Ultima data di scarico",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "dt_ult_ordine",
+            "descrizione": "Ultima data ordini/imp",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "dt_ult_mov",
+            "descrizione": "Ultima data movimenti",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "scorta_massima",
+            "descrizione": "Scorta minima",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "scorta_minima",
+            "descrizione": "Scorta massima",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "dt_ult_car_prec",
+            "descrizione": "Ultima data di carico precedente",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "utente_ult_mod",
+            "descrizione": "Utente ultima modifica",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "data_ult_mod",
+            "descrizione": "Data ora ultima modifica",
+            "tipo": "Data e ora (formato AAAAMMGG HHMMSS)"
+        }
+    ]
+}

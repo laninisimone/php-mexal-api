@@ -1,0 +1,22 @@
+{
+    "path": "/dati-generali/categorie-statistiche-articoli",
+    "origine": "info",
+    "forma": "dati",
+    "campi": [
+        {
+            "nome": "sigla",
+            "descrizione": "Sigla categoria statistica",
+            "tipo": "Alfanumerico"
+        },
+        {
+            "nome": "numero",
+            "descrizione": "Codice categoria statistica",
+            "tipo": "Numerico"
+        },
+        {
+            "nome": "descrizione",
+            "descrizione": "Descrizione categoria statistica",
+            "tipo": "Alfanumerico"
+        }
+    ]
+}
